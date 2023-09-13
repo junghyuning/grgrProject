@@ -24,7 +24,5 @@ public interface InfoBoardMapper {
 	int insertInfoFile(InfoFile infoFile);
 	List<InfoFile> selectInfoFile(int infoBno);
 	
-	int deleteInfoFile(int infoFileNo);
-	
 	
 }

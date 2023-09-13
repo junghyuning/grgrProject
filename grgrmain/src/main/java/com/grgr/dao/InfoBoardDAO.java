@@ -21,6 +21,4 @@ public interface InfoBoardDAO {
 	
 	int insertInfoFile(InfoFile infoFile);
 	List<InfoFile> selectInfoFile(int infoBno);
-	
-	int deleteInfoFile(int infoFileNo);
 }

@@ -65,16 +65,21 @@
       </div>
       <!-- / container -->
    </header>
-   
-<div class="container">
-    <div class="row">
-    
-    <jsp:include page="/WEB-INF/views/tiles/sidebar.jsp"/>   
+
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
+
+	<div id="top"></div>
+	<!-- / top -->
+
 
 	<!-- 큰 컨테이너  -->
-
-		<div class="container col-md-10">
-			<div class="w-90 m-x-auto mt-20">
+	<section  class="lg bg-light-grey" id="my-section">
+		<div class="container">
+			<div class="w-90 m-x-auto mt-70">
 				<div class="col-xl-auto">
 					<a href="#x"
 						class="d-inline title-color primary-hover fs-24 fw-bold mb-15"
@@ -143,9 +148,7 @@
 				</nav>
 			</div>
 		</div>
-
-	</div>
-</div>
+	</section>
 	<!-- / pagination-center -->
 
 	<!-- 위로 스크롤 -->

@@ -49,9 +49,8 @@
 	font-weight: 'bold';
 }
 
-.uploaded-img{
-	width: 300px;
-	height: auto;
+.board-images {
+	width: 100px;
 }
 
 #comment-reply {
@@ -166,16 +165,16 @@
 					<!-- 이미지 표시 영역 -->
 					<c:forEach var="file" items="${infoFiles}">
 						<%-- <img src="${pageContext.request.contextPath}/resources/upload/${file.infoFileUpload}" --%>
-						<img class= "uploaded-img" src="<c:url value="/upload/${file.infoFileUpload}"/>"
-							alt="${file.infoFileOrigin }" >
+						<img src="<c:url value="/upload/${file.infoFileUpload}"/>"
+							alt="${file.infoFileOrigin }" class="board-images" width="200">
 					</c:forEach>
 
-				</div>
 					<!-- 보던페이지로 이동 -->
 					<a
 						href="<c:url value='/infoboard/list${searchCondition.getQueryString()}' />"
 						class="btn btn-xs btn-primary pill"
 						style="float: right; font-size: 15px"><span>글목록</span></a>
+				</div>
 				<!-- / column -->
 
 				<!-- 이전글, 다음글 -->

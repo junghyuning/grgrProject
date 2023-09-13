@@ -73,17 +73,25 @@
 		<!-- / container -->
 	</header>
 
-<div class="container">
-    <div class="row">
-    
-    <jsp:include page="/WEB-INF/views/tiles/sidebar.jsp"/>
-	
-<!-- Main Content -->
-	<main class="main-content col-md-10">
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
 
+	<div id="top"></div>
+	<!-- / top -->
+
+
+
+	<!-- 큰 컨테이너  -->
+	<section class="big">
+		<div class="container">
+			<h2 class="hidden">Info Board List</h2>
+			<!-- 키워드 -->
 			<ul class="list-inline text-center mb-30" >
 
-				<li><a href="<c:url value="/infoboard/list"/>" class="btn btn-outline-primary m-y-10 mr-10" >${pager.searchCondition.loginLocation}</a></li>
+				<li><a href="<c:url value="/infoboard/list"/>" class="btn btn-outline-primary m-y-10 mr-10" >강남구</a></li>
 				<!-- ${userInfo_Loc} -->
 				<li id="keyword-button"><a href="<c:url value="/infoboard/list?keyword=food"/>" class="btn btn-outline-primary m-y-10 mr-10" >맛집후기</a>
 				</li>
@@ -193,9 +201,9 @@
 					<!--====================================================================================================  -->
 				</ul>
 			</div>
-
+		</div>
 		<!-- / container -->
-
+	</section>
 
 
 	<nav aria-label="pagination-center">
@@ -239,9 +247,6 @@
 			</c:choose>
 		</ul>
 	</nav>
-	</main>
-	</div>
-</div>
 	<!-- / pagination-center -->
 
 	<a href="#top" class="scroll-to-top is-visible smooth-scroll"
@@ -274,8 +279,7 @@
 	<script>
 		$(document).ready(
 				function() {
-					var loginLocation = ${sessionScope.loginLocation}
-					console.log("Location : "+loginLocation)
+
 					var keywordInput = $('input[name="searchKeyword"]');
 					$('#search-button').click(
 							function() {
