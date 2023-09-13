@@ -93,14 +93,29 @@
 							<!-- / form-group -->
 						</div>
 						<!-- / column -->
-
+						
 						<div class="form-group">
 							<textarea id="contact-message" class="form-control"
-								name="qnaContent" rows="12" required="true"
+								name="qnaContent" rows="8" required="true"
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px; color: #000;"
 								aria-required="true">${qnaBoard.qnaContent}</textarea>
+							<c:forEach var="file" items="${qnaFiles}">
+								<img src="<c:url value="/upload/${file.qnaFileUpload}"/>"
+									alt="${file.qnaFileOrigin }" width="10">
+							</c:forEach>
 						</div>
 						<!-- / form-group -->
+					</div>
+					<!-- / column -->
+					<!-- 사진업로드 버튼 -->
+					<div>
+						<input type="file" name="files" multiple="multiple"
+							accept="image/*" id="file-button" style="display: none;">
+						<div class="btn btn-instagram m-y-10 mr-10"
+							onclick="document.getElementById('file-button').click()">
+							<span class="mr-5"><i class="fab fa-instagram"></i></span> <span>사진업로드</span>
+							<%-- <span id="upload-error-message" style="color: red;">${message}</span></div> --%>
+						</div>
 					</div>
 					<!-- 글 목록/ 수정 버튼 -->
 					<div style="text-align: right;">
@@ -158,7 +173,7 @@
 									.addEventListener(
 											'click',
 											function() {
-												 var infoBoardUno = "${qnaBoard.uno}";
+												 var qnaBoardUno = "${qnaBoard.uno}";
 												    var loginUno = "${sessionScope.loginUno}";
 												    
 												    //권한이 없는 사용자가 get방식으로 페이지를 요청하여 수정하는것 방지

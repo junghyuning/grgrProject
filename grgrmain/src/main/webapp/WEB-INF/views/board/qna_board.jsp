@@ -80,7 +80,7 @@ textarea#modal-reportReason-input:focus {
 					<c:if test="${qnaBoard.uno==sessionScope.loginUno }">
 						<!-- 수정버튼 제출시 제출된 게시글로 진입 + 자신의 게시글에서 글목록 누를시 1페이지로 이동할 것  -->
 						<a
-							href="<c:url value='/qnaboard/modify${searchCondition.getQueryString(1)}&qnaBno=${qnaBoard.qnaBno}'/>"
+							href="<c:url value='/qnaboard/modify${searchCondition.getQueryString()}&qnaBno=${qnaBoard.qnaBno}'/>"
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>수정</span></a>
 					</c:if>
@@ -103,7 +103,8 @@ textarea#modal-reportReason-input:focus {
 
 					<!-- 신고 버튼 -->
 					<c:if test="${qnaBoard.uno ne loginUno}">
-						<button type="button" class="btn btn-xs btn-primary pill pull-right"
+						<button type="button"
+							class="btn btn-xs btn-primary pill pull-right"
 							data-toggle="modal" data-target="reportModal"
 							onclick="openReportModal()" data-qna-bno="${qnaBoard.qnaBno}">
 							<span>신고</span>
@@ -156,9 +157,16 @@ textarea#modal-reportReason-input:focus {
 						</c:choose>
 					</p>
 
-
-
+					<!-- 본문 영역 -->
 					<p class="m-y-30">${qnaBoard.qnaContent}</p>
+
+					<!-- 이미지 표시 영역 -->
+					<c:forEach var="file" items="${qnaFiles}">
+						<%-- <img src="${pageContext.request.contextPath}/resources/upload/${file.qnaFileUpload}" --%>
+						<img src="<c:url value="/upload/${file.qnaFileUpload}"/>"
+							alt="${file.qnaFileOrigin }" class="board-images" width="200">
+					</c:forEach>
+
 					<!-- 보던페이지로 이동 -->
 					<a
 						href="<c:url value='/qnaboard/list${searchCondition.getQueryString()}' />"
@@ -325,8 +333,10 @@ textarea#modal-reportReason-input:focus {
 		const qnaBno = url.searchParams.get("qnaBno");
 		let pageNum = 1;
 		let loginUno;
+		console.log("loginUno="+loginUno);
 		let qnaCommentNo;
 		let loginUserStatus;
+		console.log("loginUserStatus="+loginUserStatus);
 		
 		//댓글 조회
 		let showList = function(qnaBno, pageNum) {
@@ -344,14 +354,15 @@ textarea#modal-reportReason-input:focus {
 						$("#comments-list").html(html);
 						return;
 					}
-						loginUno = ${sessionScope.loginUno};
-						loginUserStatus = ${sessionScope.loginUserStatus};
-						console.log("loginUno :" + loginUno);
-						console.log("loginUserStatus :" + loginUserStatus);
+					
+					loginUno = ${sessionScope.loginUno};
+					loginUserStatus = ${sessionScope.loginUserStatus};
+					console.log("loginUno :" + loginUno);
+					console.log("loginUserStatus :" + loginUserStatus);
+					
 		            resetReplyForm();
 		            renderComments(data.qnaCommentList);
 		            renderPagination(data.commentPager);
-			        
 				},
 				error : function(err) {
 					
@@ -486,9 +497,8 @@ textarea#modal-reportReason-input:focus {
 		    $("#comment-reply").val("");
 		}
 		
-		
+		//페이지 로드시 실행될 것들
 		$(document).ready(function() {
-
 			$("#comment-reply").hide(); //대댓글 폼을 일단 숨김
 		    showList(qnaBno, pageNum);
 		    
@@ -519,8 +529,8 @@ textarea#modal-reportReason-input:focus {
 		        },
 		        data: JSON.stringify({
 		        	"qnaBno" : qnaBno,
-		            qnaCommentGroup: commentGroup,
-		            qnaCommentContent: replyContent
+					"qnaCommentGroup": commentGroup,
+					"qnaCommentContent": replyContent
 		        }),   
 		        success: function(response) {
 		            showList(qnaBno, pageNum);

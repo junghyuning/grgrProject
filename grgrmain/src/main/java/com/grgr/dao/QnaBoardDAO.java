@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.grgr.dto.QnaBoard;
+import com.grgr.dto.QnaFile;
 
 public interface QnaBoardDAO {
 	int qnaBoardCount(Map<String, Object> map);
@@ -17,4 +18,6 @@ public interface QnaBoardDAO {
 	Integer selectNextQnaBno(Map<String, Object> map);
 	List<QnaBoard> selectQnaBoardList(Map<String, Object> map);
 	
+	int insertQnaFile(QnaFile qnaFile);
+	List<QnaFile> selectQnaFile(int qnaBno);
 }

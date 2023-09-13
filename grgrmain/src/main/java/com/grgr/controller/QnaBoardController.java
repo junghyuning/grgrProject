@@ -1,5 +1,7 @@
 package com.grgr.controller;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -10,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grgr.dto.QnaBoard;
+import com.grgr.exception.FileUploadFailException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.service.QnaBoardService;
 import com.grgr.util.SearchCondition;
@@ -34,6 +38,7 @@ public class QnaBoardController {
 		Map<String, Object> result = qnaBoardService.getQnaBoardList(searchCondition);
 		model.addAttribute("qnaBoardList", result.get("qnaBoardList"));
 		model.addAttribute("pager", result.get("pager"));
+		model.addAttribute("fileList", result.get("fileList"));
 		return "board/qna_boardlist";
 	}
 	
@@ -41,17 +46,16 @@ public class QnaBoardController {
 	@GetMapping("/read")
 	public String qnaBoardRead(@RequestParam int qnaBno, SearchCondition searchCondition, Model model) {
 		log.info("QnaBoardController() 클래스의 qnaBoardRead() 메소드 호출");
+		
 	    try {
 	    	// 조회수 증가 처리
 			qnaBoardService.riseQnaViewCnt(qnaBno);
 			qnaBoardService.getQnaBoard(qnaBno);
 
-	        Map<String, Object> readMap = qnaBoardService.getQnaBoard(qnaBno);
+			Map<String, Object> qnaBoardWithFiles = qnaBoardService.getQnaBoard(qnaBno);
 	        Integer prevQnaBno = qnaBoardService.prevQnaBno(searchCondition, qnaBno);
 	        Integer nextQnaBno = qnaBoardService.nextQnaBno(searchCondition, qnaBno);
-	        //int loginUno = (int)session.getAttribute("loginUno");
-	        //model.addAttribute("loginUno", loginUno);
-	        model.addAllAttributes(readMap);
+	        model.addAllAttributes(qnaBoardWithFiles);
 	        model.addAttribute("nextQnaBno", nextQnaBno);
 	        model.addAttribute("prevQnaBno", prevQnaBno);
 	        model.addAttribute("isLastPost", nextQnaBno == null);
@@ -65,25 +69,35 @@ public class QnaBoardController {
 	
 	// 글쓰기 페이지 요청
 	@GetMapping(value = "/write")
-	public String qnaBoardWrite(SearchCondition searchCondition, Model model) {
-		//model.addAttribute("model", "write");
+	public String qnaBoardWrite(SearchCondition searchCondition, HttpSession session, Model model) {
 		model.addAttribute("searchCondition", searchCondition);
 		return "board/qna_write";
 	}
 		
 	// 글 작성 및 제출
 	@PostMapping(value = "/write")
-	public String qnaBoardWrite(QnaBoard qnaBoard) throws WriteNullException {
-		int newBno = qnaBoardService.addQnaBoard(qnaBoard);
+	public String qnaBoardWrite(QnaBoard qnaBoard, @RequestParam(value = "files", required = false) List<MultipartFile> files)
+			throws WriteNullException, FileUploadFailException, IOException {
+		
+		int newBno = qnaBoardService.addQnaBoard(qnaBoard, files);
+		
 		return "redirect:/qnaboard/read?qnaBno="+newBno;
 	}
 		
 	// 글 수정페이지 요청
 	@GetMapping("/modify")
-	public String qnaBoardModify(int qnaBno, SearchCondition searchCondition, Model model) {
+	public String qnaBoardModify(int qnaBno, SearchCondition searchCondition, HttpSession session, Model model) {
 		log.info("QnaBoardController() 클래스의 get qnaBoardModify() 메소드 호출");
-		Map<String, Object> modifyMap = qnaBoardService.getQnaBoard(qnaBno);
-		model.addAllAttributes(modifyMap);
+		
+		Integer loginUno = (Integer)session.getAttribute("loginUno");
+		
+		Map<String, Object> qnaBoardWithFiles = qnaBoardService.getQnaBoard(qnaBno);
+		QnaBoard qnaBoard = (QnaBoard) qnaBoardWithFiles.get("qnaBoard");
+		
+		if(loginUno != qnaBoard.getUno()) {
+			return "/404";
+		}
+		model.addAllAttributes(qnaBoardWithFiles);
 		model.addAttribute("searchCondition", searchCondition);
 		return "board/qna_modify";
 	}
@@ -92,7 +106,7 @@ public class QnaBoardController {
 	@PostMapping(value="/modify")
 	public String qnaBoardModify(QnaBoard qnaBoard, RedirectAttributes rattr) throws WriteNullException{
 		log.info("QnaBoardController() 클래스의 post qnaBoardModify() 메소드 호출");
-		//int uno = (int) session.getAttribute("uno");
+		
 		if (qnaBoard.getQnaTitle() == null || qnaBoard.getQnaContent() == null) {
 			throw new WriteNullException("제목 또는 내용이 비어있습니다.");
 		} 
@@ -103,12 +117,12 @@ public class QnaBoardController {
 		
 	// 글 제거
 	@RequestMapping("/remove")
-	public String qnaBoardRemove(@RequestParam Integer qnaBno, SearchCondition searchCondition, Integer loginUser, HttpSession session,
+	public String qnaBoardRemove(@RequestParam Integer qnaBno, SearchCondition searchCondition, HttpSession session,
 			RedirectAttributes rattr) {
 		log.info("QnaBoardController() 클래스의 qnaBoardRemove() 메소드 호출");
-		//int loginUser =(int) session.getAttribute("loginUser");
-		loginUser=2;
-		qnaBoardService.removeQnaBoard(qnaBno, loginUser);
+
+		Integer loginUno =(Integer) session.getAttribute("loginUno");
+		qnaBoardService.removeQnaBoard(qnaBno, loginUno);
 		String redirectUri = "redirect:/qnaboard/list"+searchCondition.getQueryString();
 		return redirectUri;
 	}
@@ -116,12 +130,10 @@ public class QnaBoardController {
 	
 	//글 숨김
 	@GetMapping("/hide")
-	public String qnaBoardBlind(@RequestParam Integer qnaBno, SearchCondition searchCondition, Integer loginUser, Integer loginUserStatus, HttpSession session ) {
-		//int loginUser =(int) session.getAttribute("loginUser");
-		//int loginUserStatus =(int) session.getAttribute("loginUserStatus");
-		loginUser = 2;
-		loginUserStatus=1;
-		qnaBoardService.hideQnaBoard(qnaBno,loginUser,loginUserStatus);
+	public String qnaBoardBlind(@RequestParam Integer qnaBno, SearchCondition searchCondition, HttpSession session ) {
+		Integer loginUno =(Integer) session.getAttribute("loginUno");
+		Integer loginUserStatus =(Integer) session.getAttribute("loginUserStatus");
+		qnaBoardService.hideQnaBoard(qnaBno,loginUno,loginUserStatus);
 		
 		String redirectUri = "redirect:/qnaboard/list"+searchCondition.getQueryString();
 		return redirectUri;

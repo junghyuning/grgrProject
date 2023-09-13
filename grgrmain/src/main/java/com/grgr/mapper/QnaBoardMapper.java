@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.grgr.dto.InfoFile;
 import com.grgr.dto.QnaBoard;
+import com.grgr.dto.QnaFile;
 
 public interface QnaBoardMapper {
 	int qnaBoardCount(Map<String, Object> map);
