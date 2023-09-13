@@ -30,7 +30,7 @@ INFO_FILE_UPDATE_UNO          NUMBER
 
 @Data
 public class InfoFile {
-	private int infoFileNO;
+	private int infoFileNo;
 	private int infoBno;
 	private String infoFileOrigin;
 	private String infoFileUpload;

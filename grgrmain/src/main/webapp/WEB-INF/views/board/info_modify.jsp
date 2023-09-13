@@ -49,6 +49,10 @@
 	font-size: 2rem;
 	font-weight: "bold"
 }
+.uploaded-img{
+	width: 300px;
+	height:auto;
+}
 </style>
 <body>
 <!-- 헤더 -->
@@ -79,16 +83,19 @@
 	<section class="lg bg-light-grey">
 		<div class="container">
 			<div class="w-90 m-x-auto mt-70">
-				<h4 class="mb-30 text-left">글수정</h4>
-				<c:if test="${not empty msg}">
-					<div class="alert alert-danger">${msg}</div>
-				</c:if>
-				<form action="modify" method="post" class="validation-inner"
+				<div>
+					<h4 class="mb-30 text-left">글수정</h4>
+					<span id="content-error-message" style="color: red; padding-left: 20px"></span>
+					<c:if test="${not empty msg}">
+						<div class="alert alert-danger">${msg}</div>
+					</c:if>
+				</div>
+				<form action="modify" method="post" class="validation-inner" enctype="multipart/form-data"
 					id="form-validation" novalidate="novalidate">
 					<input type="hidden" name="uno" value="${infoBoard.uno}" /> <input
 						type="hidden" name="infoBno" value="${infoBoard.infoBno}" /> <input
 						type="hidden" name="infoUpdateUno" value="${sessionScope.loginUno}" /> <input
-						type="hidden" name="infoLoc" value="강남구" />
+						type="hidden" name="infoLoc" value="${infoBoard.infoLoc}" />
 					<div class="row">
 						<div class="col-md-3">
 							<div class="col-md-0 tablet-top">
@@ -152,16 +159,12 @@
 							<!-- / form-group -->
 						</div>
 						<!-- / column -->
-
+						<!-- 글쓰기 영역 -->
 						<div class="form-group">
 							<textarea id="contact-message" class="form-control"
 								name="infoContent" rows="8" required="true"
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px; color: #000;"
 								aria-required="true">${infoBoard.infoContent}</textarea>
-							<c:forEach var="file" items="${infoFiles}">
-								<img src="<c:url value="/upload/${file.infoFileUpload}"/>"
-									alt="${file.infoFileOrigin }" width="10">
-							</c:forEach>
 						</div>
 
 						<!-- / form-group -->
@@ -174,8 +177,10 @@
 						<div class="btn btn-instagram m-y-10 mr-10"
 							onclick="document.getElementById('file-button').click()">
 							<span class="mr-5"><i class="fab fa-instagram"></i></span> <span>사진업로드</span>
-							<%-- <span id="upload-error-message" style="color: red;">${message}</span></div> --%>
+							<span id="img-error-message" style="color: red; font-size: 15px;"></span>
+							<!-- 이미지 미리보기 영역 -->
 						</div>
+						<div id="imagePreviewContainer" class="mb-10"></div>
 
 					</div>
 					<!-- 글 목록/ 수정 버튼 -->
@@ -191,7 +196,15 @@
 						<button type="button" id="modify-submit"
 							class="btn btn-primary-gradient">수정</button>
 					</div>
-
+					<!-- 기존 업로드됐던 파일들 -->
+					<c:forEach var="file" items="${infoFiles}">
+						<div>
+						<img class="uploaded-img" src="<c:url value="/upload/${file.infoFileUpload}"/>"
+							alt="${file.infoFileOrigin }">
+							<!-- ${file.infoFileNo}사용해야함 -->
+							<a class="btn btn-xs btn-danger m-y-10 mr-10 delete-file" data-file-no="${file.infoFileNo}">이미지 삭제</a>
+						</div>
+					</c:forEach>
 				</form>
 				<!-- / form-group -->
 			</div>
@@ -226,70 +239,150 @@
 	<script
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
+		<script>
+		//파일 업로드 input태그에서 선택한 파일을 저장하기위한 변수
+		var files;
+		//이미지가 선택되고나면 실행될 이벤트 리스너 
+		document.getElementById('file-button').addEventListener('change',function(event) {
+					//이벤트실행시 선택된 파일의정보를 파일에 저장함
+					files = event.target.files;
+					var previewContainer = document.getElementById('imagePreviewContainer');
+					previewContainer.innerHTML = '';
+
+					for (var i = 0; i < files.length; i++) {
+						var file = files[i];
+						//파일을 읽어오기위해 FileReader 객체 생성
+						var reader = new FileReader();
+						//
+						reader.onload = (function(file) {
+							return function(e) {
+								var div = document.createElement('div');
+								div.style.display = 'inline-block';
+								div.style.marginRight = '10px';
+
+								var img = document.createElement('img');
+								img.src = e.target.result;
+								img.alt = "Image Preview";
+								img.width = 30;
+								div.appendChild(img);
+								previewContainer.appendChild(div);
+							};
+						})(file);
+						
+						//파일리더를 통해 읽어온 파일 데이터를 URL 형태로 가져옴
+						reader.readAsDataURL(file);
+					}
+				});
+	</script>
+	
 	<script>
-		$(document)
-				.ready(
-						function() {
+		$(document).ready(function() {
+			//파일 삭제 이벤트
+			$('.delete-file').click(function(){
+				var $selectedImg= $(this).closest('div');
+				var infoFileNo = $(this).data('file-no');
+				$.ajax({
+					type:'DELETE',
+					url:"<c:url value='/infofile/delete'/>/"+infoFileNo,
+					success: function(data){
+						$selectedImg.remove();
+						console.log("파일삭제성공");
+					},
+					error: function(err){
+						console.error("파일 삭제에 실패하였습니다.", err.responseText );
+					}
+				});
+				
+				
+			});
+			
+			
+			//파일 형식 검사
+		    function isImageFile(file) {
+		        const validImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg']; 
+		        return file && validImageTypes.includes(file.type);
+		    }
+		    document.querySelector('#modify-submit').addEventListener('click', function() {
+		        var infoBoardUno = "${infoBoard.uno}";
+		        var loginUno = "${sessionScope.loginUno}";
+	
+		        // 권한이 없는 사용자가 get방식으로 페이지를 요청하여 수정하는 것 방지
+		        if (infoBoardUno !== loginUno) {
+		            window.location.href = "<c:url value="/404"/>";
+		            return;
+		        }
+	
+		        var title = document.getElementsByName('infoTitle')[0].value;
+		        var content = document.getElementsByName('infoContent')[0].value;
+		        var contentErrorMessage = "";
+		        var imgErrorMessage = "";
+	
+		        if (title.trim() === '' || content.trim() === '') {
+		            console.log('title trim 진입');
+		            contentErrorMessage = '제목과 내용을 모두 입력해주세요.';
+		            console.log(contentErrorMessage);
+		        }
 
-							document
-									.querySelector('#modify-submit')
-									.addEventListener(
-											'click',
-											function() {
-											    var infoBoardUno = "${infoBoard.uno}";
-											    var loginUno = "${sessionScope.loginUno}";
-											    
-											    //권한이 없는 사용자가 get방식으로 페이지를 요청하여 수정하는것 방지
-											    if (infoBoardUno !== loginUno) {
-											        window.location.href = "<c:url value="/404"/>"; 
-											        return;
-											    }
-											    
-												var title = document
-														.getElementsByName('infoTitle')[0].value;
-												var content = document
-														.getElementsByName('infoContent')[0].value;
+		        if (files && files.length > 0 && !Array.from(files).every(isImageFile)) {
+		            console.log('img trim 진입');
+		            imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
+		            console.log('img error save');
+		        }
 
-												if (title.trim() === ''
-														|| content.trim() === '') {
-													alert('제목과 내용을 모두 입력해주세요.');
-												} else {
-													document.getElementById(
-															'form-validation')
-															.submit(); // 폼을 제출
-												}
-											});
-							if (Modernizr.touch) {
-								// show the close overlay button
-								$('.close-overlay').removeClass('hidden');
-								// handle the adding of hover class when clicked
-								$('.img').click(function(e) {
-									if (!$(this).hasClass('hover')) {
-										$(this).addClass('hover');
-									}
-								});
-								// handle the closing of the overlay
-								$('.close-overlay').click(
-										function(e) {
-											e.preventDefault();
-											e.stopPropagation();
-											if ($(this).closest('.img')
-													.hasClass('hover')) {
-												$(this).closest('.img')
-														.removeClass('hover');
-											}
-										});
-							} else {
-								// handle the mouseenter functionality
-								$('.img').mouseenter(function() {
-									$(this).addClass('hover');
-								})
-								// handle the mouseleave functionality
-								.mouseleave(function() {
-									$(this).removeClass('hover');
-								});
-							}
-						});
+		        if (contentErrorMessage !== "") {
+		            console.log('title error not null');
+		            document.getElementById('content-error-message').textContent = contentErrorMessage;
+		            $('#content-error-message').show();
+		            console.log('title error show');
+		            setTimeout(function() {
+		                $('#content-error-message').fadeOut('slow');
+		            }, 5000);
+		        }
+
+		        if (imgErrorMessage !== '') {
+		            console.log('img error not null');
+		            document.getElementById('img-error-message').textContent = imgErrorMessage;
+		            $('#img-error-message').show();
+		            console.log('img error show');
+		            setTimeout(function() {
+		                $('#img-error-message').fadeOut('slow');
+		            }, 5000);
+		        }
+
+		        if (contentErrorMessage === "" && imgErrorMessage === "") {
+		            document.getElementById('form-validation').submit(); // 폼을 제출
+		        }
+		    });
+
+		    setTimeout(function() {
+		        $('#error-message').fadeOut('slow');
+		    }, 5000);
+	
+		    if (Modernizr.touch) {
+		        // 터치 이벤트를 지원하는 환경 처리
+		        $('.close-overlay').removeClass('hidden');
+		        $('.img').click(function(e) {
+		            if (!$(this).hasClass('hover')) {
+		                $(this).addClass('hover');
+		            }
+		        });
+	
+		        $('.close-overlay').click(function(e) {
+		            e.preventDefault();
+		            e.stopPropagation();
+		            if ($(this).closest('.img').hasClass('hover')) {
+		                $(this).closest('.img').removeClass('hover');
+		            }
+		        });
+		    } else {
+		        // 터치 이벤트를 지원하지 않는 환경 처리
+		        $('.img').mouseenter(function() {
+		            $(this).addClass('hover');
+		        }).mouseleave(function() {
+		            $(this).removeClass('hover');
+		        });
+		    }
+		});
 	</script>
 	<!-- / portfolio script -->
 </body>

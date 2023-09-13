@@ -17,22 +17,37 @@ import com.grgr.exception.CommentBlindException;
 import com.grgr.exception.CommentInsertException;
 import com.grgr.exception.CommentModifyException;
 import com.grgr.exception.CommentRemoveException;
+import com.grgr.exception.FileDeleteException;
 import com.grgr.exception.FileUploadFailException;
 import com.grgr.exception.NoCommentsException;
+import com.grgr.exception.PostUpdateException;
 import com.grgr.exception.WriteNullException;
 
+//작성자 : 김정현
+//수정일 - 수정내용
+//게시글등록 예외 추가
 @ControllerAdvice
 public class ExceptionController {
 	@ExceptionHandler(WriteNullException.class)
-	public String WriteNullExceptionHandler(WriteNullException e, Model model) {
+	public String writeNullExceptionHandler(WriteNullException e, Model model) {
 		model.addAttribute("message", e.getMessage());
 		return "board/info_write";
+	}
+	@ExceptionHandler(PostUpdateException.class)
+	public String postUpdateExceptionHandler(PostUpdateException e, Model model) {
+		model.addAttribute("message", e.getMessage());
+		return "board/info_list";
 	}
 
 	@ExceptionHandler(FileUploadFailException.class)
 	public String fileUploadFailExceptionHandler(FileUploadFailException e, Model model) {
 		model.addAttribute("message", e.getMessage());
 		return "board/info_write";
+	}
+	
+	@ExceptionHandler(FileDeleteException.class)
+	public ResponseEntity<String> fileDeleteExceptionHandler(FileDeleteException e){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
 
 	@ExceptionHandler(CommentInsertException.class)
@@ -41,11 +56,6 @@ public class ExceptionController {
 		response.put("status", "error");
 		response.put("message", exception.getMessage());
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-	}
-
-	@ExceptionHandler(NoCommentsException.class)
-	public ResponseEntity<String> noCommentsExceptionHandler(NoCommentsException exception) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
 	}
 	
 	@ExceptionHandler(CommentModifyException.class)

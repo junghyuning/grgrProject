@@ -100,7 +100,7 @@
 					<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
 					<input type="hidden" name="infoUpdateUno"
 						value="${sessionScope.loginUno}" /> <input type="hidden"
-						name="infoLoc" value="강남구" />
+						name="infoLoc" value="${searchCondition.loginLocation }" />
 					<div class="row">
 						<div class="col-md-3">
 							<div class="col-md-0 tablet-top">
@@ -240,19 +240,20 @@
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
+		//파일 업로드 input태그에서 선택한 파일을 저장하기위한 변수
 		var files;
-		document.getElementById('file-button').addEventListener(
-				'change',
-				function(event) {
+		//이미지가 선택되고나면 실행될 이벤트 리스너 
+		document.getElementById('file-button').addEventListener('change',function(event) {
+					//이벤트실행시 선택된 파일의정보를 파일에 저장함
 					files = event.target.files;
-					var previewContainer = document
-							.getElementById('imagePreviewContainer');
+					var previewContainer = document.getElementById('imagePreviewContainer');
 					previewContainer.innerHTML = '';
 
 					for (var i = 0; i < files.length; i++) {
 						var file = files[i];
+						//파일을 읽어오기위해 FileReader 객체 생성
 						var reader = new FileReader();
-
+						//
 						reader.onload = (function(file) {
 							return function(e) {
 								var div = document.createElement('div');
@@ -267,141 +268,91 @@
 								previewContainer.appendChild(div);
 							};
 						})(file);
-
+						
+						//파일리더를 통해 읽어온 파일 데이터를 URL 형태로 가져옴
 						reader.readAsDataURL(file);
 					}
 				});
 	</script>
 
 	<script>
-		$(document)
-				.ready(
-						function() {
+	$(document).ready(function() {
+		//파일 형식 검사
+	    function isImageFile(file) {
+	        const validImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg']; 
+	        return file && validImageTypes.includes(file.type);
+	    }
 
-							function isImageFile(file) {
-								const validImageTypes = [ 'image/gif',
-										'image/jpeg', 'image/png', 'image/jpg' ]; // 원하는 이미지 타입에 따라 확장 가능
-								return file
-										&& validImageTypes.includes(file.type);
-							}
-							document
-									.querySelector('#write-submit')
-									.addEventListener(
-											'click',
-											function() {
-												var title = document
-														.getElementsByName('infoTitle')[0].value;
-												var content = document
-														.getElementsByName('infoContent')[0].value;
+	    $('#write-submit').click(function() {
+	        var title = document.getElementsByName('infoTitle')[0].value;
+	        var content = document.getElementsByName('infoContent')[0].value;
+	        var contentErrorMessage = "";
+	        var imgErrorMessage = "";
 
-												var contentErrorMessage = "";
-												var imgErrorMessage = "";
+	        if (title.trim() === '' || content.trim() === '') {
+	            console.log('title trim 진입');
+	            contentErrorMessage = '제목과 내용을 모두 입력해주세요.';
+	            console.log(contentErrorMessage);
+	        }
 
-												if (title.trim() === ''
-														|| content.trim() === '') {
-													console
-															.log('title trim 진입');
-													contentErrorMessage = '제목과 내용을 모두 입력해주세요.';
-													console
-															.log(contentErrorMessage);
+	        if (files && files.length > 0 && !Array.from(files).every(isImageFile)) {
+	            console.log('img trim 진입');
+	            imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
+	            console.log('img error save');
+	        }
 
-												}
+	        if (contentErrorMessage !== "") {
+	            console.log('title error not null');
+	            document.getElementById('content-error-message').textContent = contentErrorMessage;
+	            $('#content-error-message').show();
+	            console.log('title error show');
+	            setTimeout(function() {
+	                $('#content-error-message').fadeOut('slow');
+	            }, 5000);
+	        }
 
-												if (files
-														&& files.length > 0
-														&& !Array
-																.from(files)
-																.every(
-																		isImageFile)) {
-													console.log('img trim 진입');
-													imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
-													console
-															.log('img error save');
-												}
+	        if (imgErrorMessage !== '') {
+	            console.log('img error not null');
+	            document.getElementById('img-error-message').textContent = imgErrorMessage;
+	            $('#img-error-message').show();
+	            console.log('img error show');
+	            setTimeout(function() {
+	                $('#img-error-message').fadeOut('slow');
+	            }, 5000);
+	        }
 
-												if (contentErrorMessage !== "") {
-													console
-															.log('title error not null');
+	        if (contentErrorMessage === "" && imgErrorMessage === "") {
+	            document.getElementById('form-validation').submit(); // 폼을 제출
+	        }
+	    });
 
-													document
-															.getElementById('content-error-message').textContent = contentErrorMessage;
+	    setTimeout(function() {
+	        $('#error-message').fadeOut('slow');
+	    }, 5000);
 
-													$('#content-error-message')
-															.show();
-													console
-															.log('title error show');
+	    if (Modernizr.touch) {
+	        $('.close-overlay').removeClass('hidden');
+	        $('.img').click(function(e) {
+	            if (!$(this).hasClass('hover')) {
+	                $(this).addClass('hover');
+	            }
+	        });
 
-													setTimeout(
-															function() {
-																$(
-																		'#content-error-message')
-																		.fadeOut(
-																				'slow');
-															}, 5000);
-												}
-
-												if (imgErrorMessage !== '') {
-													console
-															.log('img error not null');
-													document
-															.getElementById('img-error-message').textContent = imgErrorMessage;
-													$('#img-error-message')
-															.show();
-													console
-															.log('img error show');
-
-													setTimeout(
-															function() {
-																$(
-																		'#img-error-message')
-																		.fadeOut(
-																				'slow');
-															}, 5000);
-												}
-
-												if (contentErrorMessage === ""
-														&& imgErrorMessage === "") {
-													document.getElementById(
-															'form-validation')
-															.submit(); // 폼을 제출
-												}
-											});
-
-							setTimeout(function() {
-								$('#error-message').fadeOut('slow');
-							}, 5000);
-
-							if (Modernizr.touch) {
-								// show the close overlay button
-								$('.close-overlay').removeClass('hidden');
-								// handle the adding of hover class when clicked
-								$('.img').click(function(e) {
-									if (!$(this).hasClass('hover')) {
-										$(this).addClass('hover');
-									}
-								});
-								// handle the closing of the overlay
-								$('.close-overlay').click(
-										function(e) {
-											e.preventDefault();
-											e.stopPropagation();
-											if ($(this).closest('.img')
-													.hasClass('hover')) {
-												$(this).closest('.img')
-														.removeClass('hover');
-											}
-										});
-							} else {
-								// handle the mouseenter functionality
-								$('.img').mouseenter(function() {
-									$(this).addClass('hover');
-								})
-								// handle the mouseleave functionality
-								.mouseleave(function() {
-									$(this).removeClass('hover');
-								});
-							}
-						});
+	        $('.close-overlay').click(function(e) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            if ($(this).closest('.img').hasClass('hover')) {
+	                $(this).closest('.img').removeClass('hover');
+	            }
+	        });
+	    } else {
+	        $('.img').mouseenter(function() {
+	            $(this).addClass('hover');
+	        }).mouseleave(function() {
+	            $(this).removeClass('hover');
+	        });
+	    }
+	});
 	</script>
 	<!-- / portfolio script -->
 </body>

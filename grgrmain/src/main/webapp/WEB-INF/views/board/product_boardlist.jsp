@@ -85,14 +85,13 @@
 	</header>
 
 
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
-
-	<div id="top"></div>
-	<!-- / top -->
+<div class="container">
+    <div class="row">
+    
+    <jsp:include page="/WEB-INF/views/tiles/sidebar.jsp"/>
+	
+<!-- Main Content -->
+	<main class="main-content col-md-10">
 
 
 	<section id="start" class="lg page-section">
@@ -257,6 +256,9 @@
 		</ul>
 	</nav>
 	<!-- / pagination-center -->
+	</main>
+</div>
+</div>
 
 
 	<a href="#top" class="scroll-to-top is-hidden smooth-scroll"

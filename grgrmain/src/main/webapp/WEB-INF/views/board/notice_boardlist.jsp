@@ -70,26 +70,16 @@
       </div>
       <!-- / container -->
    </header>
-
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
-
-	<div id="top"></div>
-	<!-- / top -->
-
-
-
-	<!-- 큰 컨테이너  -->
-	<section class="big">
-		<div class="container">
-			<h2 class="hidden">Notice Board List</h2>
-			<!-- 키워드 -->
-		<div>
+	
+	
+<div class="container">
+    <div class="row">
+    
+    <jsp:include page="/WEB-INF/views/tiles/sidebar.jsp"/>
+	
+<!-- Main Content -->
+	<main class="main-content col-md-10">
 				<!-- 검색 -->
-				<!-- select -->
 				<div class="card">
 					<div class="card-body"
 						style="padding-bottom: 20px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
@@ -129,9 +119,7 @@
 					class="btn btn-primary-gradient m-y-10 mr-10"
 					style="float: right; display: block"><span
 					class="fas fa-edit mr-10"></span> <span style="font-size: 20px">글쓰기</span></a></c:if>
-			</div>
 
-			<div>
 				<ul class="row portfolio project-grid lightbox list-unstyled mb-0"
 					id="grid" style="clear: both">
 					<!--====================================================================================================  -->
@@ -169,11 +157,6 @@
 					</c:forEach>
 					<!--====================================================================================================  -->
 				</ul>
-			</div>
-		</div>
-		<!-- / container -->
-	</section>
-
 
 	<nav aria-label="pagination-center">
 		<ul class="pagination justify-content-center">
@@ -217,6 +200,9 @@
 		</ul>
 	</nav>
 	<!-- / pagination-center -->
+		</main>
+	</div>
+</div>	
 
 	<a href="#top" class="scroll-to-top is-visible smooth-scroll"
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>

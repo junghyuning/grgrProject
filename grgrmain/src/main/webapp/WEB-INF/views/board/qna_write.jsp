@@ -18,20 +18,17 @@
 }
 </style>
 <body>
-	<!-- 헤더 -->
-	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
-	<!-- 배너 -->
-	<c:set var="boardName" value="문의게시판" />
-	<header class="xl bg-img bg-fixed"
-		style="height: 300px; padding-top: 200px;">
-		<div class="container text-center">
-			<h1 class="page-title">QNA</h1>
-			<p class="w-50 m-x-auto mb-30">
-				<c:out value="${boardName}" />
-			</p>
-		</div>
-		<!-- / container -->
-	</header>
+<!-- 헤더 -->
+   <jsp:include page="/WEB-INF/views/tiles/header.jsp"/>
+   <!-- 배너 -->
+   <c:set var="boardName" value="문의게시판" />
+   <header class="xl bg-img bg-fixed" style="height: 300px; padding-top: 200px;">
+      <div class="container text-center">
+         <h1 class="page-title">QNA</h1>
+         <p class="w-50 m-x-auto mb-30"><c:out value="${boardName}" /></p>
+      </div>
+      <!-- / container -->
+   </header>
 
 	<div id="preloader">
 		<div class="preloader">
@@ -49,19 +46,21 @@
 	<!-- 큰 컨테이너  -->
 	<section class="lg bg-light-grey">
 		<div class="container">
-			<div class="w-90 m-x-auto mt-70" id="titleAndError">
-				<div style="display: flex; align-items: left;">
+			<div class="w-90 m-x-auto mt-70">
+
+				<div>
 					<h4 class="mb-30 text-left">글쓰기</h4>
-					<span id="error-message" style="color: red;">${message}</span> <span
-						id="content-error-message" style="color: red; padding-left: 20px"></span>
+					<span id="error-message" style="color: red;">${message}</span>
 				</div>
 
 				<!-- 폼 제출 영역 -->
-				<form action="write" method="post" class="validation-inner"
-					id="form-validation" novalidate="novalidate">
-					<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
-					<input type="hidden" name="qnaUpdateUno"
-						value="${sessionScope.loginUno}" />
+				<form action="write" method="post"
+					class="validation-inner" id="form-validation"
+					novalidate="novalidate">
+					<!-- <input type="hidden" name="uno" value="loginUno" /><input type="hidden" name="infoUpdateUno" value="loginUno" /><input type="hidden"
+					name="infoLoc" value="loginLoc" />  -->
+					<input type="hidden" name="uno" value="${sessionScope.loginUno}" /> <input type="hidden"
+						name="qnaUpdateUno" value="${sessionScope.loginUno}" />
 					<div class="row">
 						<div class="col-md-3">
 							<div class="col-md-0 tablet-top">
@@ -108,18 +107,7 @@
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px;"
 								aria-required="true"></textarea>
 						</div>
-						<div>
-							<input type="file" name="files" multiple="multiple"
-								accept="image/*" id="file-button" style="display: none;">
-							<div class="btn btn-instagram m-y-10 mr-10"
-								onclick="document.getElementById('file-button').click()">
-								<span class="mr-5"><i class="fab fa-instagram"></i></span> <span>사진업로드</span>
-							</div>
-							<span id="img-error-message" style="color: red; font-size: 15px;"></span>
-							<!-- 이미지 미리보기 영역 -->
-							<div id="imagePreviewContainer" class="mb-10"></div>
 
-						</div>
 
 						<!-- / form-group -->
 
@@ -150,7 +138,7 @@
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
 
 	<!-- footer 영역 -->
-	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
+	<jsp:include page="/WEB-INF/views/tiles/footer.jsp"/>
 
 	<!-- core JavaScript -->
 	<script
@@ -161,7 +149,7 @@
 		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 	<!-- / core JavaScript -->
 
-	<!-- preloader -->
+	<!-- preloader --> 
 	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
 	<!-- / preloader -->
 
@@ -173,49 +161,11 @@
 	<script
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
-	<script>
-		var files;
-		document.getElementById('file-button').addEventListener(
-				'change',
-				function(event) {
-					files = event.target.files;
-					var previewContainer = document
-							.getElementById('imagePreviewContainer');
-					previewContainer.innerHTML = '';
 
-					for (var i = 0; i < files.length; i++) {
-						var file = files[i];
-						var reader = new FileReader();
-
-						reader.onload = (function(file) {
-							return function(e) {
-								var div = document.createElement('div');
-								div.style.display = 'inline-block';
-								div.style.marginRight = '10px';
-
-								var img = document.createElement('img');
-								img.src = e.target.result;
-								img.alt = "Image Preview";
-								img.width = 30;
-								div.appendChild(img);
-								previewContainer.appendChild(div);
-							};
-						})(file);
-
-						reader.readAsDataURL(file);
-					}
-				});
-	</script>
 	<script>
 		$(document)
 				.ready(
 						function() {
-							function isImageFile(file) {
-								const validImageTypes = [ 'image/gif',
-										'image/jpeg', 'image/png', 'image/jpg' ]; // 원하는 이미지 타입에 따라 확장 가능
-								return file
-										&& validImageTypes.includes(file.type);
-							}
 							document
 									.querySelector('#write-submit')
 									.addEventListener(
@@ -225,74 +175,10 @@
 														.getElementsByName('qnaTitle')[0].value;
 												var content = document
 														.getElementsByName('qnaContent')[0].value;
-
-												var contentErrorMessage = "";
-												var imgErrorMessage = "";
-
 												if (title.trim() === ''
 														|| content.trim() === '') {
-													console
-															.log('title trim 진입');
-													contentErrorMessage = '제목과 내용을 모두 입력해주세요.';
-													console
-															.log(contentErrorMessage);
-
-												}
-
-												if (files
-														&& files.length > 0
-														&& !Array
-																.from(files)
-																.every(
-																		isImageFile)) {
-													console.log('img trim 진입');
-													imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
-													console
-															.log('img error save');
-												}
-
-												if (contentErrorMessage !== "") {
-													console
-															.log('title error not null');
-
-													document
-															.getElementById('content-error-message').textContent = contentErrorMessage;
-
-													$('#content-error-message')
-															.show();
-													console
-															.log('title error show');
-
-													setTimeout(
-															function() {
-																$(
-																		'#content-error-message')
-																		.fadeOut(
-																				'slow');
-															}, 5000);
-												}
-
-												if (imgErrorMessage !== '') {
-													console
-															.log('img error not null');
-													document
-															.getElementById('img-error-message').textContent = imgErrorMessage;
-													$('#img-error-message')
-															.show();
-													console
-															.log('img error show');
-
-													setTimeout(
-															function() {
-																$(
-																		'#img-error-message')
-																		.fadeOut(
-																				'slow');
-															}, 5000);
-												}
-
-												if (contentErrorMessage === ""
-														&& imgErrorMessage === "") {
+													alert('제목과 내용을 모두 입력해주세요.');
+												} else {
 													document.getElementById(
 															'form-validation')
 															.submit(); // 폼을 제출

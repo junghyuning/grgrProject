@@ -16,13 +16,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.grgr.dao.InfoBoardDAO;
 import com.grgr.dto.InfoBoard;
 import com.grgr.dto.InfoFile;
+import com.grgr.exception.FileDeleteException;
 import com.grgr.exception.FileUploadFailException;
+import com.grgr.exception.PostUpdateException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.util.Pager;
 import com.grgr.util.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
-
+//작성자 : 김정현
+//수정일 - 수정내용
+//0908 - SearchCondition에 위치정보 추가 -> createMap 메서드 수정
+//0909 - 파일 업로드 관련 메서드 분리 및 수정시 에 파일 업로드기능 추가
 @Service
 @RequiredArgsConstructor
 public class InfoBoardServiceImpl implements InfoBoardService {
@@ -46,55 +51,33 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	        throw new WriteNullException("제목 또는 내용이 비어있습니다.");
 	    }
 		infoBoardDAO.insertInfoBoard(infoBoard);
+		
+		imgUpload(infoBoard, files);
 
-		String uploadDirectory=context.getServletContext().getRealPath("/resources/upload");
-	
-		//파일을 하나도 업로드하지 않아도 되므로 null이 아닐시에만 업로드 작업
-		if(files != null && !files.isEmpty()) {
-			for(MultipartFile multipartfile : files) {
-				 if(multipartfile.isEmpty()) {
-			            continue; // 파일이 비어 있으면 다음 파일로 넘어감
-			        }
-
-			        if(!multipartfile.getContentType().startsWith("image/")) {
-			            throw new FileUploadFailException("사진이 아닌 파일입니다.");
-			        }
-				
-				String uploadFileName = UUID.randomUUID().toString()+"_"+multipartfile.getOriginalFilename();
-				System.out.println(uploadFileName);
-				File file = new File(uploadDirectory, uploadFileName);
-				System.out.println(file);
-				
-
-				multipartfile.transferTo(file);
-					
-			
-				
-				// 파일 정보 객체 생성
-		        InfoFile infoFile = new InfoFile();
-		        infoFile.setInfoBno(infoBoard.getInfoBno());
-		        infoFile.setInfoFileOrigin(multipartfile.getOriginalFilename());
-		        infoFile.setInfoFileUpload(uploadFileName);
-		        
-		        infoBoardDAO.insertInfoFile(infoFile);
-
-			}
-		}
 		return infoBoard.getInfoBno();
 	}
 
 	@Override
-	public void modifyInfoBoard(InfoBoard infoBoard) {
-		// TODO Auto-generated method stub
+	@Transactional
+	public void modifyInfoBoard(InfoBoard infoBoard, List<MultipartFile> files) throws WriteNullException, FileUploadFailException, IOException {
+		if (infoBoard.getInfoTitle() == null || infoBoard.getInfoContent() == null) {
+	        throw new WriteNullException("제목 또는 내용이 비어있습니다.");
+	    }
 		infoBoardDAO.updateInfoBoard(infoBoard);
-
+		
+		imgUpload(infoBoard, files);
 	}
 
 	@Override
-	public void removeInfoBoard(int infoBno, int uno) {
+	public void removeInfoBoard(int infoBno, int uno) throws PostUpdateException {
 		// TODO Auto-generated method stub
-		infoBoardDAO.deleteInfoBoard(infoBno, uno);
-
+		
+		int result = infoBoardDAO.deleteInfoBoard(infoBno, uno);
+		
+		if(result<1) {
+			throw new PostUpdateException("게시글 삭제에 실패하였습니다.");
+		}
+		
 	}
 
 	@Override
@@ -145,7 +128,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("infoBoardList", infoBoardList);
 		resultMap.put("pager", pager); // pager 객체를 반환
-		//resultMap.put("searchMap", searchMap);
+		//resultMap.put("searchMap", searchMap); //pager내부네 sc가 있으므로 map에 저장하지 않아도 될듯
 		resultMap.put("fileList", fileList);
 
 		return resultMap;
@@ -164,12 +147,19 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
 		searchMap.put("infoBno", infoBno);
 		
-		
-		
-
 		return infoBoardDAO.selectNextInfoBno(searchMap);
 	}
 	
+	@Override
+	public void removeInfoFile(int infoFileNo) throws FileDeleteException {
+		int result = infoBoardDAO.deleteInfoFile(infoFileNo);
+		
+		if(result<1) {
+			throw new FileDeleteException("이미지 삭제에 실패하였습니다.");
+		}
+	}
+
+	//====================================================================================
 	//검색관련 맵객체 생성 메서드
 	private Map<String, Object> createSearchMap(SearchCondition searchCondition){
 		Map<String, Object> searchMap = new HashMap<String, Object>();
@@ -183,13 +173,52 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 			if (searchCondition.getKeyword() != null && !searchCondition.getKeyword().trim().isEmpty()) {
 				searchMap.put("infoKeyword", searchCondition.getKeyword().trim());
 			}
-//			if (searchCondition.getLocation() != null && !searchCondition.getLocation().trim().isEmpty()) {
-//				searchMap.put("infoLoc", searchCondition.getLocation().trim());
-//			}
+			if (searchCondition.getLoginLocation() != null && !searchCondition.getLoginLocation().trim().isEmpty()) {
+				searchMap.put("infoLoc", searchCondition.getLoginLocation().trim());
+			}
 		}
-		searchMap.put("infoLoc", "강남구");
 		
 		return searchMap;
 	}
+	
+	//파일 업로드 처리 메서드
+	private void imgUpload(InfoBoard infoBoard, List<MultipartFile> files) throws FileUploadFailException, IOException {
+		
+		String uploadDirectory=context.getServletContext().getRealPath("/resources/upload");
+		
+		//파일을 하나도 업로드하지 않아도 되므로 null이 아닐시에만 업로드 작업
+		if(files != null && !files.isEmpty()) {
+			for(MultipartFile multipartfile : files) {
+				 if(multipartfile.isEmpty()) {
+			            continue; // 파일이 비어 있으면 다음 파일로 넘어감
+			        }
+
+			        if(!multipartfile.getContentType().startsWith("image/")) {
+			            throw new FileUploadFailException("사진이 아닌 파일입니다.");
+			        }
+				
+				String uploadFileName = UUID.randomUUID().toString()+"_"+multipartfile.getOriginalFilename();
+				System.out.println(uploadFileName);
+				File file = new File(uploadDirectory, uploadFileName);
+				System.out.println(file);
+				
+
+				multipartfile.transferTo(file);
+					
+			
+				
+				// 파일 정보 객체 생성
+		        InfoFile infoFile = new InfoFile();
+		        infoFile.setInfoBno(infoBoard.getInfoBno());
+		        infoFile.setInfoFileOrigin(multipartfile.getOriginalFilename());
+		        infoFile.setInfoFileUpload(uploadFileName);
+		        
+		        infoBoardDAO.insertInfoFile(infoFile);
+
+			}
+		}
+		
+	}
+
 
 }

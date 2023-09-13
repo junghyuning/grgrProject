@@ -93,5 +93,11 @@ public class InfoBoardDAOImpl implements InfoBoardDAO{
 	public List<InfoFile> selectInfoFile(int infoBno) {
 		return sqlSession.getMapper(InfoBoardMapper.class).selectInfoFile(infoBno);
 	}
+
+	@Override
+	public int deleteInfoFile(int infoFileNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(InfoBoardMapper.class).deleteInfoFile(infoFileNo);
+	}
 	
 }

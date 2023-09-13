@@ -26,35 +26,27 @@
 	margin-bottom: 20px; /* 아래쪽 여백을 20px로 설정 */
 	clear: both;
 }
-
-.comment-style {
+.comment-style{
 	font-size: 15px;
-	font-weight: normal;
+	font-weight:normal;
+	
 }
-
-.comment {
+.comment{
 	border-top: 1px solid #97989d;
-}
-
-textarea#modal-reportReason-input:focus {
-	background-color: white !important;
 }
 </style>
 </head>
 <body>
-	<!-- 헤더 -->
-	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
-	<!-- 배너 -->
-	<c:set var="boardName" value="문의게시판" />
-	<header class="xl bg-img bg-fixed"
-		style="height: 300px; padding-top: 200px;">
-		<div class="container text-center">
-			<h1 class="page-title">QNA</h1>
-			<p class="w-50 m-x-auto mb-30">
-				<c:out value="${boardName}" />
-			</p>
-		</div>
-		<!-- / container -->
+<!-- 헤더 -->
+   <jsp:include page="/WEB-INF/views/tiles/header.jsp"/>
+   <!-- 배너 -->
+   <c:set var="boardName" value="문의게시판" />
+   <header class="xl bg-img bg-fixed" style="height: 300px; padding-top: 200px;">
+      <div class="container text-center">
+         <h1 class="page-title">QNA</h1>
+         <p class="w-50 m-x-auto mb-30"><c:out value="${boardName}" /></p>
+      </div>
+      <!-- / container -->
 	</header>
 
 	<div id="preloader">
@@ -74,13 +66,12 @@ textarea#modal-reportReason-input:focus {
 					<a href="#x"
 						class="d-inline title-color primary-hover fs-24 fw-bold mb-15"
 						style="margin: 10px">${qnaBoard.qnaTitle} </a>
-
-
+					
 					<%-- 세션!! <c:if test="${qnaBoard.uno==loginUno }"> --%>
 					<c:if test="${qnaBoard.uno==sessionScope.loginUno }">
 						<!-- 수정버튼 제출시 제출된 게시글로 진입 + 자신의 게시글에서 글목록 누를시 1페이지로 이동할 것  -->
 						<a
-							href="<c:url value='/qnaboard/modify${searchCondition.getQueryString()}&qnaBno=${qnaBoard.qnaBno}'/>"
+							href="<c:url value='/qnaboard/modify${searchCondition.getQueryString(1)}&qnaBno=${qnaBoard.qnaBno}'/>"
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>수정</span></a>
 					</c:if>
@@ -100,53 +91,10 @@ textarea#modal-reportReason-input:focus {
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>숨김</span></a>
 					</c:if>
-
-					<!-- 신고 버튼 -->
-					<c:if test="${qnaBoard.uno ne loginUno}">
-						<button type="button"
-							class="btn btn-xs btn-primary pill pull-right"
-							data-toggle="modal" data-target="reportModal"
-							onclick="openReportModal()" data-qna-bno="${qnaBoard.qnaBno}">
-							<span>신고</span>
-						</button>
-					</c:if>
-
-					<!-- Modal -->
-					<div class="modal fade" id="reportModal" tabindex="-1"
-						role="dialog" aria-labelledby="reportModalLabel">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title" id="reportModalLabel">신고하기</h4>
-									<hr>
-								</div>
-								<div class="modal-body">
-									<form id="reportForm">
-										<div class="custom-margin">
-											<label for="modal-reportReason-input">신고사유</label>
-										</div>
-										<div class="custom-margin" style="height: 200px;">
-											<textarea id="modal-reportReason-input"
-												style="height: 200px; background-color: white;"
-												name="reportReason" class="form-control" rows="10"
-												placeholder="신고 사유를 입력하세요"></textarea>
-										</div>
-									</form>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" id="reportButton">신고</button>
-									&nbsp;&nbsp;&nbsp;
-									<button type="button" class="btn btn-primary" id="closeButton"
-										onclick="closeReportModal()">취소</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
 					<p
 						class="fs-12 post-meta-small p-y-15 pl-15 mb-15 border-secondary"
 						style="clear: both; padding: 10px">
-
+						
 						<i class="fas fa-user mr-5"></i>${qnaBoard.nickname } <span
 							class="mr-5 ml-5 text-muted">|</span><i
 							class="fas fa-calendar-alt mr-5"></i>${qnaBoard.qnaRegdate }<span
@@ -156,17 +104,8 @@ textarea#modal-reportReason-input:focus {
 							<c:when test="${qnaBoard.qnaKeyword=='trade'}">상권회원</c:when>
 						</c:choose>
 					</p>
-
-					<!-- 본문 영역 -->
+						
 					<p class="m-y-30">${qnaBoard.qnaContent}</p>
-
-					<!-- 이미지 표시 영역 -->
-					<c:forEach var="file" items="${qnaFiles}">
-						<%-- <img src="${pageContext.request.contextPath}/resources/upload/${file.qnaFileUpload}" --%>
-						<img src="<c:url value="/upload/${file.qnaFileUpload}"/>"
-							alt="${file.qnaFileOrigin }" class="board-images" width="200">
-					</c:forEach>
-
 					<!-- 보던페이지로 이동 -->
 					<a
 						href="<c:url value='/qnaboard/list${searchCondition.getQueryString()}' />"
@@ -174,15 +113,14 @@ textarea#modal-reportReason-input:focus {
 						style="float: right; font-size: 15px"><span>글목록</span></a>
 				</div>
 				<!-- / column -->
-
-				<!-- 이전글, 다음글 -->
+				
+ 				<!-- 이전글, 다음글 -->
 				<nav aria-label="pager" style="clear: both; padding-top: 30px">
 					<ul class="pager">
 						<c:if test="${!isFirstPost }">
 							<li class="pager-left"><a
 								href="<c:url value='/qnaboard/read?${searchCondition.getQueryString()}&qnaBno=${prevQnaBno}'/>">
-									<i class="fas fa-arrow-left"></i> <span class="ml-5">이전글</span>
-							</a></li>
+									<i class="fas fa-arrow-left"></i> <span class="ml-5">이전글</span></a></li>
 						</c:if>
 						<c:if test="${isFirstPost }">
 							<li class="pager-left disabled"><i class="fas fa-arrow-left"></i>
@@ -192,8 +130,7 @@ textarea#modal-reportReason-input:focus {
 						<c:if test="${!isLastPost}">
 							<li class="pager-right"><a
 								href="<c:url value='/qnaboard/read?${searchCondition.getQueryString()}&qnaBno=${nextQnaBno}'/>">
-									<span class="mr-5">다음글</span> <i class="fas fa-arrow-right"></i>
-							</a></li>
+									<span class="mr-5">다음글</span> <i class="fas fa-arrow-right"></i></a></li>
 						</c:if>
 
 						<c:if test="${isLastPost}">
@@ -202,20 +139,18 @@ textarea#modal-reportReason-input:focus {
 						</c:if>
 					</ul>
 				</nav>
-
+				
 				<!-------------------------------------------댓글영역 ----------------------------------------------->
 
-				<i class="far fa-comments fs-20 text-warning d-block mb-15"
-					style="border-top: 1px solid #97989d; padding-top: 15px">댓글</i>
+				<i class="far fa-comments fs-20 text-warning d-block mb-15" style="border-top: 1px solid #97989d; padding-top: 15px">댓글</i>
 
 				<!-- 댓글 출력 -->
-				<ul id="comments-list"
-					style="border-bottom: solid 1px #97989d; padding-left: 0px">
+				<ul id="comments-list" style="border-bottom: solid 1px #97989d; padding-left:0px">
 
 				</ul>
 
 				<!-- 댓글 제출 폼 -->
-				<div id="reply-form">
+				<div id="reply-form" >
 					<form id="replyForm">
 						<textarea id="reply" class="form-control border-faded" rows="15"
 							placeholder="댓글을 입력하세요"></textarea>
@@ -253,7 +188,7 @@ textarea#modal-reportReason-input:focus {
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
 
 	<!-- footer 영역 -->
-	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
+	<jsp:include page="/WEB-INF/views/tiles/footer.jsp"/>
 
 	<!-- core JavaScript -->
 	<script
@@ -276,67 +211,14 @@ textarea#modal-reportReason-input:focus {
 	<script
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
-
-	<!-- 신고 스크립트 -->
-	<script>
-	function openReportModal() {
-	    $('#reportModal').modal('show');
-	}
-		// 중복 확인 및 신고 버튼 클릭 시
-	    $('#reportButton').click(function() {
-	    	var reportReason = $('#modal-reportReason-input').val();
-	    	var qnaBno = ${qnaBoard.qnaBno};
-	    	var uno = <%=session.getAttribute("loginUno")%>;
-
-	    	//내용이 비어있는 경우
-	    	if (reportReason.trim() === "") {
-	            alert("내용을 입력해 주세요.");
-	            return;
-	        }
-	    	
-	    	 console.log("reportReason:", reportReason); // reportReason 값을 로그에 출력
-	    	 console.log("qnaBno:", qnaBno); // qnaBno 값을 로그에 출력
-	    	 console.log("uno:", uno); // uno 값을 로그에 출력
-    	
-	        $.ajax({
-	            type: "POST",
-	            url: "<c:url value="/report/board-add"/>/"+qnaBno, // 신고 처리 컨트롤러 URL
-	            //url: "/report/board-add/" + qnaBno, // 신고 처리 컨트롤러 URL
-	            data: JSON.stringify({ 
-	            	uno: uno,
-	            	reportReason: reportReason }),
-	            contentType: "application/json",
-	            success: function(response) {	            	
-	            	//신고 처리
-	                if (response === "success") {//신고 성공 시 모달 닫기
-	                    alert("신고가 접수되었습니다.");
-	                    $('#reportModal').modal('hide');
-	                } else if (response === "duplicate") {//중복 시 알림
-	                    alert("이미 신고된 게시글입니다.");
-	                    $('#reportModal').modal('hide');
-	                } else {
-	                	 alert("로그인이 필요합니다..");
-	                }
-	            }
-	        });
-	    });
-		
-		//취소 클릭 시 창 닫기
-		function closeReportModal() {
-	        $('#reportModal').modal('hide');
-	    }
-	</script>
-
 	<!-- 댓글기능 관련 스크립트  -->
 	<script>
 		const url = new URL(window.location.href);
 		const qnaBno = url.searchParams.get("qnaBno");
 		let pageNum = 1;
 		let loginUno;
-		console.log("loginUno="+loginUno);
 		let qnaCommentNo;
 		let loginUserStatus;
-		console.log("loginUserStatus="+loginUserStatus);
 		
 		//댓글 조회
 		let showList = function(qnaBno, pageNum) {
@@ -354,15 +236,13 @@ textarea#modal-reportReason-input:focus {
 						$("#comments-list").html(html);
 						return;
 					}
-					
-					loginUno = ${sessionScope.loginUno};
-					loginUserStatus = ${sessionScope.loginUserStatus};
-					console.log("loginUno :" + loginUno);
-					console.log("loginUserStatus :" + loginUserStatus);
-					
+						loginUno = ${sessionScope.loginUno};
+						loginUserStatus = ${sessionScope.loginUserStatus};
+						console.log("loginUno :" + loginUno);
 		            resetReplyForm();
 		            renderComments(data.qnaCommentList);
 		            renderPagination(data.commentPager);
+			        
 				},
 				error : function(err) {
 					
@@ -497,8 +377,9 @@ textarea#modal-reportReason-input:focus {
 		    $("#comment-reply").val("");
 		}
 		
-		//페이지 로드시 실행될 것들
+		
 		$(document).ready(function() {
+
 			$("#comment-reply").hide(); //대댓글 폼을 일단 숨김
 		    showList(qnaBno, pageNum);
 		    
@@ -529,8 +410,8 @@ textarea#modal-reportReason-input:focus {
 		        },
 		        data: JSON.stringify({
 		        	"qnaBno" : qnaBno,
-					"qnaCommentGroup": commentGroup,
-					"qnaCommentContent": replyContent
+		            qnaCommentGroup: commentGroup,
+		            qnaCommentContent: replyContent
 		        }),   
 		        success: function(response) {
 		            showList(qnaBno, pageNum);

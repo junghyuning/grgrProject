@@ -82,23 +82,13 @@
 		<!-- / container -->
 	</header>
 
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
-
-	<div id="top"></div>
-	<!-- / top -->
-
-
-	<!-- 큰 컨테이너  -->
-	<section class="big">
 		<div class="container">
-			<h2 class="hidden">Free Board List</h2>
-			<!-- 키워드 -->
-
-			<div>
+		    <div class="row">
+		    
+		    <jsp:include page="/WEB-INF/views/tiles/sidebar.jsp"/>
+			
+		<!-- Main Content -->
+			<main class="main-content col-md-10">
 				<!-- 검색 -->
 				<!-- select -->
 				<div class="card">
@@ -146,9 +136,7 @@
 					class="btn btn-primary-gradient m-y-10 mr-10"
 					style="float: right; display: block"><span
 					class="fas fa-edit mr-10"></span> <span style="font-size: 20px">글쓰기</span></a>
-			</div>
 
-			<div>
 				<ul class="row portfolio project-grid lightbox list-unstyled mb-0"
 					id="grid" style="clear: both">
 					<!--====================================================================================================  -->
@@ -190,54 +178,58 @@
 					</c:forEach>
 					<!--====================================================================================================  -->
 				</ul>
-			</div>
-		</div>
+		
+		
 		<!-- / container -->
-	</section>
 
 
-	<nav aria-label="pagination-center">
-		<ul class="pagination justify-content-center">
-			<!-- 이전 블록 이동 표시 -->
-			<c:choose>
-				<c:when test="${pager.startPage != 1 }">
-					<li class="page-item"><a class="page-link"
-						href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(pager.startPage-1)}'/>"><i
-							class="fas fa-arrow-left mb-5"></i></a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item disabled"><a class="page-link" href="#x"><i
-							class="fas fa-arrow-left mb-5"></i></a></li>
-				</c:otherwise>
-			</c:choose>
-			<!-- 페이지 목록 출력 -->
-			<c:forEach var="i" begin="${pager.startPage}" end="${pager.endPage }">
+
+		<nav aria-label="pagination-center">
+			<ul class="pagination justify-content-center">
+				<!-- 이전 블록 이동 표시 -->
 				<c:choose>
-					<c:when test="${i == pager.searchCondition.pageNum}">
-						<li class="page-item active"><a class="page-link"
-							href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(i)}'/>">${i}</a></li>
+					<c:when test="${pager.startPage != 1 }">
+						<li class="page-item"><a class="page-link"
+							href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(pager.startPage-1)}'/>"><i
+								class="fas fa-arrow-left mb-5"></i></a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="page-item"><a class="page-link"
-							href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(i)}'/>">${i}</a></li>
+						<li class="page-item disabled"><a class="page-link" href="#x"><i
+								class="fas fa-arrow-left mb-5"></i></a></li>
 					</c:otherwise>
 				</c:choose>
-			</c:forEach>
-			<!-- 다음 블록 이동 표시 -->
-			<c:choose>
-				<c:when test="${pager.endPage != pager.totalPage}">
-					<li class="page-item"><a class="page-link"
-						href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(pager.endPage+1)}'/>"><i
-							class="fas fa-arrow-right mb-5"></i></a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item disabled"><a class="page-link" href="#x"><i
-							class="fas fa-arrow-right mb-5"></i></a></li>
-				</c:otherwise>
-			</c:choose>
-		</ul>
-	</nav>
-	<!-- / pagination-center -->
+				<!-- 페이지 목록 출력 -->
+				<c:forEach var="i" begin="${pager.startPage}" end="${pager.endPage }">
+					<c:choose>
+						<c:when test="${i == pager.searchCondition.pageNum}">
+							<li class="page-item active"><a class="page-link"
+								href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(i)}'/>">${i}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a class="page-link"
+								href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(i)}'/>">${i}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<!-- 다음 블록 이동 표시 -->
+				<c:choose>
+					<c:when test="${pager.endPage != pager.totalPage}">
+						<li class="page-item"><a class="page-link"
+							href="<c:url value='/freeboard/list${pager.searchCondition.getQueryString(pager.endPage+1)}'/>"><i
+								class="fas fa-arrow-right mb-5"></i></a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item disabled"><a class="page-link" href="#x"><i
+								class="fas fa-arrow-right mb-5"></i></a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</nav>
+		<!-- / pagination-center -->
+	</main>
+</div>
+</div>
+	
 
 	<a href="#top" class="scroll-to-top is-visible smooth-scroll"
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>

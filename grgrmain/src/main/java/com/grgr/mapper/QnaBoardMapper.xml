@@ -142,21 +142,4 @@
 		update qna_board set qna_view_cnt = qna_view_cnt+1
 		where qna_bno=#{qnaBno}
 	</update>
-	
-	<!-- 이미지파일 업로드 -->
-	<insert id="insertQnaFile">
-		insert into qna_file (qna_file_no, qna_bno,
-		qna_file_origin, qna_file_upload)
-		values
-		(qna_file_seq.nextval,#{qnaBno}, #{qnaFileOrigin},
-		#{qnaFileUpload})
-	</insert>
-
-	<!-- 이미지파일 검색 -->
-	<select id="selectQnaFile">
-		select qna_file_no, qna_bno, qna_file_origin,
-		qna_file_upload from qna_file where qna_bno = #{qnaBno}
-		order by
-		qna_file_no
-	</select>
 </mapper>

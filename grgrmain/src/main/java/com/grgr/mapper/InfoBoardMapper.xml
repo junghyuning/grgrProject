@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!-- 
+작성자 : 김정현 
+수정일 - 수정내용
+0909 - 사진(파일) 삭제 매퍼 추가
+ -->
 <mapper namespace="com.grgr.mapper.InfoBoardMapper">
 	<!-- 검색 조건문 -->
 	<!-- TC:제목+내용, T: 제목, W: 작성자, -->
@@ -28,7 +32,7 @@
 		JOIN USERINFO U ON I.UNO = U.UNO
 		WHERE
 		<include refid="search" />
-		I.info_Loc='강남구' AND I.info_blindstate=1
+		I.info_Loc=#{infoLoc} AND I.info_blindstate=1
 		<if test="infoKeyword != null and infoKeyword != ''">
 			AND I.info_keyword = #{infoKeyword}
 		</if>
@@ -103,7 +107,7 @@
 		join USERINFO U on I.UNO = U.UNO
 		where
 		<include refid="search" />
-		I.info_Loc='강남구' and I.info_bno  &lt; #{infoBno} and I.info_blindstate = 1
+		I.info_Loc=#{infoLoc} and I.info_bno  &lt; #{infoBno} and I.info_blindstate = 1
 		<if test="infoKeyword != null and infoKeyword != ''">
 			and I.info_keyword = #{infoKeyword}
 		</if>
@@ -116,7 +120,7 @@
 		join USERINFO U on I.UNO = U.UNO
 		where
 		<include refid="search" />
-		I.info_Loc='강남구' and I.info_bno &gt; #{infoBno} and I.info_blindstate = 1
+		I.info_Loc=#{infoLoc} and I.info_bno &gt; #{infoBno} and I.info_blindstate = 1
 		<if test="infoKeyword != null and infoKeyword != ''">
 			and I.info_keyword = #{infoKeyword}
 		</if>
@@ -170,8 +174,7 @@
 	<!-- 조회수 증가 -->
 	<update id="increaseInfoViewCnt">
 		UPDATE info_board
-		SET info_view_cnt = info_view_cnt +
-		1
+		SET info_view_cnt = info_view_cnt +	1
 		WHERE info_bno = #{infoBno}
 	</update>
 
@@ -180,8 +183,7 @@
 	<update id="increaseInfoReportNo">
 		UPDATE info_board
 		SET
-		info_report_no = info_report_no +
-		1
+		info_report_no = info_report_no + 1
 		WHERE info_bno = #{infoBno}
 	</update>
 
@@ -202,6 +204,12 @@
 		order by
 		info_file_no
 	</select>
+	
+	<!-- 이미지파일 삭제 -->
+	<!-- 파일 no 정보를 받아와야함 -->
+	<delete id="deleteInfoFile">
+		delete from info_file where info_file_no = #{infoFileNo} 
+	</delete>
 
 
 

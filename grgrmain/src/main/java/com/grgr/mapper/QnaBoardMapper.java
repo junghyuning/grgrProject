@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.grgr.dto.QnaBoard;
-import com.grgr.dto.QnaFile;
 
 public interface QnaBoardMapper {
 	int qnaBoardCount(Map<String, Object> map);
@@ -19,7 +18,4 @@ public interface QnaBoardMapper {
 	Integer selectPrevQnaBno(Map<String, Object> map);
 	Integer selectNextQnaBno(Map<String, Object> map);
 	List<QnaBoard> selectQnaBoardList(Map<String, Object> map);
-	
-	int insertQnaFile(QnaFile qnaFile);
-	List<QnaFile> selectQnaFile(int qnaBno);
 }
