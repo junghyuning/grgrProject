@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.grgr.dto.InfoFile;
 import com.grgr.dto.QnaBoard;
 
 public interface QnaBoardMapper {
@@ -18,4 +19,7 @@ public interface QnaBoardMapper {
 	Integer selectPrevQnaBno(Map<String, Object> map);
 	Integer selectNextQnaBno(Map<String, Object> map);
 	List<QnaBoard> selectQnaBoardList(Map<String, Object> map);
+	
+	int insertQnaFile(QnaFile qnaFile);
+	List<QnaFile> selectQnaFile(int qnaBno);
 }

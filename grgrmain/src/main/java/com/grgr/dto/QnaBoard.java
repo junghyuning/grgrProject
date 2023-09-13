@@ -34,4 +34,5 @@ public class QnaBoard {
 	private Date qnaUpdate;
 	private String nickname;
 	private int qnaUpdateUno;
+	private int qnaReportCnt;//0909_소연_신고추가
 }

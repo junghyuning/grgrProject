@@ -38,16 +38,20 @@
       <!-- / container -->
    </header>
 
-	
-	<div class="container">
-    <div class="row">
-    
-    <jsp:include page="/WEB-INF/views/tiles/sidebar.jsp"/>
-	
-<!-- Main Content -->
-	<main class="main-content col-md-10">
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
+
+	<div id="top"></div>
 	<!-- / top -->
 
+	<!-- 큰 컨테이너  -->
+	<section class="big">
+		<div class="container">
+			<h2 class="hidden">Qna Board List</h2>
+			<!-- 키워드 -->
 			<ul class="list-inline text-center mb-30" >
 				<li><a href="<c:url value="/qnaboard/list"/>" class="btn btn-outline-primary m-y-10 mr-10" >전체</a></li>
 				<li id="keyword-button"><a href="<c:url value="/qnaboard/list?keyword=member"/>" class="btn btn-outline-primary m-y-10 mr-10" >일반회원</a>
@@ -141,8 +145,10 @@
 					<!--====================================================================================================  -->
 				</ul>
 			</div>
-		
+		</div>
 		<!-- / container -->
+	</section>
+
 
 	<nav aria-label="pagination-center">
 		<ul class="pagination justify-content-center">
@@ -187,9 +193,6 @@
 		</ul>
 	</nav>
 	<!-- / pagination-center -->
-	</main>
-</div>
-</div>
 
 	<a href="#top" class="scroll-to-top is-visible smooth-scroll"
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
