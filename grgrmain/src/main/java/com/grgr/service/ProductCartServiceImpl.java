@@ -32,14 +32,21 @@ public class ProductCartServiceImpl implements ProductCartService {
 
 	@Override
 	public int removeCart(int productCartNo) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		try {
+			return productCartDAO.deleteCart(productCartNo);
+		} catch (Exception e) {
+			return 1;
+		}
 	}
 
 	@Override
 	public int modifyCart(ProductCartDTO cart) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return productCartDAO.updateCart(cart);
+		} catch (Exception e) {
+			return 1;
+		}
 	}
 
 	@Override
