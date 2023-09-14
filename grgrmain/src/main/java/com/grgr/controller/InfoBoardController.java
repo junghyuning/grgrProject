@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.HtmlUtils;
 
 import com.grgr.dto.InfoBoard;
 import com.grgr.exception.FileUploadFailException;
@@ -41,7 +42,11 @@ public class InfoBoardController {
 	@RequestMapping("/list")
 	public String list(SearchCondition searchCondition, HttpSession session, Model model) {
 		searchCondition.setLoginLocation(extractLoginLocation(session));
-		Map<String, Object> result = infoBoardService.getInfoBoardList(searchCondition);
+		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
+		log.info("loginUserStatus : " + loginUserStatus);
+		Map<String, Object> result = infoBoardService.getInfoBoardList(searchCondition,loginUserStatus);
+		log.info("GET INFOBOARDLIST 메서드 수행 완료");
+		
 		model.addAttribute("infoBoardList", result.get("infoBoardList"));
 		model.addAttribute("pager", result.get("pager"));
 		model.addAttribute("fileList", result.get("fileList"));
@@ -55,9 +60,10 @@ public class InfoBoardController {
 
 		searchCondition.setLoginLocation(extractLoginLocation(session));
 		Integer loginUno = (Integer)session.getAttribute("loginUno");
+		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
 		Map<String, Object> infoBoardWithFiles = infoBoardService.getInfoBoard(loginUno, infoBno);
-		Integer prevInfoBno = infoBoardService.prevInfoBno(searchCondition, infoBno);
-		Integer nextInfoBno = infoBoardService.nextInfoBno(searchCondition, infoBno);
+		Integer prevInfoBno = infoBoardService.prevInfoBno(searchCondition, infoBno, loginUserStatus);
+		Integer nextInfoBno = infoBoardService.nextInfoBno(searchCondition, infoBno, loginUserStatus);
 		model.addAllAttributes(infoBoardWithFiles);
 		model.addAttribute("nextInfoBno", nextInfoBno);
 		model.addAttribute("prevInfoBno", prevInfoBno);
@@ -81,7 +87,8 @@ public class InfoBoardController {
 	public String infoBoardWrite(InfoBoard infoBoard,
 			@RequestParam(value = "files", required = false) List<MultipartFile> files)
 			throws WriteNullException, FileUploadFailException, IOException {
-
+		infoBoard.setInfoTitle(HtmlUtils.htmlEscape(infoBoard.getInfoTitle()));
+		infoBoard.setInfoContent(HtmlUtils.htmlEscape(infoBoard.getInfoContent()));
 		int newBno = infoBoardService.addInfoBoard(infoBoard, files);
 
 		return "redirect:/infoboard/read?infoBno=" + newBno;
@@ -111,7 +118,8 @@ public class InfoBoardController {
 		if (infoBoard.getInfoTitle() == null || infoBoard.getInfoContent() == null) {
 			throw new WriteNullException("제목 또는 내용이 비어있습니다.");
 		}
-
+		infoBoard.setInfoTitle(HtmlUtils.htmlEscape(infoBoard.getInfoTitle()));
+		infoBoard.setInfoContent(HtmlUtils.htmlEscape(infoBoard.getInfoContent()));
 		infoBoardService.modifyInfoBoard(infoBoard, files);
 		return "redirect:/infoboard/read?infoBno=" + infoBoard.getInfoBno();
 
@@ -138,7 +146,7 @@ public class InfoBoardController {
 		return redirectUri;
 
 	}
-
+	// 세션의 위치정보에서 <구>에 대한 정보만 추출하는 메서드
 	private String extractLoginLocation(HttpSession session) {
 		String loginLocation = (String) session.getAttribute("loginLocation");
 		if (loginLocation != null && !loginLocation.trim().isEmpty()) {

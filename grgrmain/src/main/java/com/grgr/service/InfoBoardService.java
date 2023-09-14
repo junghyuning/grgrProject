@@ -20,9 +20,9 @@ public interface InfoBoardService {
 	void removeInfoBoard(int infoBno, int uno) throws PostUpdateException;
 	void hideInfoBoard(int infoBno, int loginUser, int loginUserStatus);
 	Map<String, Object> getInfoBoard(int loginUno, int infoBno);
-	Integer prevInfoBno(SearchCondition searchCondition, int infoBno);
-	Integer nextInfoBno(SearchCondition searchCondition, int infoBno);
-	Map<String, Object> getInfoBoardList(SearchCondition searchCondition);
+	Integer prevInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus );
+	Integer nextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus);
+	Map<String, Object> getInfoBoardList(SearchCondition searchCondition, int loginUserStatus);
 	void removeInfoFiles(List<Integer> deleteFileList) throws FileDeleteException;
 	
 }

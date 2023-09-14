@@ -25,12 +25,14 @@ import com.grgr.util.Pager;
 import com.grgr.util.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 //작성자 : 김정현
 //수정일 - 수정내용
 //0908 - SearchCondition에 위치정보 추가 -> createMap 메서드 수정
 //0909 - 파일 업로드 관련 메서드 분리 및 수정시 에 파일 업로드기능 추가
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class InfoBoardServiceImpl implements InfoBoardService {
 	private final InfoBoardDAO infoBoardDAO;
 	private final WebApplicationContext context;
@@ -111,10 +113,14 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	public Map<String, Object> getInfoBoardList(SearchCondition searchCondition) {
+	public Map<String, Object> getInfoBoardList(SearchCondition searchCondition, int loginUserStatus) {
+		log.warn("리스트 서비스메서드 진입");
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
+		searchMap.put("loginUserStatus", loginUserStatus);
+		log.warn("서비스 메서드의 loginUserStatus : " + loginUserStatus);
 		//int totalBoard = getInfoCount(searchCondition);
 		int totalBoard = infoBoardDAO.infoBoardCount(searchMap);
+		log.warn("리스트 서비스 메서드에서 게시글 수 카운트" );
 		Pager pager = new Pager(totalBoard, searchCondition);
 		// 페이징 계산
 		searchMap.put("startRow", pager.getStartRow());
@@ -142,16 +148,18 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	public Integer prevInfoBno(SearchCondition searchCondition, int infoBno) {
+	public Integer prevInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
+		searchMap.put("loginUserStatus", loginUserStatus);
 		searchMap.put("infoBno", infoBno);
 		
 		return infoBoardDAO.selectPrevInfoBno(searchMap);
 	}
 
 	@Override
-	public Integer nextInfoBno(SearchCondition searchCondition, int infoBno) {
+	public Integer nextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
+		searchMap.put("loginUserStatus", loginUserStatus);
 		searchMap.put("infoBno", infoBno);
 		
 		return infoBoardDAO.selectNextInfoBno(searchMap);
