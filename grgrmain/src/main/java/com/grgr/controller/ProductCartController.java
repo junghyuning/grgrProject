@@ -54,4 +54,25 @@ public class ProductCartController {
 		return "board/product_cart";
 	}
 
+	@PostMapping("/delete")
+	@ResponseBody
+	public String deleteCartPost(@RequestParam("productCartNo") int productCartNo) {
+		int result = productCartService.removeCart(productCartNo);
+		if (result >= 1) {
+			return "success"; // 삭제 실패 시 장바구니 페이지로 리다이렉트
+		} else
+			return "fail";
+
+	}
+
+	@PostMapping("/update")
+	@ResponseBody
+	public String updateCartPost(@RequestParam ProductCartDTO cart) {
+		int result = productCartService.modifyCart(cart);
+		if (result >= 1) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 }
