@@ -5,7 +5,7 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-	
+
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -30,18 +30,22 @@
 		가진 객체(Spring Bean)로 실행 메소드를 호출하여 클라이언트에게 응답 처리 -->
 	<!-- => JSP 문서를 이용하여 응답 처리하지 않고 메소드의 명령을 실행하여 응답 처리 -->
 	<!-- => JSP 문서로 응답 처리하는 ViewResolver 객체보다 반드시 우선순위를 높게 설정 -->
-	
+
 	<beans:bean
 		class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<beans:property name="order" value="1" />
 	</beans:bean>
-	
+
 	<!-- Intercepter 클래스를 Spring Bean으로 등록 -->
-	<beans:bean class="com.grgr.interceptor.AdminAuthInterceptor" id="adminAuthInterceptor"/>
-	<beans:bean class="com.grgr.interceptor.LoginAuthInterceptor" id="loginAuthInterceptor"/>
-	
-		<!-- 관리자 인터셉터 -->
-	 <interceptors>
+	<beans:bean
+		class="com.grgr.interceptor.AdminAuthInterceptor"
+		id="adminAuthInterceptor" />
+	<beans:bean
+		class="com.grgr.interceptor.LoginAuthInterceptor"
+		id="loginAuthInterceptor" />
+
+	<!-- 관리자 인터셉터 -->
+	<interceptors>
 		<interceptor>
 			<mapping path="*/hide/**"/>
 			<mapping path="/notice/*"/>
@@ -56,15 +60,16 @@
 		<interceptor>
 			<!--  <mapping path="/user/**"/>  -->
 			<mapping path="/infoboard/**"/>
+			<mapping path="/inforeport/**"/>
 			<mapping path="/productboard/**"/>
 			<mapping path="/noticeboard/write"/>
 			<mapping path="/board/**"/>
 			<!-- <exclude-mapping path="/user/login-register"/> -->
-			<beans:ref bean="loginAuthInterceptor"/>
+			<beans:ref bean="loginAuthInterceptor" />
 		</interceptor>
 	</interceptors>
 	<!-- 로그인 인터셉터 -->
-	
+
 	<context:component-scan
 		base-package="com.grgr.mapper" />
 	<context:component-scan
@@ -93,9 +98,29 @@
 		<!-- defaultEncoding 필드에 전달값에 문자형태(캐릭터셋)가 저장되도록 값 주입 -->
 		<beans:property name="defaultEncoding" value="utf-8" />
 		<!-- 파일 저장 디렉토리 -->
-		<beans:property name="uploadTempDir" value="file:C:\upload\tmp"/> 
+		<beans:property name="uploadTempDir"
+			value="file:C:\upload\tmp" />
 	</beans:bean>
-	
-	
-	
+
+	<!-- Message -->
+
+	<beans:bean
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		id="messageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>/WEB-INF/message/report_error</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="cacheSeconds" value="60" />
+		<beans:property name="defaultEncoding" value="utf-8" />
+	</beans:bean>
+	<!-- defaultLocale 필드에 기본적으로 사용될 메세지의 사용 언어를 속성값으로 설정 -->
+	<beans:bean
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
+		id="localeResolver">
+		<!-- defaultLocale 필드에 기본적으로 사용될 메세지의 사용 언어를 속성값으로 설정 -->
+		<beans:property name="defaultLocale" value="ko" />
+	</beans:bean>
+
 </beans:beans>

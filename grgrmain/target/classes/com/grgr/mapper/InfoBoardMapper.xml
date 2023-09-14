@@ -87,7 +87,7 @@
 		I.INFO_BNO, I.UNO,
 		I.INFO_KEYWORD, I.INFO_TITLE, I.INFO_CONTENT, I.INFO_LOC,
 		I.INFO_VIEW_CNT,
-		I.INFO_REPORT_NO,
+		I.INFO_REPORT_CNT,
 		I.INFO_BLINDSTATE, I.INFO_REGDATE,
 		I.INFO_UPDATE,
 		I.INFO_UPDATE_UNO,
@@ -140,7 +140,7 @@
 		SUBSTR(I.INFO_CONTENT,1,40) AS INFO_CONTENT, 
 		I.INFO_LOC,
 		I.INFO_VIEW_CNT,
-		I.INFO_REPORT_NO,
+		I.INFO_REPORT_CNT,
 		I.INFO_BLINDSTATE, I.INFO_REGDATE,
 		I.INFO_UPDATE,
 		I.INFO_UPDATE_UNO,
@@ -179,13 +179,6 @@
 	</update>
 
 
-	<!-- 신고수 증가 -->
-	<update id="increaseInfoReportNo">
-		UPDATE info_board
-		SET
-		info_report_no = info_report_no + 1
-		WHERE info_bno = #{infoBno}
-	</update>
 
 	<!-- 이미지파일 업로드 : INFO_FILE_UPDATE_UNO 는 로그인 기능 완성시 추가할 것 -->
 	<insert id="insertInfoFile">
@@ -201,8 +194,7 @@
 	<select id="selectInfoFile">
 		select info_file_no, info_bno, info_file_origin,
 		info_file_upload from info_file where info_bno = #{infoBno}
-		order by
-		info_file_no
+		order by info_file_no
 	</select>
 	
 	<!-- 이미지파일 삭제 -->

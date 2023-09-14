@@ -37,12 +37,12 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	
 		
 
-	@Override
-	public int getInfoCount(SearchCondition searchCondition) {
-		Map<String, Object> searchMap = createSearchMap(searchCondition);
-		
-		return infoBoardDAO.infoBoardCount(searchMap);
-	}
+//	@Override
+//	public int getInfoCount(SearchCondition searchCondition) {
+//		Map<String, Object> searchMap = createSearchMap(searchCondition);
+//		
+//		return infoBoardDAO.infoBoardCount(searchMap);
+//	}
 
 	@Override
 	@Transactional
@@ -92,10 +92,16 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	public Map<String, Object> getInfoBoard(int infoBno) {
+	@Transactional
+	public Map<String, Object> getInfoBoard(int loginUno, int infoBno) {
+		
+		//게시글 출력
 		Map<String, Object> readMap = new HashMap<String, Object>();
-		// TODO Auto-generated method stub
 		InfoBoard infoBoard = infoBoardDAO.selectInfoBoard(infoBno);
+		//게시글 조회시 조회수 증가
+		if(infoBoard.getUno()!=loginUno) {
+			infoBoardDAO.increaseInfoViewCnt(infoBno);			
+		}
 		String infoConentIncludeEnter = infoBoard.getInfoContent().replace("\r\n", "<br>"); //개행문자를 포함하여 출력하기위함
 		infoBoard.setInfoContent(infoConentIncludeEnter);
 		readMap.put("infoBoard", infoBoard);
@@ -107,8 +113,8 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	@Override
 	public Map<String, Object> getInfoBoardList(SearchCondition searchCondition) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
-		int totalBoard = getInfoCount(searchCondition);
-		
+		//int totalBoard = getInfoCount(searchCondition);
+		int totalBoard = infoBoardDAO.infoBoardCount(searchMap);
 		Pager pager = new Pager(totalBoard, searchCondition);
 		// 페이징 계산
 		searchMap.put("startRow", pager.getStartRow());

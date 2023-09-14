@@ -15,7 +15,6 @@ public interface InfoBoardMapper {
 	int deleteInfoBoard(@Param("infoBno") int infoBno,@Param("uno") int uno);
 	int blindInfoBoard(Map<String, Object> map);
 	int increaseInfoViewCnt(int infoBno);
-	int increaseInfoReportNo(int infoBno);
 	InfoBoard selectInfoBoard(int infoBno);
 	Integer selectPrevInfoBno(Map<String, Object> map);
 	Integer selectNextInfoBno(Map<String, Object> map);

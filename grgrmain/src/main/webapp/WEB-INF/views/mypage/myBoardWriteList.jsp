@@ -57,16 +57,7 @@
 
 .selected {
 	background-color: #007bff;
-	//
-	선택된
-	배경색
-	color
-	:
-	#ffffff;
-	//
-	선택된
-	텍스트
-	색상
+	color: #ffffff;
 }
 </style>
 <body>

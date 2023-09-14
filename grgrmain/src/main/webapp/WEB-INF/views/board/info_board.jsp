@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kor">
 <head>
 <!-- Meta -->
 <meta charset="utf-8" />
@@ -49,7 +50,7 @@
 	font-weight: 'bold';
 }
 
-.uploaded-img{
+.uploaded-img {
 	width: 300px;
 	height: auto;
 }
@@ -73,7 +74,7 @@
 	height: auto;
 }
 
-#like-button span{
+#like-button span {
 	text-align: center;
 }
 
@@ -118,7 +119,6 @@
 					<a href="#x"
 						class="d-inline title-color primary-hover fs-24 fw-bold mb-15"
 						style="margin: 10px">${infoBoard.infoTitle} </a>
-					<%-- 세션!! <c:if test="${infoBoard.uno== }"> --%>
 
 					<c:if test="${infoBoard.uno==sessionScope.loginUno}">
 						<!-- 수정버튼 제출시 제출된 게시글로 진입 + 자신의 게시글에서 글목록 누를시 원래보던 페이지로 이동할 것  -->
@@ -128,7 +128,6 @@
 							style="float: right; font-size: 15px; margin: 10px"><span>수정</span></a>
 					</c:if>
 
-					<%-- 세션!! <c:if test="${infoBoard.uno==loginUno }"> --%>
 					<c:if test="${infoBoard.uno==sessionScope.loginUno}">
 						<!-- 자신의 글일시 해당 글번호의 글을 삭제할 수 있음 -->
 						<a
@@ -136,7 +135,6 @@
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>삭제</span></a>
 					</c:if>
-					<%-- <c:if test="${loginUserStatus}==1 }"> --%>
 					<c:if test="${sessionScope.loginUserStatus == 1 }">
 						<!-- 관리자는 해당 글번호의 글을 숨김처리할 수 있음 -->
 						<a
@@ -144,6 +142,51 @@
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>숨김</span></a>
 					</c:if>
+
+					<!-- 신고 버튼 -->
+					<c:if test="${infoBoard.uno ne loginUno}">
+						<button type="button"
+							class="btn btn-xs btn-primary pill pull-right"
+							data-toggle="modal" data-target="reportModal"
+							onclick="openReportModal()" data-qna-bno="${infoBoard.infoBno}">
+							<span>신고</span>
+						</button>
+					</c:if>
+
+					<!-- 신고 Modal -->
+					<div class="modal fade" id="reportModal" tabindex="-1"
+						role="dialog" aria-labelledby="reportModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="reportModalLabel">신고하기</h4>
+									<hr>
+								</div>
+								<div class="modal-body">
+									<form id="reportForm">
+										<div class="custom-margin">
+											<label for="modal-reportReason-input">신고사유</label>
+										</div>
+										<div class="custom-margin" style="height: 200px;">
+											<textarea id="modal-reportReason-input"
+												style="height: 200px; background-color: white;"
+												name="reportInfoboardReason" class="form-control" rows="10"
+												placeholder="신고 사유를 입력하세요"></textarea>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="reportButton"
+										onclick="submitReportForm()">신고</button>
+									&nbsp;&nbsp;&nbsp;
+									<button type="button" class="btn btn-primary" id="closeButton"
+										onclick="closeReportModal()">취소</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
 					<p
 						class="fs-12 post-meta-small p-y-15 pl-15 mb-15 border-secondary"
 						style="clear: both; padding: 10px">
@@ -160,22 +203,26 @@
 							<c:otherwise>이벤트</c:otherwise>
 						</c:choose>
 					</p>
+
+
 					<!-- 본문 영역 -->
 					<p class="m-y-30">${infoBoard.infoContent}</p>
 
 					<!-- 이미지 표시 영역 -->
 					<c:forEach var="file" items="${infoFiles}">
 						<%-- <img src="${pageContext.request.contextPath}/resources/upload/${file.infoFileUpload}" --%>
-						<img class= "uploaded-img" src="<c:url value="/upload/${file.infoFileUpload}"/>"
-							alt="${file.infoFileOrigin }" >
+						<img class="uploaded-img"
+							src="<c:url value="/upload/${file.infoFileUpload}"/>"
+							alt="${file.infoFileOrigin }">
 					</c:forEach>
 
 				</div>
-					<!-- 보던페이지로 이동 -->
-					<a
-						href="<c:url value='/infoboard/list${searchCondition.getQueryString()}' />"
-						class="btn btn-xs btn-primary pill"
-						style="float: right; font-size: 15px"><span>글목록</span></a>
+				
+				<!-- 보던페이지로 이동 -->
+				<a
+					href="<c:url value='/infoboard/list${searchCondition.getQueryString()}' />"
+					class="btn btn-xs btn-primary pill"
+					style="float: right; font-size: 15px"><span>글목록</span></a>
 				<!-- / column -->
 
 				<!-- 이전글, 다음글 -->
@@ -282,16 +329,61 @@
 	<script
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
+	
+	<!-- 신고 스크립트 -->
+	<script>
+	function openReportModal() {
+	    $('#reportModal').modal('show');
+	}
+		// 중복 확인 및 신고 버튼 클릭 시
+	   function submitReportForm() {
+	    	var reportReason = $('#modal-reportReason-input').val();
+	    	var infoBno = ${infoBoard.infoBno};
+	    	console.log("reportReason:", reportReason); // reportReason 값을 로그에 출력
+	    	console.log("infoBno:", infoBno); // infoBno 값을 로그에 출력
+    	
+	        $.ajax({
+	            type: "POST",
+	            url: "<c:url value="/inforeport/board-add"/>", // 신고 처리 컨트롤러 URL
+	            data: JSON.stringify({ 
+	            	infoBno: infoBno,
+	            	reportInfoboardReason: reportReason }),
+	            contentType: "application/json",
+	            success: function(response) {	            	
+	            	//신고 처리
+	                if (response === "success") {//신고 성공 시 모달 닫기
+	                    alert("신고가 접수되었습니다.");
+	                    $('#reportModal').modal('hide');
+	                } else if (response === "duplicate") {//중복 시 알림
+	                    alert("이미 신고된 게시글입니다.");
+	                    $('#reportModal').modal('hide');
+	                } else {
+	                	 alert("로그인이 필요합니다..");
+	                }
+	            	
+	            	$('#modal-reportReason-input').val('');
+	            },
+	            error: function(xhr){
+	            	console.log(xhr.responseText);
+	            	alert("신고 사유를 입력해주세요",xhr.responseText);
+	            }
+	        });
+	    };
+		
+		//취소 클릭 시 창 닫기
+		function closeReportModal() {
+	        $('#reportModal').modal('hide');
+	    }
+	</script>
+	
 	<!-- 댓글기능 관련 스크립트  -->
 	<script>
 		const url = new URL(window.location.href);
 		const infoBno = url.searchParams.get("infoBno");
 		let pageNum = 1;
 		let loginUno;
-		console.log("loginUno="+loginUno);
 		let infoCommentNo;
 		let loginUserStatus;
-		console.log("loginUserStatus="+loginUserStatus);
 		//댓글 조회
 		let showList = function(infoBno, pageNum) {
 			$.ajax({
@@ -314,9 +406,9 @@
 					console.log("loginUno :" + loginUno);
 					console.log("loginUserStatus :" + loginUserStatus);
 					
-			            resetReplyForm();
-			            renderComments(data.infoCommentList);
-			            renderPagination(data.commentPager);
+			        resetReplyForm();
+			        renderComments(data.infoCommentList);
+			        renderPagination(data.commentPager);
 			        
 				},
 				error : function(err) {
@@ -344,7 +436,7 @@
 		    html += '" data-infoBno="' + comment.infoBno + '">';
 			if (comment.infoCommentBlindstate === 3) { // 댓글이 삭제
 				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">삭제된 댓글입니다.</p>';
-			} else if (comment.infoCommentBlindstate == 2) { //게시자가 숨겼다면
+			} else if (comment.infoCommentBlindstate == 2) { //관리자가 숨겼다면
 				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">관리자에의해 비공개된 댓글입니다.</p>';
 			} else { // 정상적으로 보이는 게시물
 				
@@ -636,6 +728,10 @@
 		
 		
 	</script>
+	
+	<!-- 좋아요 기능관련 스크립트 분리 -->
+	
+	
 
 	<script>
 		$(document).ready(function() {
