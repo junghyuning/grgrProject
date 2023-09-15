@@ -121,11 +121,10 @@
 											</div>
 											<div class="col-lg-2 text-center">
 												<p class="lead mb-15 text-center">
-													<!-- 각 항목의 id를 고유하게 만듭니다. -->
 													<input type="number" step="1" min="1" max="10" name="cart"
-														value="${cartItem.productCount}" title="qty"
+														value="${cartItem.productCount}" title="cart"
 														class="form-control qty mr-10 rounded"
-														id="quantityInput_${cartItem.productCartNo}">
+														id="quantityInput">
 											</div>
 											<button class="btn btn-xs btn-primary pill qty-update-btn"
 												style="font-size: 15px"
@@ -240,15 +239,13 @@ function deleteCart(productCartNo) {
 </script>
 	<script>
 	function updateCount(productCartNo) {
-	    var quantityInput = document.getElementById("quantityInput_" + productCartNo);
-
+		const quantityInput = document.getElementById('quantityInput');
+	    const newQuantity = quantityInput.value;
+	    
 	    if (!quantityInput) {
 	        alert("수량 입력 요소를 찾을 수 없습니다. productCartNo: " + productCartNo);
 	        return;
 	    }
-
-	    var newQuantity = quantityInput.value;
-
 	    $.ajax({
 	        type: "POST",
 	        url: "/cart/update",
@@ -260,6 +257,8 @@ function deleteCart(productCartNo) {
 	        success: function (result) {
 	            if (result === "success") {
 	                alert("변경 완료");
+	                alert(newQuantity);
+	                alert(productCartNo);
 	            } else {
 	                alert("변경 실패");
 	            }
