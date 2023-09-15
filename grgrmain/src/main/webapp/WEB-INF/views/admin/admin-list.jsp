@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -357,7 +358,7 @@ table.table-xl th,
                     
                     $.ajax({
                         type: 'POST',
-                        url: '/admin/user-update',
+                        url: "<c:url value="admin/admin/user-update"/>",
                         contentType: 'application/json',
                         data: JSON.stringify(editedUser),
                         success: function(response) {
