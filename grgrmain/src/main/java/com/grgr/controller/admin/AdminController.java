@@ -1,4 +1,4 @@
-package com.grgr.controller;
+package com.grgr.controller.admin;
 
 import java.util.Map;
 
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.grgr.controller.UserController;
 import com.grgr.dto.UserVO;
 import com.grgr.service.UserService;
 
@@ -39,7 +40,7 @@ public class AdminController {
 	    String userListJson = gson.toJson(map.get("userList"));
 	    model.addAttribute("userListJson", userListJson);
 		
-        return "admin/user-list"; 
+        return "admin/admin-list"; 
     }
     
  	/* 관리자 - 회원 정보 수정*/
@@ -53,5 +54,7 @@ public class AdminController {
             return new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    /* 관리자 - 신고 게시글 조회*/
 
 }
