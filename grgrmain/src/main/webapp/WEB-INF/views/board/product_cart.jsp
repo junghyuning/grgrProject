@@ -85,109 +85,67 @@
 
 			<!-- Main Content -->
 			<main class="main-content col-md-10">
-
 				<div>
 					<ul class="row portfolio project-grid lightbox list-unstyled mb-0"
 						id="grid" style="clear: both">
+
 						<!-- project : 게시글 list 출력 -->
 						<c:set var="i" value="0" />
-						<c:forEach items="${cartList}" var="cartList">
-							<li class="col-md-12 col-lg-0 project">
-								<!-- &pageNum=${pageNum} -->
-								<div class="promo-box">
+						<c:forEach items="${cartList}" var="cartItem">
+							<li class="col-md-12 col-lg-0 project"
+								id="project_${cartItem.productCartNo}">
+								<div class="promo-box mx-auto"
+									style="min-height: 50px; padding: 20px;">
 									<div class="cta p-0">
-										<div class="row v-center">
-											<div class="col-lg-2 tablet-lg-top-30 tablet-lg-center" >
+										<div class="row align-items-center">
+											<div class="col-lg-1 text-center">
+												<input type="checkbox" name="selectedItems"
+													class="form-check-input" value="${cartItem.productCartNo}">
+											</div>
+											<div class="col-lg-2 text-center">
+												<!-- 가운데 정렬을 위해 text-center 클래스 추가 -->
 												<img
-													src="${pageContext.request.contextPath}/upload/${fileList[i]}"
-													alt="Thumbnail" class="rounded" />
-												<c:set var="i" value="${i+1 }" />
+													src="${pageContext.request.contextPath}/images/coffee.jpg"
+													class="rounded" />
 											</div>
-											<!-- / column -->
-											<div class="row">
-												<div class="col-lg-4 text-left tablet-lg-center">
-													<a
-														href="<c:url value='/productboard/get?productId=${cartList.productId}'/>">
-														<p class="mb-20">상품명: ${cartList.productTitle}</p>
-													</a>
-												</div>
-
-												<div class="col-lg-4 text-left tablet-lg-center">
-													<p class="lead mb-20">
-														가격: &nbsp; &nbsp; <i class="fas fa-won-sign">&nbsp;
-															${cartList.productPrice}</i>
-													</p>
-												</div>
-
-												<div class="col-lg-4 text-left tablet-lg-center">
-													<p class="lead mb-20">
-														수량: &nbsp; &nbsp; <input type="number" step="1" min="1"
-															max="10" name="cart" value="${cartList.productCount }"
-															title="qty" class="form-control qty mr-10 rounded"
-															id="quantityInput">
-														<button class="btn btn-xs btn-primary pill"
-															style="font-size: 15px">변경</button>
-													</p>
-												</div>
+											<div class="col-lg-2">
+												<a
+													href="<c:url value='/productboard/get?productId=${cartItem.productId}'/>">
+													<p class="mb-20 text-center">${cartItem.productTitle}</p>
+												</a>
 											</div>
+											<div class="col-lg-2">
+												<p class="lead mb-15 text-center">
+													${cartItem.productPrice} &nbsp;<i class="fas fa-won-sign"></i>
+												</p>
+											</div>
+											<div class="col-lg-2 text-center">
+												<p class="lead mb-15 text-center">
+													<input type="number" step="1" min="1" max="10" name="cart"
+														value="${cartItem.productCount}" title="cart"
+														class="form-control qty mr-10 rounded"
+														id="quantityInput">
+											</div>
+											<button class="btn btn-xs btn-primary pill qty-update-btn"
+												style="font-size: 15px"
+												onclick="updateCount(${cartItem.productCartNo})">수량
+												변경</button>
 
-											<!-- / column -->
+											<div class="col-lg-1 text-center">
+												<button class="btn btn-xs btn-primary pill delete-btn"
+													style="font-size: 15px"
+													onclick="deleteCart(${cartItem.productCartNo})">삭제</button>
+											</div>
 										</div>
-										<!-- / row -->
 									</div>
-									<!-- / cta -->
-								</div> <!-- / promo-box --> </a>
+								</div>
 							</li>
 						</c:forEach>
+
+
 					</ul>
 				</div>
 
-				<!-- / container -->
-
-
-
-				<nav aria-label="pagination-center">
-					<ul class="pagination justify-content-center">
-						<!-- 이전 블록 이동 표시 -->
-						<c:choose>
-							<c:when test="${pager.startPage != 1 }">
-								<li class="page-item"><a class="page-link"
-									href="<c:url value='/infoboard/list${pager.searchCondition.getQueryString(pager.startPage-1)}'/>"><i
-										class="fas fa-arrow-left mb-5"></i></a></li>
-							</c:when>
-							<c:otherwise>
-								<li class="page-item disabled"><a class="page-link"
-									href="#x"><i class="fas fa-arrow-left mb-5"></i></a></li>
-							</c:otherwise>
-						</c:choose>
-						<!-- 페이지 목록 출력 -->
-						<c:forEach var="i" begin="${pager.startPage}"
-							end="${pager.endPage }">
-							<c:choose>
-								<c:when test="${i == pager.searchCondition.pageNum}">
-									<li class="page-item active"><a class="page-link"
-										href="<c:url value='/infoboard/list${pager.searchCondition.getQueryString(i)}'/>">${i}</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="page-item"><a class="page-link"
-										href="<c:url value='/infoboard/list${pager.searchCondition.getQueryString(i)}'/>">${i}</a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-						<!-- 다음 블록 이동 표시 -->
-						<c:choose>
-							<c:when test="${pager.endPage != pager.totalPage}">
-								<li class="page-item"><a class="page-link"
-									href="<c:url value='/infoboard/list${pager.searchCondition.getQueryString(pager.endPage+1)}'/>"><i
-										class="fas fa-arrow-right mb-5"></i></a></li>
-							</c:when>
-							<c:otherwise>
-								<li class="page-item disabled"><a class="page-link"
-									href="#x"><i class="fas fa-arrow-right mb-5"></i></a></li>
-							</c:otherwise>
-						</c:choose>
-					</ul>
-				</nav>
 			</main>
 		</div>
 	</div>
@@ -221,70 +179,95 @@
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
-		$(document).ready(
-				function() {
-					var keywordInput = $('input[name="searchKeyword"]');
-					$('#search-button').click(
-							function() {
-								// 선택한 검색 유형과 키워드를 가져옵니다.
-								var searchType = $('#select').val();
-								var searchKeyword = keywordInput.val();
-								var pageNum = $('input[name="pageNum"]').val();
-
-								if (searchKeyword === '') {
-									keywordInput.val('검색어를 입력하지 않으셨습니다.'); // 값을 직접 변경
-									keywordInput.css('color', 'red'); // 텍스트 색상 변경
-									return;
-								} else {
-
-									keywordInput.css('color', 'black'); // 일반 색상으로 되돌림
-								}
-
-								// url 생성
-								var url = "list?pageNum=" + pageNum
-										+ "&searchType=" + searchType
-										+ "&searchKeyword=" + searchKeyword;
-
-								//리다이렉트합니다.
-								window.location.href = url;
-							});
-
-					keywordInput.focus(function() {
-						if (keywordInput.val() === '검색어를 입력하지 않으셨습니다.') {
-							keywordInput.val(''); // 오류 메시지를 지움
-							keywordInput.css('color', 'black'); // 일반 텍스트 색상으로 되돌림
-						}
-					});
-
-					if (Modernizr.touch) {
-						// show the close overlay button
-						$('.close-overlay').removeClass('hidden');
-						// handle the adding of hover class when clicked
-						$('.img').click(function(e) {
-							if (!$(this).hasClass('hover')) {
-								$(this).addClass('hover');
-							}
-						});
-						// handle the closing of the overlay
-						$('.close-overlay').click(function(e) {
-							e.preventDefault();
-							e.stopPropagation();
-							if ($(this).closest('.img').hasClass('hover')) {
-								$(this).closest('.img').removeClass('hover');
-							}
-						});
-					} else {
-						// handle the mouseenter functionality
-						$('.img').mouseenter(function() {
-							$(this).addClass('hover');
-						})
-						// handle the mouseleave functionality
-						.mouseleave(function() {
-							$(this).removeClass('hover');
-						});
+		$(document).ready(function() {
+			if (Modernizr.touch) {
+				// show the close overlay button
+				$('.close-overlay').removeClass('hidden');
+				// handle the adding of hover class when clicked
+				$('.img').click(function(e) {
+					if (!$(this).hasClass('hover')) {
+						$(this).addClass('hover');
 					}
 				});
+				// handle the closing of the overlay
+				$('.close-overlay').click(function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(this).closest('.img').hasClass('hover')) {
+						$(this).closest('.img').removeClass('hover');
+					}
+				});
+			} else {
+				// handle the mouseenter functionality
+				$('.img').mouseenter(function() {
+					$(this).addClass('hover');
+				})
+				// handle the mouseleave functionality
+				.mouseleave(function() {
+					$(this).removeClass('hover');
+				});
+			}
+		});
 	</script>
-	<!-- / portfolio script -->
+	<script>
+function deleteCart(productCartNo) {
+    if (confirm("정말로 삭제하시겠습니까?")) {
+        $.ajax({
+            type: "POST",
+            url: "/cart/delete",
+            data: {
+                productCartNo: productCartNo
+            },
+            dataType: "text", 
+            success: function(result) {
+                if (result === "success") {
+                    // 삭제 성공한 경우, 현재 항목을 화면에서 제거
+                	   //$("#project_"+productCartNo).remove();
+                    location.reload();
+                } else {
+                    // 삭제 실패한 경우, 오류 처리
+                    alert("삭제 실패");
+                }
+            },
+            error: function() {
+                // 서버 오류 발생 시 처리 (예: 경고 메시지)
+                alert("서버 오류 발생");
+            }
+        });
+    }
+}
+</script>
+	<script>
+	function updateCount(productCartNo) {
+		const quantityInput = document.getElementById('quantityInput');
+	    const newQuantity = quantityInput.value;
+	    
+	    if (!quantityInput) {
+	        alert("수량 입력 요소를 찾을 수 없습니다. productCartNo: " + productCartNo);
+	        return;
+	    }
+	    $.ajax({
+	        type: "POST",
+	        url: "/cart/update",
+	        data: {
+	            productCartNo: productCartNo,
+	            productCount: newQuantity
+	        },
+	        dataType: "text",
+	        success: function (result) {
+	            if (result === "success") {
+	                alert("변경 완료");
+	                alert(newQuantity);
+	                alert(productCartNo);
+	            } else {
+	                alert("변경 실패");
+	            }
+	        },
+	        error: function () {
+	            alert("변경 오류.");
+	        }
+	    });
+	}
+</script>
 </body>
 </html>
