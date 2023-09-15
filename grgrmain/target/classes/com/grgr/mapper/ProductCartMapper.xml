@@ -17,7 +17,7 @@
 	</delete>
 
 	<!-- 수량 변경 -->
-	<update id="updateCount">
+	<update id="updateCart">
 		UPDATE PRODUCT_CART SET PRODUCT_COUNT =
 		#{productCount} WHERE
 		PRODUCT_CART_NO = #{productCartNo}
