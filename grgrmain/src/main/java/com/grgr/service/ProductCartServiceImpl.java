@@ -43,6 +43,7 @@ public class ProductCartServiceImpl implements ProductCartService {
 	@Override
 	public int modifyCart(ProductCartDTO cart) {
 		try {
+			System.out.println(cart.getProductCartNo()+" =  "+cart.getProductCount());
 			return productCartDAO.updateCart(cart);
 		} catch (Exception e) {
 			return 1;

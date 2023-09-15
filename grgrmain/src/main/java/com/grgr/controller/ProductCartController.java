@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,8 +68,9 @@ public class ProductCartController {
 
 	@PostMapping("/update")
 	@ResponseBody
-	public String updateCartPost(@RequestParam ProductCartDTO cart) {
+	public String updateCartPost(@ModelAttribute ProductCartDTO cart) {
 		int result = productCartService.modifyCart(cart);
+		System.out.println(result);
 		if (result >= 1) {
 			return "success";
 		} else {
