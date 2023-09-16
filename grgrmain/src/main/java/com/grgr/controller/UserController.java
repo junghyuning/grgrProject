@@ -177,7 +177,8 @@ public class UserController {
 				session.setAttribute("loginUno", loginSuccessUser.getUno());
 				session.setAttribute("loginActive", loginSuccessUser.getActive());
 				session.setAttribute("loginUserStatus", loginSuccessUser.getUserStatus());
-				session.setAttribute("loginUserLoc", loginSuccessUser.getLastLogin());
+				session.setAttribute("loginLastLogin", loginSuccessUser.getLastLogin());
+				session.setAttribute("loginLoc", loginSuccessUser.getUserLoc());
 				return "redirect:/main"; // 메인페이지 이동
 			} else {
 				rttr.addFlashAttribute("result", 0);

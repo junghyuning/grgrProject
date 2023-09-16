@@ -21,5 +21,5 @@ public class UserVO {
 	private Date regDate;
 	private Date userUpdate;
 	private int userUpdateUno;
-	private String userLocation;
+	private String userLoc;
 }

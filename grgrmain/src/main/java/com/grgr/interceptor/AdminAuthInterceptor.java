@@ -14,6 +14,11 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
 		// TODO Auto-generated method stub
 		
 		HttpSession session = request.getSession();		
+		if(session.getAttribute("loginUserStatus")==null) {
+			response.sendRedirect(request.getContextPath()+"/404");
+			return false;
+		}
+		
 		Integer loginUserStatus =(Integer)session.getAttribute("loginUserStatus"); 
 		//int loginActive = (int)session.getAttribute("loginActive");
 		if(loginUserStatus != 1) {

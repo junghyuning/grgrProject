@@ -223,6 +223,8 @@
 
 												var title = document
 														.getElementsByName('productTitle')[0].value;
+												var price = document
+														.getElementsByName('productPrice')[0].value;
 												var content = document
 														.getElementsByName('productContent')[0].value;
 

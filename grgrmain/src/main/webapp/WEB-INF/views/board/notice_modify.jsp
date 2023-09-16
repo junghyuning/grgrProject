@@ -65,7 +65,6 @@
 		</div>
 		<!-- / container -->
 	</header>
-	</header>
 
 	<div id="preloader">
 		<div class="preloader">
@@ -89,10 +88,10 @@
 				</div>
 				<form action="modify" method="post" class="validation-inner"
 					id="form-validation" novalidate="novalidate">
-					<input type="hidden" name="uno" value="${noticeBoard.uno}" /> <input
-						type="hidden" name="noticeBno" value="${noticeBoard.noticeBno}" />
-					<input type="hidden" name="noticeUpdateUno"
-						value="${sessionScope.loginUno}" />
+					<input type="hidden" name="uno" value="${noticeBoard.uno}" /> 
+					<input type="hidden" name="noticeBno" value="${noticeBoard.noticeBno}" /> 
+					<input type="hidden" name="loginUserStatus" value="${sessionScope.loginUserStatus}" />
+					<input type="hidden" name="noticeUpdateUno" value="${sessionScope.loginUno}" />
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
@@ -126,10 +125,11 @@
 							href="<c:url value='/noticeboard/list${searchCondition.getQueryString()}'/>">
 							<button type="button" class="btn btn-primary-gradient">수정취소</button>
 						</a>
+						<c:if test="${sessionScope.loginUserStatus == 1 }">
 						<button type="button" id="modify-submit"
 							class="btn btn-primary-gradient">수정</button>
+						</c:if>
 					</div>
-
 				</form>
 				<!-- / form-group -->
 			</div>
@@ -166,37 +166,29 @@
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
 		$(document)
-				.ready(
-						function() {
+		.ready(
+			function() {
 
-							document
-									.querySelector('#modify-submit')
-									.addEventListener(
-											'click',
-											function() {
-												var infoBoardUno = "${noticeBoard.uno}";
-												var loginUno = "${sessionScope.loginUno}";
+			document
+				.querySelector('#modify-submit')
+				.addEventListener(
+					'click',
+					function() {
+						
+						var title = document
+								.getElementsByName('noticeTitle')[0].value;
+						var content = document
+								.getElementsByName('noticeContent')[0].value;
 
-												//권한이 없는 사용자가 get방식으로 페이지를 요청하여 수정하는것 방지
-												if (noticeBoardUno !== loginUno) {
-													window.location.href = "<c:url value="/404"/>";
-													return;
-												}
-
-												var title = document
-														.getElementsByName('noticeTitle')[0].value;
-												var content = document
-														.getElementsByName('noticeContent')[0].value;
-
-												if (title.trim() === ''
-														|| content.trim() === '') {
-													alert('제목과 내용을 모두 입력해주세요.');
-												} else {
-													document.getElementById(
-															'form-validation')
-															.submit(); // 폼을 제출
-												}
-											});
+						if (title.trim() === ''
+								|| content.trim() === '') {
+							alert('제목과 내용을 모두 입력해주세요.');
+						} else {
+							document.getElementById(
+									'form-validation')
+									.submit(); // 폼을 제출
+						}
+					});
 							if (Modernizr.touch) {
 								// show the close overlay button
 								$('.close-overlay').removeClass('hidden');

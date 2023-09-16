@@ -70,6 +70,7 @@
 }
 </style>
 <body>
+	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<div id="preloader">
 		<div class="preloader">
 			<span></span> <span></span>
@@ -95,53 +96,6 @@
 					class="btn btn-outline-primary m-y-10 mr-10">내가 쓴 댓글</a></li>
 			</ul>
 
-
-			<div>
-				<!-- 검색 -->
-				<!-- select -->
-				<%-- <div class="card">
-					<div class="card-body"
-						style="padding-bottom: 20px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
-						<form action="list" method="get"
-							class="d-flex align-items-center justify-content-between">
-							<input type="hidden" name="pageNum" value="1">
-							<div class="col-md-3 tablet-top" style="padding-right: 10px">
-								<select class="custom-select" id="select" name="searchType">
-									<option value="TC"
-										${pager.searchCondition.searchType == 'TC' ? 'selected' : ''}>제목+내용</option>
-									<option value="T"
-										${pager.searchCondition.searchType == 'T' ? 'selected' : ''}>제목</option>
-									<option value="C"
-										${pager.searchCondition.searchType == 'C' ? 'selected' : ''}>내용</option>
-									<!-- 나머지 옵션 -->
-								</select>
-								<!-- / custom-select -->
-							</div>
-							<!-- / column -->
-							<div class="input-group input-w-overlap-btn mb-0">
-								<input type="text" class="form-control pill"
-									name="searchKeyword" placeholder="검색어를 입력하세요."
-									value="${pager.searchCondition.searchKeyword }" /> <span
-									class="input-group-btn">
-									<button id="search-button"
-										class="btn btn-sm btn-primary lh-0 overlapping-btn big-btn pill"
-										type="button">
-										<i class="fas fa-search mr-5"></i> 검색
-									</button>
-								</span>
-								<!-- / input-group-btn -->
-							</div>
-							<!-- / input-group -->
-						</form>
-					</div>
-				</div> --%>
-
-				<!-- 검색입력창 -->
-
-				<!-- 글쓰기버튼 -->
-
-			</div>
-
 			<div>
 				<ul class="row portfolio project-grid lightbox list-unstyled mb-0"
 					id="grid" style="clear: both">
@@ -161,7 +115,28 @@
 										<!-- / column -->
 										<div class="col-lg-10 text-left tablet-lg-center">
 
-											<p class="lead mb-20">${commentList.content}</p>
+											<c:choose>
+												<c:when test="${commentList.boardtype == 'QNA'}">
+													<a
+														href="<c:url value='/qnaboard/read?qnaBno=${commentList.bno}'/>">
+														<p class="mb-20">${commentList.content}</p>
+													</a>
+												</c:when>
+												<c:when test="${commentList.boardtype == 'INFO'}">
+
+													<a
+														href="<c:url value='/infoboard/read?infoBno=${commentList.bno}'/>">
+														<p class="mb-20">${commentList.content}</p>
+													</a>
+												</c:when>
+												<c:when test="${commentList.boardtype == 'FREE'}">
+
+													<a
+														href="<c:url value='/freeboard/read?freeBno=${commentList.bno}'/>">
+														<p class="mb-20">${commentList.content}</p>
+													</a>
+												</c:when>
+											</c:choose>
 											<p class="fs-16 post-meta-small mt-15 mb-0"
 												style="text-align: right">
 												<span class="m-x-10 text-muted">|</span> <i
@@ -217,33 +192,7 @@
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
 
 	<!-- footer 영역 -->
-	<footer>
-		<div class="container">
-			<div class="row v-center mobile-center">
-				<div class="col-md-4 footer-left-area tablet-top">
-					<p>
-						© Soft UI by <a href="https://kingstudio.ro" target="_blank">KingStudio</a>
-					</p>
-				</div>
-				<!-- / footer-left-area -->
-				<div class="col-md-8 footer-right-area">
-					<p>
-						<a href="${pageContext.request.contextPath}/index.html"
-							class="text-link mr-15">Home</a> <a
-							href="${pageContext.request.contextPath}/components.html"
-							class="text-link mr-15">Components</a> <a
-							href="${pageContext.request.contextPath}/sections.html"
-							class="text-link mr-15">Sections</a> <a
-							href="${pageContext.request.contextPath}/templates.html"
-							class="text-link">Templates</a>
-					</p>
-				</div>
-				<!-- / footer-right-area -->
-			</div>
-			<!-- / row -->
-		</div>
-		<!-- / container -->
-	</footer>
+	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 
 	<!-- core JavaScript -->
 	<script

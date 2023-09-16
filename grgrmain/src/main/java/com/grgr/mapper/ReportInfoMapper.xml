@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grgr.mapper.ReportInfoMapper">
+
+		<!-- 게시글 신고 삽입 -->
+	<insert id="insertReportInfoBoard">
+		INSERT INTO REPORT_INFOBOARD
+		(REPORT_INFOBOARD_NO, UNO,
+		INFO_BNO,
+		REPORT_INFOBOARD_REASON)
+		VALUES(REPORT_INFOBOARD_SEQ.NEXTVAL, #{uno},
+		#{infoBno},
+		#{reportInfoboardReason})
+	</insert>
+
+	<!-- 신고 게시글 카운트 증가 -->
+	<update id="increaseInfoBoardReportCnt">
+		update INFO_BOARD set INFO_REPORT_CNT = INFO_REPORT_CNT+1
+		where INFO_BNO=#{infoBno}
+	</update>
+
+
+	<!-- 중복 신고 여부 확인 : 테이블내에 본인 해당 게시글에 대한 신고한 이력 COUNT -->
+	<select id="checkDuplicateReport">
+		SELECT COUNT(*)
+		FROM REPORT_INFOBOARD
+		WHERE UNO = #{uno}
+		AND INFO_BNO = #{infoBno}
+	</select>
+	
+</mapper>
+       

@@ -7,10 +7,10 @@
 		INSERT INTO USERINFO(UNO, USER_NAME, USER_ID,
 		USER_PW, NICKNAME, PHONE, EMAIL, BUSINESS_NO, USER_STATUS)
 		VALUES(UNO_SEQ.NEXTVAL,
-		#{USERNAME},#{USERID}, #{USERPW},
-		#{NICKNAME},
-		#{PHONE}, #{EMAIL},
-		#{BUSINESSNO},2)
+		#{userName},#{userId}, #{userPw},
+		#{nickName},
+		#{phone}, #{email},
+		#{businessNo},2)
 	</insert>
 
 	<!-- 아이디 중복 검사 -->
@@ -29,7 +29,8 @@
 	<!-- 로그인 -->
 	<select id="userLogin" resultType="com.grgr.dto.UserVO">
 
-		select * from USERINFO where USER_ID = #{userId}
+		select * from USERINFO where
+		USER_ID = #{userId}
 	</select>
 
 
@@ -40,7 +41,7 @@
     FROM (
         SELECT ROWNUM AS rn, u.*
         FROM (
-            SELECT UNO, USER_NAME, NICKNAME, USER_PW, USER_ID, PHONE, EMAIL, USER_STATUS, ACTIVE, POINT, BUSINESS_NO, LAST_LOGIN, REGDATE, USER_UPDATE, USER_UPDATE_UNO
+            SELECT UNO, USER_NAME, NICKNAME, USER_PW, USER_ID, PHONE, EMAIL, USER_STATUS, ACTIVE, POINT, BUSINESS_NO, USER_LOC, LAST_LOGIN, REGDATE, USER_UPDATE, USER_UPDATE_UNO
             FROM USERINFO
             ORDER BY UNO DESC
         ) u
@@ -58,7 +59,8 @@
 	<!-- user-update 쿼리 -->
 	<update id="updateUser" parameterType="com.grgr.dto.UserVO">
 		UPDATE userinfo
-		SET user_name = #{userName},
+		SET
+		user_name = #{userName},
 		nickname = #{nickName},
 		user_id = #{userId},
 		phone=#{phone},
@@ -67,7 +69,7 @@
 		active=#{active},
 		point=#{point},
 		business_no=#{businessNo},
-		user_update_uno=7
+		user_update_uno=#{userUpdateUno}
 		WHERE uno = #{uno}
 	</update>
 
@@ -77,7 +79,8 @@
 		SELECT user_id
 		FROM userinfo
 		WHERE user_name = #{name}
-		AND email = #{email}
+		AND
+		email = #{email}
 	</select>
 
 	<!-- 비밀번호 찾기 -->
@@ -88,7 +91,8 @@
 		resultType="com.grgr.dto.UserVO">
 		SELECT * FROM userinfo
 		WHERE user_id = #{userId}
-		AND email = #{email}
+		AND email =
+		#{email}
 	</select>
 
 	<!-- 사용자 비밀번호 업데이트 -->
@@ -96,7 +100,8 @@
 		parameterType="com.grgr.dto.UserVO">
 		UPDATE userinfo
 		SET user_pw = #{userPw}
-		WHERE user_id = #{userId}
+		WHERE user_id =
+		#{userId}
 	</update>
 
 	<!-- 회원 조회 -->
@@ -124,6 +129,7 @@
 		<result column="BNO" property="bno" />
 		<result column="CONTENT" property="content" />
 		<result column="REGDATE" property="regdate" />
+		<result column="BOARDTYPE" property="boardtype" />
 		<result column="UNO" property="uno" />
 	</resultMap>
 
@@ -134,6 +140,8 @@
 		FROM (
 		SELECT
 		UNO,
+		BNO,
+		BOARDTYPE,
 		CONTENT,
 		REGDATE,
 		ROW_NUMBER()
@@ -141,7 +149,10 @@
 		FROM (
 		SELECT
 		INFO_COMMENT.UNO AS UNO,
-		INFO_COMMENT.INFO_COMMENT_CONTENT AS CONTENT,
+		INFO_COMMENT.INFO_BNO AS BNO,
+		INFO_COMMENT.BOARDTYPE AS BOARDTYPE,
+		INFO_COMMENT.INFO_COMMENT_CONTENT
+		AS CONTENT,
 		INFO_COMMENT.INFO_COMMENT_REGDATE AS REGDATE
 		FROM
 		INFO_COMMENT
@@ -150,12 +161,16 @@
 		WHERE
 		INFO_COMMENT.UNO =
 		#{uno}
+		AND INFO_COMMENT.INFO_COMMENT_BLINDSTATE = 1
 
 		UNION ALL
 
 		SELECT
 		FREE_COMMENT.UNO AS UNO,
-		FREE_COMMENT.FREE_COMMENT_CONTENT AS CONTENT,
+		FREE_COMMENT.FREE_BNO AS BNO,
+		FREE_COMMENT.BOARDTYPE AS BOARDTYPE,
+		FREE_COMMENT.FREE_COMMENT_CONTENT
+		AS CONTENT,
 		FREE_COMMENT.FREE_COMMENT_REGDATE AS REGDATE
 		FROM
 		FREE_COMMENT
@@ -164,11 +179,14 @@
 		WHERE
 		FREE_COMMENT.UNO =
 		#{uno}
+		AND FREE_COMMENT.FREE_COMMENT_BLINDSTATE = 1
 
 		UNION ALL
 
 		SELECT
 		QNA_COMMENT.UNO AS UNO,
+		QNA_COMMENT.QNA_BNO AS BNO,
+		QNA_COMMENT.BOARDTYPE AS BOARDTYPE,
 		QNA_COMMENT.QNA_COMMENT_CONTENT AS
 		CONTENT,
 		QNA_COMMENT.QNA_COMMENT_REGDATE AS REGDATE
@@ -178,11 +196,16 @@
 		USERINFO
 		ON QNA_COMMENT.UNO = USERINFO.UNO
 		WHERE
-		QNA_COMMENT.UNO = #{uno}
+		QNA_COMMENT.UNO =
+		#{uno}
+		AND QNA_COMMENT.QNA_COMMENT_BLINDSTATE = 1
 		)
 		COMBINED
 		) TEMP
-		WHERE RN BETWEEN #{startRow} AND #{endRow}
+		WHERE
+		RN
+		BETWEEN #{startRow} AND #{endRow}
+
 
 	</select>
 
@@ -196,12 +219,22 @@
 		FROM INFO_COMMENT
 		WHERE INFO_COMMENT.UNO =
 		#{uno}
+		AND
+		INFO_COMMENT.INFO_COMMENT_BLINDSTATE = 1
 		UNION ALL
 		SELECT QNA_COMMENT.UNO AS UNO
 		FROM QNA_COMMENT
 		WHERE
 		QNA_COMMENT.UNO
 		= #{uno}
+		AND QNA_COMMENT.QNA_COMMENT_BLINDSTATE = 1
+		UNION ALL
+		SELECT FREE_COMMENT.UNO AS UNO
+		FROM FREE_COMMENT
+		WHERE
+		FREE_COMMENT.UNO
+		= #{uno}
+		AND FREE_COMMENT.FREE_COMMENT_BLINDSTATE = 1
 		) total
 	</select>
 
@@ -213,6 +246,8 @@
 		<result column="REGDATE" property="regdate" />
 		<result column="VIEW_CNT" property="viewCnt" />
 		<result column="NICKNAME" property="nickName" />
+		<result column="BOARDTYPE" property="boardtype" />
+		<result column="BNO" property="bno" />
 		<result column="UNO" property="uno" />
 	</resultMap>
 	<select id="getBoardWriteList" resultMap="boardWriteResultMap"
@@ -221,67 +256,95 @@
 		FROM (
 		SELECT
 		UNO,
+		BNO,
 		TITLE,
 		CONTENT,
 		VIEWCNT,
 		REGDATE,
 		NICKNAME,
-		ROW_NUMBER() OVER (ORDER BY REGDATE DESC) AS RN
+		BOARDTYPE,
+		ROW_NUMBER() OVER (ORDER BY REGDATE
+		DESC)
+		AS
+		RN
 		FROM (
 		SELECT
 		INFO_BOARD.UNO AS UNO,
+		INFO_BOARD.INFO_BNO AS
+		BNO,
 		INFO_BOARD.INFO_TITLE AS TITLE,
 		INFO_BOARD.INFO_CONTENT AS CONTENT,
-		INFO_BOARD.INFO_VIEW_CNT AS
-		VIEWCNT,
+		INFO_BOARD.INFO_VIEW_CNT AS VIEWCNT,
 		INFO_BOARD.INFO_REGDATE AS
 		REGDATE,
+		INFO_BOARD.BOARDTYPE AS BOARDTYPE,
 		USERINFO.NICKNAME AS
 		NICKNAME
 		FROM INFO_BOARD
-		JOIN USERINFO ON
-		INFO_BOARD.UNO = USERINFO.UNO
-		WHERE INFO_BOARD.UNO = #{uno}
+		JOIN USERINFO ON INFO_BOARD.UNO = USERINFO.UNO
+		WHERE INFO_BOARD.UNO = #{uno} AND INFO_BOARD.INFO_BLINDSTATE = 1
 
-		UNION ALL
+		UNION
+		ALL
 
 		SELECT
 		QNA_BOARD.UNO AS UNO,
+		QNA_BOARD.QNA_BNO AS BNO,
 		QNA_BOARD.QNA_TITLE AS TITLE,
 		QNA_BOARD.QNA_CONTENT AS CONTENT,
 		QNA_BOARD.QNA_VIEW_CNT AS VIEWCNT,
 		QNA_BOARD.QNA_REGDATE AS REGDATE,
+		QNA_BOARD.BOARDTYPE AS BOARDTYPE,
 		USERINFO.NICKNAME AS NICKNAME
-		FROM QNA_BOARD
-		JOIN USERINFO ON
-		QNA_BOARD.UNO = USERINFO.UNO
-		WHERE QNA_BOARD.UNO = #{uno}
+		FROM
+		QNA_BOARD
+		JOIN USERINFO ON QNA_BOARD.UNO = USERINFO.UNO
+		WHERE
+		QNA_BOARD.UNO = #{uno} AND QNA_BOARD.QNA_BLINDSTATE = 1
 
 		UNION ALL
 
 		SELECT
 		FREE_BOARD.UNO AS UNO,
+		FREE_BOARD.FREE_BNO AS BNO,
 		FREE_BOARD.FREE_TITLE AS TITLE,
 		FREE_BOARD.FREE_CONTENT AS CONTENT,
-		FREE_BOARD.FREE_VIEW_CNT AS
-		VIEWCNT,
+		FREE_BOARD.FREE_VIEW_CNT AS VIEWCNT,
 		FREE_BOARD.FREE_REGDATE AS
 		REGDATE,
+		FREE_BOARD.BOARDTYPE AS BOARDTYPE,
 		USERINFO.NICKNAME AS
 		NICKNAME
-		FROM
-		FREE_BOARD
-		JOIN USERINFO ON
-		FREE_BOARD.UNO = USERINFO.UNO
-		WHERE
-		FREE_BOARD.UNO = #{uno}
+		FROM FREE_BOARD
+		JOIN USERINFO ON FREE_BOARD.UNO = USERINFO.UNO
+		WHERE FREE_BOARD.UNO = #{uno} AND FREE_BOARD.FREE_BLINDSTATE = 1
+
+		UNION
+		ALL
+
+		SELECT
+		PRODUCT_BOARD.UNO AS UNO,
+		PRODUCT_BOARD.PRODUCT_ID AS
+		BNO,
+		PRODUCT_BOARD.PRODUCT_TITLE AS TITLE,
+		PRODUCT_BOARD.PRODUCT_CONTENT AS
+		CONTENT,
+		PRODUCT_BOARD.PRODUCT_VIEW_CNT AS VIEWCNT,
+		PRODUCT_BOARD.PRODUCT_REGDATE AS REGDATE,
+		PRODUCT_BOARD.BOARDTYPE AS
+		BOARDTYPE,
+		USERINFO.NICKNAME AS NICKNAME
+		FROM PRODUCT_BOARD
+		JOIN USERINFO
+		ON PRODUCT_BOARD.UNO = USERINFO.UNO
+		WHERE PRODUCT_BOARD.UNO = #{uno}
+		AND PRODUCT_BOARD.PRODUCT_BLINDSTATE = 1
 		) COMBINED
-		)
-		TEMP
-		WHERE RN BETWEEN
-		#{startRow} AND
-		#{endRow}
+		) TEMP
+		WHERE RN
+		BETWEEN #{startRow} AND #{endRow}
 	</select>
+
 
 	<!-- 내가 쓴 전체 게시글 갯수 -->
 	<select id="selectWriteCount" resultType="int"
@@ -289,21 +352,32 @@
 		SELECT COUNT(*) AS total_count
 		FROM (
 		SELECT
-		INFO_BOARD.UNO AS UNO
+		INFO_BOARD.UNO
 		FROM INFO_BOARD
 		WHERE INFO_BOARD.UNO = #{uno}
+		AND
+		INFO_BOARD.INFO_BLINDSTATE = 1
 		UNION ALL
-		SELECT QNA_BOARD.UNO AS UNO
-		FROM QNA_BOARD
-		WHERE QNA_BOARD.UNO
-		= #{uno}
+		SELECT QNA_BOARD.UNO
+		FROM
+		QNA_BOARD
+		WHERE QNA_BOARD.UNO = #{uno}
+		AND QNA_BOARD.QNA_BLINDSTATE = 1
 		UNION ALL
-		SELECT FREE_BOARD.UNO AS UNO
+		SELECT FREE_BOARD.UNO
 		FROM FREE_BOARD
-		WHERE
-		FREE_BOARD.UNO = #{uno}
+		WHERE FREE_BOARD.UNO =
+		#{uno}
+		AND FREE_BOARD.FREE_BLINDSTATE = 1
+		UNION ALL
+		SELECT
+		PRODUCT_BOARD.UNO
+		FROM PRODUCT_BOARD
+		WHERE PRODUCT_BOARD.UNO = #{uno}
+		AND PRODUCT_BOARD.PRODUCT_BLINDSTATE = 1
 		) total
 	</select>
+
 
 
 	<!-- 검색 조건문 -->
@@ -333,7 +407,8 @@
 		parameterType="java.util.Map">
 		UPDATE userinfo
 		SET user_loc = #{address}
-		WHERE user_id = #{loginId}
+		WHERE user_id =
+		#{loginId}
 	</update>
 
 </mapper>

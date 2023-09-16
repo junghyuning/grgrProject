@@ -10,4 +10,5 @@ public class MyCommentDTO {
 	private int uno;
 	private String content;
 	private Date regdate;
+	private String boardtype;
 }

@@ -199,7 +199,7 @@
 				<c:forEach var="sales" items="${newSalesList }">
 					<li class="col-md-4">
 						<div class="card-body">
-							<a href="<c:url value="/board/list"/>">
+							<a href="<c:url value="/productboard/list"/>">
 								<div class="card-body text-center">
 									<img class="mb-30 w-90"
 										src="${pageContext.request.contextPath}/images/vanner1.jpg"

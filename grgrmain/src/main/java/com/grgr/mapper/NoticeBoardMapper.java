@@ -11,7 +11,7 @@ public interface NoticeBoardMapper {
 	int noticeBoardCount(Map<String, Object> map);
 	int insertNoticeBoard(NoticeBoard noticeBoard);
 	int updateNoticeBoard(NoticeBoard noticeBoard);
-	int deleteNoticeBoard(@Param("noticeBno") int noticeBno,@Param("uno") int uno);
+	int deleteNoticeBoard(@Param("noticeBno") int noticeBno, @Param("uno") int uno, @Param("userStatus") int loginUserStatus);
 	int increaseNoticeViewCnt(int noticeBno);
 	NoticeBoard selectNoticeBoard(int noticeBno);
 	Integer selectPrevNoticeBno(Map<String, Object> map);

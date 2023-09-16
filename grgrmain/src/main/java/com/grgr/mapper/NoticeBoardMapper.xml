@@ -48,11 +48,13 @@
 
 	<!-- 자신의 게시글 삭제 -->
 	<update id="deleteNoticeBoard">
-		update notice_board set notice_blindstate = 2,
+		update notice_board set notice_blindstate = 3,
 		notice_update=sysdate, notice_update_uno = #{uno}
 		where
 		notice_bno=#{noticeBno}
+		and #{userStatus} = 1
 		and uno=#{uno}
+		
 	</update>
 
 	<!-- n번 게시글 -->

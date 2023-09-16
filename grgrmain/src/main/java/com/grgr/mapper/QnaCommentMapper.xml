@@ -65,11 +65,11 @@
 	<update id="deleteQnaComment">
 		update QNA_COMMENT set QNA_COMMENT_BLINDSTATE = 3,
 		QNA_COMMENT_UPDATE= SYSDATE,
-		QNA_COMMENT_UPDATE_UNO = #{uno}
+		QNA_COMMENT_UPDATE_UNO = #{uno} 
 		WHERE
 		QNA_COMMENT_NO=#{qnaCommentNo}
 		AND UNO = #{uno}
-		AND
+		AND 
 		QNA_COMMENT_BLINDSTATE = 1
 	</update>
 

@@ -6,6 +6,8 @@
 0909 - 사진(파일) 삭제 매퍼 추가
  -->
 <mapper namespace="com.grgr.mapper.InfoBoardMapper">
+
+
 	<!-- 검색 조건문 -->
 	<!-- TC:제목+내용, T: 제목, W: 작성자, -->
 	<sql id="search">
@@ -25,6 +27,13 @@
 		</trim>
 	</sql>
 
+	<!-- 관리자일 경우 모든 위치의 글을 조회할 수 있는 권한을 주기위한 조건문 
+			관리자가 아닐시, 위치 조건을 추가함-->
+	<sql id="notAdmin">
+		<if test="loginUserStatus!=1">
+		I.INFO_LOC = #{infoLoc} AND</if>
+	</sql>
+	
 	<!-- 총게시글 수 -->
 	<select id="infoBoardCount" resultType="int">
 		SELECT COUNT(*)
@@ -32,7 +41,7 @@
 		JOIN USERINFO U ON I.UNO = U.UNO
 		WHERE
 		<include refid="search" />
-		I.info_Loc=#{infoLoc} AND I.info_blindstate=1
+		<include refid="notAdmin"/> I.info_blindstate=1
 		<if test="infoKeyword != null and infoKeyword != ''">
 			AND I.info_keyword = #{infoKeyword}
 		</if>
@@ -87,7 +96,7 @@
 		I.INFO_BNO, I.UNO,
 		I.INFO_KEYWORD, I.INFO_TITLE, I.INFO_CONTENT, I.INFO_LOC,
 		I.INFO_VIEW_CNT,
-		I.INFO_REPORT_NO,
+		I.INFO_REPORT_CNT,
 		I.INFO_BLINDSTATE, I.INFO_REGDATE,
 		I.INFO_UPDATE,
 		I.INFO_UPDATE_UNO,
@@ -107,7 +116,7 @@
 		join USERINFO U on I.UNO = U.UNO
 		where
 		<include refid="search" />
-		I.info_Loc=#{infoLoc} and I.info_bno  &lt; #{infoBno} and I.info_blindstate = 1
+		<include refid="notAdmin"/> I.info_bno  &lt; #{infoBno} and I.info_blindstate = 1
 		<if test="infoKeyword != null and infoKeyword != ''">
 			and I.info_keyword = #{infoKeyword}
 		</if>
@@ -120,7 +129,7 @@
 		join USERINFO U on I.UNO = U.UNO
 		where
 		<include refid="search" />
-		I.info_Loc=#{infoLoc} and I.info_bno &gt; #{infoBno} and I.info_blindstate = 1
+		<include refid="notAdmin"/> I.info_bno &gt; #{infoBno} and I.info_blindstate = 1
 		<if test="infoKeyword != null and infoKeyword != ''">
 			and I.info_keyword = #{infoKeyword}
 		</if>
@@ -140,7 +149,7 @@
 		SUBSTR(I.INFO_CONTENT,1,40) AS INFO_CONTENT, 
 		I.INFO_LOC,
 		I.INFO_VIEW_CNT,
-		I.INFO_REPORT_NO,
+		I.INFO_REPORT_CNT,
 		I.INFO_BLINDSTATE, I.INFO_REGDATE,
 		I.INFO_UPDATE,
 		I.INFO_UPDATE_UNO,
@@ -151,7 +160,8 @@
 		USERINFO U on I.UNO = U.UNO
 		WHERE
 		<include refid="search" />
-		I.INFO_LOC = #{infoLoc} AND I.INFO_BLINDSTATE = 1
+		<include refid="notAdmin"/>
+		 I.INFO_BLINDSTATE = 1
 		<if test="infoKeyword != null and infoKeyword != ''">
 			and I.info_keyword = #{infoKeyword}
 		</if>
@@ -179,13 +189,6 @@
 	</update>
 
 
-	<!-- 신고수 증가 -->
-	<update id="increaseInfoReportNo">
-		UPDATE info_board
-		SET
-		info_report_no = info_report_no + 1
-		WHERE info_bno = #{infoBno}
-	</update>
 
 	<!-- 이미지파일 업로드 : INFO_FILE_UPDATE_UNO 는 로그인 기능 완성시 추가할 것 -->
 	<insert id="insertInfoFile">
@@ -201,8 +204,7 @@
 	<select id="selectInfoFile">
 		select info_file_no, info_bno, info_file_origin,
 		info_file_upload from info_file where info_bno = #{infoBno}
-		order by
-		info_file_no
+		order by info_file_no
 	</select>
 	
 	<!-- 이미지파일 삭제 -->

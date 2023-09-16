@@ -97,8 +97,8 @@
 					<!-- <input type="hidden" name="uno" value="loginUno" /><input type="hidden" name="infoUpdateUno" value="loginUno" /><input type="hidden"
 						name="infoLoc" value="loginLoc" />  -->
 					<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
-					<input type="hidden" name="noticeUpdateUno"
-						value="${sessionScope.loginUno}" />
+					<input type="hidden" name="loginUserStatus" value="${sessionScope.loginUserStatus}" />
+					<input type="hidden" name="noticeUpdateUno" value="${sessionScope.loginUno}" />
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
@@ -131,10 +131,13 @@
 								<button type="button" class="btn btn-primary-gradient">작성
 									취소</button>
 							</a>
+							<c:if test="${sessionScope.loginUserStatus == 1 }">
 							<button type="button" class="btn btn-primary-gradient"
 								id="write-submit">등록</button>
+							</c:if>
 						</div>
 					</div>
+					
 				</form>
 				<!-- / form-group 폼 제출 완료 -->
 			</div>
@@ -172,26 +175,27 @@
 
 	<script>
 		$(document)
-				.ready(
-						function() {
-							document
-									.querySelector('#write-submit')
-									.addEventListener(
-											'click',
-											function() {
-												var title = document
-														.getElementsByName('noticeTitle')[0].value;
-												var content = document
-														.getElementsByName('noticeContent')[0].value;
-												if (title.trim() === ''
-														|| content.trim() === '') {
-													alert('제목과 내용을 모두 입력해주세요.');
-												} else {
-													document.getElementById(
-															'form-validation')
-															.submit(); // 폼을 제출
-												}
-											});
+		.ready(
+			function() {
+			document
+				.querySelector('#write-submit')
+				.addEventListener(
+					'click',
+					function() {
+
+						var title = document
+								.getElementsByName('noticeTitle')[0].value;
+						var content = document
+								.getElementsByName('noticeContent')[0].value;
+						if (title.trim() === ''
+								|| content.trim() === '') {
+							alert('제목과 내용을 모두 입력해주세요.');
+						} else {
+							document.getElementById(
+									'form-validation')
+									.submit(); // 폼을 제출
+						}
+					});
 
 							setTimeout(function() {
 								$('#error-message').fadeOut('slow');

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -24,24 +25,26 @@ import com.grgr.util.Pager;
 import com.grgr.util.SearchCondition;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 //작성자 : 김정현
 //수정일 - 수정내용
 //0908 - SearchCondition에 위치정보 추가 -> createMap 메서드 수정
 //0909 - 파일 업로드 관련 메서드 분리 및 수정시 에 파일 업로드기능 추가
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class InfoBoardServiceImpl implements InfoBoardService {
 	private final InfoBoardDAO infoBoardDAO;
 	private final WebApplicationContext context;
 	
 		
 
-	@Override
-	public int getInfoCount(SearchCondition searchCondition) {
-		Map<String, Object> searchMap = createSearchMap(searchCondition);
-		
-		return infoBoardDAO.infoBoardCount(searchMap);
-	}
+//	@Override
+//	public int getInfoCount(SearchCondition searchCondition) {
+//		Map<String, Object> searchMap = createSearchMap(searchCondition);
+//		
+//		return infoBoardDAO.infoBoardCount(searchMap);
+//	}
 
 	@Override
 	@Transactional
@@ -91,10 +94,16 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	public Map<String, Object> getInfoBoard(int infoBno) {
+	@Transactional
+	public Map<String, Object> getInfoBoard(int loginUno, int infoBno) {
+		
+		//게시글 출력
 		Map<String, Object> readMap = new HashMap<String, Object>();
-		// TODO Auto-generated method stub
 		InfoBoard infoBoard = infoBoardDAO.selectInfoBoard(infoBno);
+		//게시글 조회시 조회수 증가
+		if(infoBoard.getUno()!=loginUno) {
+			infoBoardDAO.increaseInfoViewCnt(infoBno);			
+		}
 		String infoConentIncludeEnter = infoBoard.getInfoContent().replace("\r\n", "<br>"); //개행문자를 포함하여 출력하기위함
 		infoBoard.setInfoContent(infoConentIncludeEnter);
 		readMap.put("infoBoard", infoBoard);
@@ -104,10 +113,14 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	public Map<String, Object> getInfoBoardList(SearchCondition searchCondition) {
+	public Map<String, Object> getInfoBoardList(SearchCondition searchCondition, int loginUserStatus) {
+		log.warn("리스트 서비스메서드 진입");
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
-		int totalBoard = getInfoCount(searchCondition);
-		
+		searchMap.put("loginUserStatus", loginUserStatus);
+		log.warn("서비스 메서드의 loginUserStatus : " + loginUserStatus);
+		//int totalBoard = getInfoCount(searchCondition);
+		int totalBoard = infoBoardDAO.infoBoardCount(searchMap);
+		log.warn("리스트 서비스 메서드에서 게시글 수 카운트" );
 		Pager pager = new Pager(totalBoard, searchCondition);
 		// 페이징 계산
 		searchMap.put("startRow", pager.getStartRow());
@@ -135,27 +148,29 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	public Integer prevInfoBno(SearchCondition searchCondition, int infoBno) {
+	public Integer prevInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
+		searchMap.put("loginUserStatus", loginUserStatus);
 		searchMap.put("infoBno", infoBno);
 		
 		return infoBoardDAO.selectPrevInfoBno(searchMap);
 	}
 
 	@Override
-	public Integer nextInfoBno(SearchCondition searchCondition, int infoBno) {
+	public Integer nextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
+		searchMap.put("loginUserStatus", loginUserStatus);
 		searchMap.put("infoBno", infoBno);
 		
 		return infoBoardDAO.selectNextInfoBno(searchMap);
 	}
 	
 	@Override
-	public void removeInfoFile(int infoFileNo) throws FileDeleteException {
-		int result = infoBoardDAO.deleteInfoFile(infoFileNo);
+	@Transactional
+	public void removeInfoFiles(List<Integer> deleteFileList) throws FileDeleteException {
 		
-		if(result<1) {
-			throw new FileDeleteException("이미지 삭제에 실패하였습니다.");
+		for(Integer fileNo : deleteFileList) {
+			infoBoardDAO.deleteInfoFile(fileNo);
 		}
 	}
 

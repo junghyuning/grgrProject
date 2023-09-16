@@ -113,8 +113,8 @@
 
 				<!-- 검색입력창 -->
 
-				<!-- 글쓰기버튼 -->
-				<c:if test="${sessionScope.loginStatus==1 }">
+				<!-- 글쓰기버튼 : 관리자로 로그인한 경우만 글 작성 가능-->
+				<c:if test="${sessionScope.loginUserStatus==1 }">
 				<a href="<c:url value='/noticeboard/write${pager.searchCondition.getQueryString()}'/>"
 					class="btn btn-primary-gradient m-y-10 mr-10"
 					style="float: right; display: block"><span

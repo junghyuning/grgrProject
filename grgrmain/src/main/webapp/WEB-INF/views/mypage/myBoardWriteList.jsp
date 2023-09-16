@@ -57,19 +57,12 @@
 
 .selected {
 	background-color: #007bff;
-	//
-	선택된
-	배경색
-	color
-	:
-	#ffffff;
-	//
-	선택된
-	텍스트
-	색상
+	color: #ffffff;
 }
 </style>
 <body>
+	<!-- 헤더 -->
+	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<div id="preloader">
 		<div class="preloader">
 			<span></span> <span></span>
@@ -161,7 +154,36 @@
 										</div>
 										<!-- / column -->
 										<div class="col-lg-10 text-left tablet-lg-center">
-											<p class="mb-20">${boardWriteList.title}</p>
+											<c:choose>
+												<c:when test="${boardWriteList.boardtype == 'QNA'}">
+													<a
+														href="<c:url value='/qnaboard/read?qnaBno=${boardWriteList.bno}'/>">
+														<p class="mb-20">${boardWriteList.title}</p>
+													</a>
+												</c:when>
+												<c:when test="${boardWriteList.boardtype == 'INFO'}">
+
+													<a
+														href="<c:url value='/infoboard/read?infoBno=${boardWriteList.bno}'/>">
+														<p class="mb-20">${boardWriteList.title}</p>
+													</a>
+												</c:when>
+												<c:when test="${boardWriteList.boardtype == 'FREE'}">
+
+													<a
+														href="<c:url value='/freeboard/read?freeBno=${boardWriteList.bno}'/>">
+														<p class="mb-20">${boardWriteList.title}</p>
+													</a>
+												</c:when>
+												<c:when test="${boardWriteList.boardtype == 'MARKET'}">
+
+													<a
+														href="<c:url value='/productboard/get?productId=${boardWriteList.bno}'/>">
+														<p class="mb-20">${boardWriteList.title}</p>
+													</a>
+												</c:when>
+											</c:choose>
+
 											<p class="lead mb-20">${boardWriteList.content}</p>
 											<p class="fs-16 post-meta-small mt-15 mb-0"
 												style="text-align: right">
@@ -219,33 +241,10 @@
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
 
 	<!-- footer 영역 -->
-	<footer>
-		<div class="container">
-			<div class="row v-center mobile-center">
-				<div class="col-md-4 footer-left-area tablet-top">
-					<p>
-						© Soft UI by <a href="https://kingstudio.ro" target="_blank">KingStudio</a>
-					</p>
-				</div>
-				<!-- / footer-left-area -->
-				<div class="col-md-8 footer-right-area">
-					<p>
-						<a href="${pageContext.request.contextPath}/index.html"
-							class="text-link mr-15">Home</a> <a
-							href="${pageContext.request.contextPath}/components.html"
-							class="text-link mr-15">Components</a> <a
-							href="${pageContext.request.contextPath}/sections.html"
-							class="text-link mr-15">Sections</a> <a
-							href="${pageContext.request.contextPath}/templates.html"
-							class="text-link">Templates</a>
-					</p>
-				</div>
-				<!-- / footer-right-area -->
-			</div>
-			<!-- / row -->
-		</div>
-		<!-- / container -->
-	</footer>
+
+	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
+	<!-- / container -->
+
 
 	<!-- core JavaScript -->
 	<script

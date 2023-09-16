@@ -198,7 +198,7 @@
 					</div>
 					<!-- 기존 업로드됐던 파일들 -->
 					<c:forEach var="file" items="${infoFiles}">
-						<div>
+						<div data-hide="false">
 						<img class="uploaded-img" src="<c:url value="/upload/${file.infoFileUpload}"/>"
 							alt="${file.infoFileOrigin }">
 							<!-- ${file.infoFileNo}사용해야함 -->
@@ -277,23 +277,14 @@
 	
 	<script>
 		$(document).ready(function() {
-			//파일 삭제 이벤트
+			//파일 화면에서 hide()
+			var deleteFileList = [];
 			$('.delete-file').click(function(){
 				var $selectedImg= $(this).closest('div');
-				var infoFileNo = $(this).data('file-no');
-				$.ajax({
-					type:'DELETE',
-					url:"<c:url value='/infofile/delete'/>/"+infoFileNo,
-					success: function(data){
-						$selectedImg.remove();
-						console.log("파일삭제성공");
-					},
-					error: function(err){
-						console.error("파일 삭제에 실패하였습니다.", err.responseText );
-					}
-				});
-				
-				
+				var fileNo = $(this).data('file-no');
+				deleteFileList.push(fileNo)
+				$(this).closest('div').attr("data-hide", "true").hide();
+		
 			});
 			
 			
@@ -350,7 +341,19 @@
 		        }
 
 		        if (contentErrorMessage === "" && imgErrorMessage === "") {
-		            document.getElementById('form-validation').submit(); // 폼을 제출
+					
+					 $.ajax({
+						type:'DELETE',
+						url:"<c:url value='/infofile/delete'/>",
+						contentType: "application/json",
+						data: JSON.stringify(deleteFileList),
+						success: function(data){
+							document.getElementById('form-validation').submit(); // 폼을 제출
+						},
+						error: function(err){
+							console.error("파일 삭제에 실패하였습니다.", err.responseText );
+						}
+					}); 
 		        }
 		    });
 

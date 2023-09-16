@@ -88,7 +88,7 @@
 					</c:if>
 					
 					<c:if test="${sessionScope.loginUserStatus==1 }">
-						<!-- 자신의 글일시 해당 글번호의 글을 삭제할 수 있음 -->
+						<!-- 관리자일 경우 해당 글 삭제할 수 있음 -->
 						<a
 							href="<c:url value='/noticeboard/remove${searchCondition.getQueryString()}&noticeBno=${noticeBoard.noticeBno}'/>"
 							class="btn btn-xs btn-primary pill"

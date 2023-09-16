@@ -54,12 +54,6 @@ public class InfoBoardDAOImpl implements InfoBoardDAO{
 	}
 
 	@Override
-	public int increaseInfoReportNo(int infoBno) {
-		// TODO Auto-generated method stub
-		return sqlSession.getMapper(InfoBoardMapper.class).increaseInfoReportNo(infoBno);
-	}
-
-	@Override
 	public InfoBoard selectInfoBoard(int infoBno) {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(InfoBoardMapper.class).selectInfoBoard(infoBno);

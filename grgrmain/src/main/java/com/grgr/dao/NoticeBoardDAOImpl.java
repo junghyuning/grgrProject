@@ -32,8 +32,8 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 	}
 
 	@Override
-	public int deleteNoticeBoard(int noticeBno, int uno) {
-		return sqlSession.getMapper(NoticeBoardMapper.class).deleteNoticeBoard(noticeBno, uno);
+	public int deleteNoticeBoard(int noticeBno, int uno, int loginUserStatus) {
+		return sqlSession.getMapper(NoticeBoardMapper.class).deleteNoticeBoard(noticeBno, uno, loginUserStatus);
 	}
 
 	@Override

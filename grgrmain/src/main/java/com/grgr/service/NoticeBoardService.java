@@ -11,7 +11,7 @@ public interface NoticeBoardService {
 	int getNoticeCount(SearchCondition searchCondition) ;
 	int addNoticeBoard(NoticeBoard noticeBoard)throws WriteNullException, IOException;
 	void modifyNoticeBoard(NoticeBoard noticeBoard);
-	void removeNoticeBoard(int noticeBno, int uno);
+	void removeNoticeBoard(int noticeBno, int uno, int loginUserStatus);
 	int increaseNoticeViewCnt(int noticeBno);
 	Map<String, Object> getNoticeBoard(int noticeBno);
 	Integer prevNoticeBno(SearchCondition searchCondition, int noticeBno);

@@ -85,7 +85,6 @@ public class NoticeBoardController {
 	// 글 수정 제출
 	@PostMapping(value="/modify")
 	public String noticeBoardModify(NoticeBoard noticeBoard, RedirectAttributes rattr) throws WriteNullException {
-		//int uno = (int) session.getAttribute("uno");
 		if (noticeBoard.getNoticeTitle() == null || noticeBoard.getNoticeContent() == null) {
 				throw new WriteNullException("제목 또는 내용이 비어있습니다.");
 		}
@@ -96,12 +95,12 @@ public class NoticeBoardController {
 
 	// 글 제거
 	@RequestMapping("/remove")
-	public String noticeBoardRemove(@RequestParam Integer noticeBno, SearchCondition searchCondition, Integer loginUser, HttpSession session,
-		RedirectAttributes rattr) {
-		loginUser=2;
-		noticeBoardService.removeNoticeBoard(noticeBno, loginUser);
+	public String noticeBoardRemove(@RequestParam Integer noticeBno, SearchCondition searchCondition, HttpSession session,
+			RedirectAttributes rattr) {
+		Integer loginUno =(Integer) session.getAttribute("loginUno");
+		Integer loginUserStatus =(Integer) session.getAttribute("loginUserStatus");
+		noticeBoardService.removeNoticeBoard(noticeBno, loginUno, loginUserStatus);
 		String redirectUri = "redirect:/noticeboard/list"+searchCondition.getQueryString();
 		return redirectUri;
 	}
-
 }

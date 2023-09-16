@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grgr.mapper.ReportQnaBoardMapper">
+
+	<!-- 게시글 신고 삽입 -->
+	<insert id="insertReportQnaBoard">
+		INSERT INTO REPORT_QNABOARD
+		(REPORT_QNABOARD_NO, UNO,
+		QNA_BNO,
+		REPORT_REASON)
+		VALUES(REPORT_QNABOARD_SEQ.NEXTVAL, #{uno},
+		#{qnaBno},
+		#{reportReason})
+	</insert>
+
+	<!-- 신고 게시글 카운트 증가 -->
+	<update id="increaseQnaBoardReportCnt">
+		update qna_board set qna_report_cnt = qna_report_cnt+1
+		where qna_bno=#{qnaBno}
+	</update>
+
+	<!-- 신고 게시글 조회 -->
+	<select id="selectReportQnaBoard" resultType="ReportQnaBoard">
+		SELECT * FROM
+		REPORT_QNABOARD
+		WHERE
+		REPORT_QNABOARD_NO = #{reportQnaBoardNo}
+	</select>
+
+	<!-- 중복 신고 여부 확인 -->
+	<select id="checkDuplicateReport">
+		SELECT COUNT(*)
+		FROM REPORT_QNABOARD
+		WHERE UNO = #{uno}
+		AND QNA_BNO = #{qnaBno}
+	</select>
+</mapper>

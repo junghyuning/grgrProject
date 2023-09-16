@@ -9,7 +9,7 @@ public interface NoticeBoardDAO {
 	int noticeBoardCount(Map<String, Object> map);
 	int insertNoticeBoard(NoticeBoard noticeBoard);
 	int updateNoticeBoard(NoticeBoard noticeBoard);
-	int deleteNoticeBoard(int noticeBno, int uno);
+	int deleteNoticeBoard(int noticeBno, int uno, int loginUserStatus);
 	int increaseNoticeViewCnt(int noticeBno);
 	NoticeBoard selectNoticeBoard(int noticeBno);
 	Integer selectPrevNoticeBno(Map<String, Object> map);

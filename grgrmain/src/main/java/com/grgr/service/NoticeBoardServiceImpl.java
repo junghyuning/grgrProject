@@ -25,8 +25,6 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	public int getNoticeCount(SearchCondition searchCondition) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
 		
-		int result = noticeBoardDAO.noticeBoardCount(searchMap);
-		
 		return noticeBoardDAO.noticeBoardCount(searchMap);
 	}
 	
@@ -48,8 +46,8 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	}
 
 	@Override
-	public void removeNoticeBoard(int noticeBno, int uno) {
-		noticeBoardDAO.deleteNoticeBoard(noticeBno, uno);
+	public void removeNoticeBoard(int noticeBno, int uno, int loginUserStatus) {
+		noticeBoardDAO.deleteNoticeBoard(noticeBno, uno, loginUserStatus);
 	}
 
 	@Override
