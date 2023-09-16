@@ -24,7 +24,7 @@ create sequence qna_seq;
 @Data
 public class QnaBoard {
 	private int qnaBno;
-	private int uno;
+	private Integer uno;
 	private String qnaKeyword;
 	private String qnaTitle;
 	private String qnaContent;
@@ -33,6 +33,6 @@ public class QnaBoard {
 	private Date qnaRegdate;
 	private Date qnaUpdate;
 	private String nickname;
-	private int qnaUpdateUno;
+	private Integer qnaUpdateUno;
 	private int qnaReportCnt;//0909_소연_신고추가
 }

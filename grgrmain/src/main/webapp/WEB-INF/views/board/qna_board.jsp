@@ -18,8 +18,9 @@
 	font-weight: 'bold';
 }
 
-.board-images {
-	width: 100px;
+.uploaded-img {
+	width: 300px;
+	height: auto;
 }
 
 #comment-reply {
@@ -36,8 +37,19 @@
 	border-top: 1px solid #97989d;
 }
 
-textarea#modal-reportReason-input:focus {
-	background-color: white !important;
+#like-button img {
+	width: 30px;
+	height: auto;
+}
+
+#like-button span {
+	text-align: center;
+}
+
+#like-button {
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* 내용을 세로로 중앙 정렬 */
 }
 </style>
 </head>
@@ -75,16 +87,14 @@ textarea#modal-reportReason-input:focus {
 						class="d-inline title-color primary-hover fs-24 fw-bold mb-15"
 						style="margin: 10px">${qnaBoard.qnaTitle} </a>
 
-
-					<%-- 세션!! <c:if test="${qnaBoard.uno==loginUno }"> --%>
 					<c:if test="${qnaBoard.uno==sessionScope.loginUno }">
 						<!-- 수정버튼 제출시 제출된 게시글로 진입 + 자신의 게시글에서 글목록 누를시 1페이지로 이동할 것  -->
 						<a
-							href="<c:url value='/qnaboard/modify${searchCondition.getQueryString(1)}&qnaBno=${qnaBoard.qnaBno}'/>"
+							href="<c:url value='/qnaboard/modify${searchCondition.getQueryString()}&qnaBno=${qnaBoard.qnaBno}'/>"
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>수정</span></a>
 					</c:if>
-					<%-- 세션!! <c:if test="${qnaBoard.uno==loginUno }"> --%>
+
 					<c:if test="${qnaBoard.uno==sessionScope.loginUno }">
 						<!-- 자신의 글일시 해당 글번호의 글을 삭제할 수 있음 -->
 						<a
@@ -92,7 +102,7 @@ textarea#modal-reportReason-input:focus {
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>삭제</span></a>
 					</c:if>
-					<%-- <c:if test="${loginUserStatus}==1 }"> --%>
+
 					<c:if test="${sessionScope.loginUserStatus == 1 }">
 						<!-- 관리자는 해당 글번호의 글을 숨김처리할 수 있음 -->
 						<a
@@ -103,7 +113,8 @@ textarea#modal-reportReason-input:focus {
 
 					<!-- 신고 버튼 -->
 					<c:if test="${qnaBoard.uno ne loginUno}">
-						<button type="button" class="btn btn-xs btn-primary pill pull-right"
+						<button type="button"
+							class="btn btn-xs btn-primary pill pull-right"
 							data-toggle="modal" data-target="reportModal"
 							onclick="openReportModal()" data-qna-bno="${qnaBoard.qnaBno}">
 							<span>신고</span>
@@ -156,15 +167,23 @@ textarea#modal-reportReason-input:focus {
 						</c:choose>
 					</p>
 
-
-
+					<!-- 본문 영역 -->
 					<p class="m-y-30">${qnaBoard.qnaContent}</p>
-					<!-- 보던페이지로 이동 -->
-					<a
-						href="<c:url value='/qnaboard/list${searchCondition.getQueryString()}' />"
-						class="btn btn-xs btn-primary pill"
-						style="float: right; font-size: 15px"><span>글목록</span></a>
+
+					<!-- 이미지 표시 영역 -->
+					<c:forEach var="file" items="${qnaFiles}">
+						<%-- <img src="${pageContext.request.contextPath}/resources/upload/${file.infoFileUpload}" --%>
+						<img class="uploaded-img"
+							src="<c:url value="/upload/${file.qnaFileUpload}"/>"
+							alt="${file.qnaFileOrigin }">
+					</c:forEach>
 				</div>
+
+				<!-- 보던페이지로 이동 -->
+				<a
+					href="<c:url value='/qnaboard/list${searchCondition.getQueryString()}' />"
+					class="btn btn-xs btn-primary pill"
+					style="float: right; font-size: 15px"><span>글목록</span></a>
 				<!-- / column -->
 
 				<!-- 이전글, 다음글 -->
@@ -277,7 +296,7 @@ textarea#modal-reportReason-input:focus {
 		// 중복 확인 및 신고 버튼 클릭 시
 	    $('#reportButton').click(function() {
 	    	var reportReason = $('#modal-reportReason-input').val();
-	    	var qnaBno = ${qnaBoard.qnaBno};
+	    	var qnaBno = "${qnaBoard.qnaBno}";
 	    	var uno = <%=session.getAttribute("loginUno")%>;
 
 	    	//내용이 비어있는 경우

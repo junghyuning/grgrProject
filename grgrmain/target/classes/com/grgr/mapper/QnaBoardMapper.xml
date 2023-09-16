@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">	
-<mapper namespace="com.grgr.mapper.QnaBoardMapper">	
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 0914 - 안소연/사진업로드 기능 추가 qnaBoardCount - blindstate 추가 insertQnaBoard 
+	- blindstate 비밀글(4) 상태 choose 추가 selectQnaBoardList - blindstate 비밀글(4)도 
+	같이 출력되도록 수정 -->
+
+<mapper namespace="com.grgr.mapper.QnaBoardMapper">
 	<!-- 검색 조건문 -->
 	<!-- TC:제목+내용, T: 제목, W: 작성자, -->
 	<sql id="search">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<choose>
 				<when test="searchType == 'TC'.toString()">
-					Q.QNA_TITLE LIKE '%'||#{searchKeyword}||'%' OR 
+					Q.QNA_TITLE LIKE '%'||#{searchKeyword}||'%' OR
 					Q.QNA_CONTENT LIKE '%'||#{searchKeyword}||'%'
 				</when>
 				<when test="searchType == 'T'.toString()">
@@ -19,52 +23,63 @@
 			</choose>
 		</trim>
 	</sql>
- 
+
 	<!-- 총 게시글 수 -->
 	<select id="qnaBoardCount" resultType="int">
-		SELECT COUNT(*) 
-		FROM QNA_BOARD Q 
+		SELECT COUNT(*)
+		FROM QNA_BOARD Q
 		JOIN USERINFO U ON Q.UNO = U.UNO
-		WHERE <include refid="search"/>
-		Q.QNA_BLINDSTATE=1
+		WHERE
+		<include refid="search" />
+		(Q.QNA_BLINDSTATE = 1 OR Q.QNA_BLINDSTATE = 4)<!-- 비밀글 상태 추가 -->
 		<if test="qnaKeyword != null and qnaKeyword != ''">
 			AND Q.QNA_KEYWORD = #{qnaKeyword}
 		</if>
 	</select>
-	
-<!-- 		<include refid="search" />
-		<if test="qnaKeyword != null and qnaKeyword != ''">
-		AND (Q.QNA_KEYWORD = 'member' OR Q.QNA_KEYWORD = 'trade')
-		</if> -->
-	
+
 	<!-- 게시글 삽입 -->
 	<insert id="insertQnaBoard">
-		<selectKey keyProperty="qnaBno" resultType="int" order="BEFORE">
+		<selectKey keyProperty="qnaBno" resultType="int"
+			order="BEFORE">
 			SELECT qna_seq.nextval FROM dual
 		</selectKey>
-			INSERT INTO QNA_BOARD
-			(QNA_BNO, UNO, QNA_KEYWORD, QNA_TITLE,
-			QNA_CONTENT, QNA_UPDATE_UNO)
-			VALUES(#{qnaBno},
-			#{uno}, #{qnaKeyword}, #{qnaTitle}, #{qnaContent}, #{uno})
-	</insert>	
-	
+		INSERT INTO QNA_BOARD
+		(QNA_BNO, UNO, QNA_KEYWORD, QNA_TITLE,
+		QNA_CONTENT, QNA_BLINDSTATE, QNA_UPDATE_UNO)
+		VALUES(#{qnaBno},
+		#{uno},
+		#{qnaKeyword}, #{qnaTitle}, #{qnaContent},
+		<if test="qnaBlindstate != null">
+			#{qnaBlindstate}
+		</if>
+		<if test="qnaBlindstate == null">
+			1 <!-- 기본값: 공개글 -->
+		</if>
+		,
+		#{uno})
+	</insert>
+
 	<!-- 자신의 게시글 수정 -->
 	<update id="updateQnaBoard">
 		UPDATE QNA_BOARD SET
-			QNA_TITLE=#{qnaTitle}, QNA_CONTENT=#{qnaContent}
-				, QNA_UPDATE=SYSDATE, QNA_UPDATE_UNO=#{uno}
-		WHERE QNA_BNO=#{qnaBno} AND UNO=#{uno}
+		QNA_TITLE=#{qnaTitle},
+		QNA_CONTENT=#{qnaContent}
+		, QNA_UPDATE=SYSDATE,
+		QNA_BLINDSTATE=#{qnaBlindstate},
+		QNA_UPDATE_UNO=#{uno}
+		WHERE
+		QNA_BNO=#{qnaBno} AND UNO=#{uno}
 	</update>
-	
+
 	<!-- 게시글 삭제 -->
 	<update id="deleteQnaBoard">
 		UPDATE QNA_BOARD SET QNA_BLINDSTATE=3,
-			QNA_UPDATE=SYSDATE, QNA_UPDATE_UNO=#{uno}
+		QNA_UPDATE=SYSDATE, QNA_UPDATE_UNO=#{uno}
 		WHERE QNA_BNO=#{qnaBno}
-		AND UNO=#{uno}
+		AND
+		UNO=#{uno}
 	</update>
-	
+
 	<!-- 관리자가 게시물 숨김 -->
 	<update id="blindQnaBoard">
 		update qna_board set
@@ -72,10 +87,11 @@
 		qna_update=SYSDATE, qna_update_uno = #{uno}
 		where
 		qna_bno=#{qnaBno}
-		and #{userStatus} = 1
+		and
+		#{userStatus} = 1
 		and qna_blindstate = 1
-	</update> 
-	 
+	</update>
+
 	<!-- n번 게시글 -->
 	<select id="selectQnaBoard" resultType="QnaBoard">
 		SELECT
@@ -93,13 +109,14 @@
 		where
 		Q.QNA_BNO=#{qnaBno}
 	</select>
-	
+
 	<!-- 이전 글 번호 찾기 -->
 	<select id="selectPrevQnaBno" resultType="int">
 		select max(Q.QNA_BNO)
-		from QNA_BOARD Q 
-		join USERINFO U on Q.UNO = U.UNO 
-		where <include refid="search"/>
+		from QNA_BOARD Q
+		join USERINFO U on Q.UNO = U.UNO
+		where
+		<include refid="search" />
 		Q.QNA_BNO &lt; #{qnaBno} AND Q.QNA_BLINDSTATE = 1
 		<if test="qnaKeyword != null and qnaKeyword != ''">
 			AND Q.QNA_KEYWORD = #{qnaKeyword}
@@ -109,32 +126,39 @@
 	<!-- 다음 글 번호 찾기 -->
 	<select id="selectNextQnaBno" resultType="int">
 		SELECT MIN(Q.QNA_BNO)
-		FROM QNA_BOARD Q 
+		FROM QNA_BOARD Q
 		JOIN USERINFO U ON Q.UNO = U.UNO
-		WHERE <include refid="search"/>
+		WHERE
+		<include refid="search" />
 		Q.QNA_BNO &gt; #{qnaBno} AND Q.QNA_BLINDSTATE = 1
 		<if test="qnaKeyword != null and qnaKeyword != ''">
 			AND Q.QNA_KEYWORD = #{qnaKeyword}
 		</if>
 	</select>
-	 
+
 	<!-- 게시글 목록 -->
 	<select id="selectQnaBoardList" resultType="QnaBoard">
-		SELECT * 
-		FROM (SELECT ROWNUM NUM, QNA.* 
-			FROM(SELECT Q.QNA_BNO, Q.UNO, Q.QNA_KEYWORD, Q.QNA_TITLE
-			, SUBSTR(Q.QNA_CONTENT,1,40) AS QNA_CONTENT, Q.QNA_VIEW_CNT	
-				, Q.QNA_BLINDSTATE, Q.QNA_REGDATE, Q.QNA_UPDATE, Q.QNA_UPDATE_UNO
-				, U.NICKNAME
-			FROM QNA_BOARD Q JOIN USERINFO U ON Q.UNO = U.UNO
-			WHERE <include refid="search"/>
-			Q.QNA_BLINDSTATE=1
-			<if test="qnaKeyword != null and qnaKeyword != ''">
-				AND Q.QNA_KEYWORD = #{qnaKeyword}
-			</if>
-			ORDER BY Q.QNA_BNO DESC)
-			QNA)
-		 WHERE NUM BETWEEN #{startRow} AND #{endRow}
+		SELECT *
+		FROM (SELECT ROWNUM NUM, QNA.*
+		FROM(SELECT Q.QNA_BNO, Q.UNO,
+		Q.QNA_KEYWORD, Q.QNA_TITLE
+		, SUBSTR(Q.QNA_CONTENT,1,40) AS QNA_CONTENT,
+		Q.QNA_VIEW_CNT
+		, Q.QNA_BLINDSTATE, Q.QNA_REGDATE, Q.QNA_UPDATE,
+		Q.QNA_UPDATE_UNO
+		, U.NICKNAME
+		FROM QNA_BOARD Q JOIN USERINFO U ON Q.UNO
+		= U.UNO
+		WHERE
+		Q.QNA_BLINDSTATE IN (1,4)
+		<include refid="search" />
+		<if test="qnaKeyword != null and qnaKeyword != ''">
+			AND Q.QNA_KEYWORD = #{qnaKeyword}
+		</if>
+		ORDER BY Q.QNA_BNO DESC)
+		QNA)
+		WHERE NUM BETWEEN #{startRow} AND
+		#{endRow}
 	</select>
 
 	<!-- 조회수 증가 -->
@@ -142,4 +166,28 @@
 		update qna_board set qna_view_cnt = qna_view_cnt+1
 		where qna_bno=#{qnaBno}
 	</update>
+
+	<!-- 이미지파일 업로드 : QNA_FILE_UPDATE_UNO 는 로그인 기능 완성시 추가할 것 -->
+	<insert id="insertQnaFile">
+		insert into qna_file (qna_file_no, qna_bno,
+		qna_file_origin, qna_file_upload)
+		values
+		(qna_file_seq.nextval,#{qnaBno}, #{qnaFileOrigin},
+		#{qnaFileUpload})
+	</insert>
+
+
+	<!-- 이미지파일 검색 -->
+	<select id="selectQnaFile">
+		select qna_file_no, qna_bno, qna_file_origin,
+		qna_file_upload from qna_file where qna_bno = #{qnaBno}
+		order by
+		qna_file_no
+	</select>
+
+	<!-- 이미지파일 삭제 -->
+	<!-- 파일 no 정보를 받아와야함 -->
+	<delete id="deleteQnaFile">
+		delete from qna_file where qna_file_no = #{qnaFileNo}
+	</delete>
 </mapper>
