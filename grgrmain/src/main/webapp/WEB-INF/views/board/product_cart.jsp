@@ -123,13 +123,14 @@
 												<p class="lead mb-15 text-center">
 													<input type="number" step="1" min="1" max="10" name="cart"
 														value="${cartItem.productCount}" title="cart"
-														class="form-control qty mr-10 rounded"
-														id="quantityInput">
+														class="form-control qty mr-10 rounded" id="quantityInput">
 											</div>
-											<button class="btn btn-xs btn-primary pill qty-update-btn"
-												style="font-size: 15px"
-												onclick="updateCount(${cartItem.productCartNo})">수량
-												변경</button>
+											<div class="col-lg-2 text-center">
+												<button class="btn btn-xs btn-primary pill qty-update-btn"
+													style="font-size: 15px"
+													onclick="updateCount(${cartItem.productCartNo})">수량
+													변경</button>
+											</div>
 
 											<div class="col-lg-1 text-center">
 												<button class="btn btn-xs btn-primary pill delete-btn"
@@ -257,8 +258,7 @@ function deleteCart(productCartNo) {
 	        success: function (result) {
 	            if (result === "success") {
 	                alert("변경 완료");
-	                alert(newQuantity);
-	                alert(productCartNo);
+	               
 	            } else {
 	                alert("변경 실패");
 	            }

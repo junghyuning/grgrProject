@@ -1,4 +1,4 @@
-package com.grgr.controller.admin;
+package com.grgr.controller;
 
 import java.util.Map;
 
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.grgr.controller.UserController;
 import com.grgr.dto.UserVO;
 import com.grgr.service.UserService;
 
