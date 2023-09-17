@@ -22,4 +22,5 @@ public class UserVO {
 	private Date userUpdate;
 	private int userUpdateUno;
 	private String userLoc;
+	private String naverId;
 }
