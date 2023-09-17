@@ -23,4 +23,5 @@ public class UserVO {
 	private int userUpdateUno;
 	private String userLoc;
 	private String naverId;
+	private String kakaoId;
 }

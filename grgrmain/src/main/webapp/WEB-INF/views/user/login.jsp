@@ -127,9 +127,12 @@
 									<a class="socialLogin" >
 									<img class="w-30 h-auto" src="<c:url value="/images/naver_login.png"/>"
 										art="네이버 로그인"
-										onclick="location.href='<c:url value="/oauth/naver"/>';"></a>
+										onclick="location.href='<c:url value="/oauth/naver"/>';">
+										<img class="w-30 h-auto" src="<c:url value="/images/naver_login.png"/>"
+										art="카카오 로그인"
+										onclick="location.href='<c:url value="/oauth/kakao"/>';"></a>
 									<a href="#x" class="btn btn-sm btn-outline-twitter mt-5">
-										<span class="fab fa-twitter mr-5"></span> <span>Twitter</span>
+										<span class="fab fa-twitter mr-5"></span> <span>Twitterㅇ</span>
 									</a> 
 									<a href="<c:url value="/oauth/google"/>" class="btn btn-sm btn-outline-warning mt-5">
 										<span class="fab fa-google mr-5"></span> <span>Google</span>
