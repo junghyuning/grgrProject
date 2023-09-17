@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.grgr.exception.CommentInsertException;
 import com.grgr.exception.CommentModifyException;
 import com.grgr.exception.CommentRemoveException;
 import com.grgr.service.ProductCommentService;
+import com.grgr.util.CommentPager;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,15 +39,18 @@ public class ProductCommentController {
 	// 댓글 조회
 	@GetMapping("/list/{productId}")
 	public Map<String, Object> commentList(@PathVariable int productId, @RequestParam(defaultValue = "1") int pageNum,
-			HttpSession session) {
+			HttpSession session, Model model) {
 		log.info("ProductCommentController() 클래스의 commentList() 메소드 호출");
-
+		
+		
 		Integer loginUno = (Integer) session.getAttribute("loginUno");
 		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
 
 		Map<String, Object> resultMap = productCommentService.getProductCommentList(productId, pageNum);
 		resultMap.put("loginUno", loginUno); // 로그인한 사용자의 uno 값을 결과 맵에 포함
 		resultMap.put("loginUserStatus", loginUserStatus);
+
+	
 
 		return resultMap;
 
