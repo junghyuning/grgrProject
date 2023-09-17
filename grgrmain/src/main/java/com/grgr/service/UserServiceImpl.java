@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grgr.dao.OAuthKakaoDAO;
 import com.grgr.dao.OAuthNaverDAO;
 import com.grgr.dao.UserDAO;
 import com.grgr.dto.MyBoardWriteDTO;
@@ -29,8 +30,9 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final UserDAO userDAO;
-    private final JavaMailSender mailSender;
-    private final OAuthNaverDAO naverDAO;
+	private final JavaMailSender mailSender;
+	private final OAuthNaverDAO naverDAO;
+	private final OAuthKakaoDAO kakaoDAO;
 
 	/* 회원가입 */
 	@Override
@@ -111,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
 		return resultMap;
 	}
-	
+
 	/* 관리자 회원 보기 */
 	@Override
 	public Map<String, Object> getAllUsers(int pageNum) {
@@ -132,108 +134,104 @@ public class UserServiceImpl implements UserService {
 
 		return resultMap;
 	}
-	
-	/* 관리자 - 회원 정보 수정*/
+
+	/* 관리자 - 회원 정보 수정 */
 	@Transactional
 	@Override
 	public void updateUser(UserVO user) {
 		userDAO.updateUser(user);
 	}
 
-	 @Override
-	    public String findUserIdByNameAndEmail(String name, String email) {
-	        return userDAO.findUserIdByNameAndEmail(name, email);
-	    }
+	@Override
+	public String findUserIdByNameAndEmail(String name, String email) {
+		return userDAO.findUserIdByNameAndEmail(name, email);
+	}
 
 	@Override
 	public UserVO findUserByIdAndEmail(String userId, String email) {
 		return userDAO.findUserByIdAndEmail(userId, email);
 	}
+
 	@Transactional
 	@Override
 	public void updateUserPassword(UserVO user) {
 		userDAO.updateUserPassword(user);
-		
+
 	}
 
-	
-
-	/* Geolocation API + NaverMaps Reverse-geocode API 를 통해 클라이언트 측에서 보낸 위도, 경도 좌표를 주소명으로 반환*/
+	/*
+	 * Geolocation API + NaverMaps Reverse-geocode API 를 통해 클라이언트 측에서 보낸 위도, 경도 좌표를
+	 * 주소명으로 반환
+	 */
 	@Override
 	public String getAddressFromCoordinates(String loginId, String latitude, String longitude) {
-	    String coords = longitude + "," + latitude;
-	    String naverUrl = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords="
-	            +coords+"&sourcecrs=epsg:4326&orders=roadaddr&output=json";
+		String coords = longitude + "," + latitude;
+		String naverUrl = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords="
+				+ coords + "&sourcecrs=epsg:4326&orders=roadaddr&output=json";
 
-	    RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate();
 
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.add("X-NCP-APIGW-API-KEY-ID", "5vx586o8ep");
-	    headers.add("X-NCP-APIGW-API-KEY", "GQiKScHBOVetAAUcHcjgYcnptDyTq3m8Aeva3Stb");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-NCP-APIGW-API-KEY-ID", "5vx586o8ep");
+		headers.add("X-NCP-APIGW-API-KEY", "GQiKScHBOVetAAUcHcjgYcnptDyTq3m8Aeva3Stb");
 
-	    HttpEntity<?> entity = new HttpEntity<>(headers);
+		HttpEntity<?> entity = new HttpEntity<>(headers);
 
-	    ResponseEntity<String> response = restTemplate.exchange(naverUrl, HttpMethod.GET, entity, String.class);
-	    String responseBody = response.getBody();
-	    String address = parseAddressFromResponse(responseBody);
+		ResponseEntity<String> response = restTemplate.exchange(naverUrl, HttpMethod.GET, entity, String.class);
+		String responseBody = response.getBody();
+		String address = parseAddressFromResponse(responseBody);
 
-	    
-	    
-	    if (loginId != null) {
-	        userDAO.getAddressFromCoordinate(loginId, address);
-	    }
-	    return address;
+		if (loginId != null) {
+			userDAO.getAddressFromCoordinate(loginId, address);
+		}
+		return address;
 	}
-	
-	/* Naver Maps API의 응답(JSON)을 PARSING 해주는 메소드*/
-	
+
+	/* Naver Maps API의 응답(JSON)을 PARSING 해주는 메소드 */
+
 	private String parseAddressFromResponse(String responseBody) {
-	    try {
-	        ObjectMapper objectMapper = new ObjectMapper();
-	        JsonNode rootNode = objectMapper.readTree(responseBody);
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode rootNode = objectMapper.readTree(responseBody);
 
-	        
-	        JsonNode resultsNode = rootNode.path("results");
-	        if (resultsNode.isArray() && resultsNode.size() > 0) {
-	            JsonNode firstResultNode = resultsNode.get(0);
-	            
-	            String name = firstResultNode.path("name").asText();
+			JsonNode resultsNode = rootNode.path("results");
+			if (resultsNode.isArray() && resultsNode.size() > 0) {
+				JsonNode firstResultNode = resultsNode.get(0);
 
-	            
-	            JsonNode area1Node = firstResultNode.path("region").path("area1").path("name");
-	            JsonNode area2Node = firstResultNode.path("region").path("area2").path("name");
-	            JsonNode area3Node = firstResultNode.path("region").path("area3").path("name");
+				String name = firstResultNode.path("name").asText();
 
-	            
-	            String area1Name = area1Node.asText();
-	            String area2Name = area2Node.asText();
-	            String area3Name = area3Node.asText();
+				JsonNode area1Node = firstResultNode.path("region").path("area1").path("name");
+				JsonNode area2Node = firstResultNode.path("region").path("area2").path("name");
+				JsonNode area3Node = firstResultNode.path("region").path("area3").path("name");
 
-	            
-	            String combinedAddress = area1Name + ", " + area2Name + ", " + area3Name;
-	            return combinedAddress;
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return null; 
+				String area1Name = area1Node.asText();
+				String area2Name = area2Node.asText();
+				String area3Name = area3Node.asText();
+
+				String combinedAddress = area1Name + ", " + area2Name + ", " + area3Name;
+				return combinedAddress;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
+
 	/* NaverLogin 관련 회원가입 및 정보 Update를 하는 서비스 클래스 */
 	@Override
 	@Transactional
 	public boolean loginNaverUser(UserVO profile) {
-		
+
 		UserVO user = naverDAO.selectByEmail(profile.getEmail());
 		int result = 0;
-		//같은 이메일의 사용자가 존재하지 않는 경우
-		if(user == null) {
+		// 같은 이메일의 사용자가 존재하지 않는 경우
+		if (user == null) {
 			result = naverDAO.insertSnsUser(profile);
 		} else {
-			//이미 같은 이메일의 사용자가 존재하는 경우
+			// 이미 같은 이메일의 사용자가 존재하는 경우
 			result = naverDAO.updateSnsUser(profile);
 		}
-		
+
 		return (result > 0);
 	}
 
@@ -242,9 +240,29 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return naverDAO.selectByNaverId(naverId);
 	}
-	
-	
+
+	/* KakaoLogin 관련 회원가입 및 정보 Update를 하는 서비스 클래스 */
+	@Override
+	@Transactional
+	public boolean loginKakaoUser(UserVO profile) {
+
+		UserVO user = kakaoDAO.selectByEmail(profile.getEmail());
+		int result = 0;
+		// 같은 이메일의 사용자가 존재하지 않는 경우
+		if (user == null) {
+			result = kakaoDAO.insertSnsUser(profile);
+		} else {
+			// 이미 같은 이메일의 사용자가 존재하는 경우
+			result = kakaoDAO.updateSnsUser(profile);
+		}
+
+		return (result > 0);
+	}
+
+	@Override
+	public UserVO getKakaoLoginUser(String kakakoId) {
+		// TODO Auto-generated method stub
+		return kakaoDAO.selectByKakaoId(kakakoId);
+	}
+
 }
-	
-
-
