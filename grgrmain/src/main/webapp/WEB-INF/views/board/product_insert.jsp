@@ -198,170 +198,168 @@
 <script
 	src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
-	<script>
-		var files;
-		document.getElementById('file-button').addEventListener(
-				'change',
-				function(event) {
-					files = event.target.files;
-					var previewContainer = document
-							.getElementById('imagePreviewContainer');
-					previewContainer.innerHTML = '';
+<script>
+	var files;
+	document.getElementById('file-button').addEventListener(
+			'change',
+			function(event) {
+				files = event.target.files;
+				var previewContainer = document
+						.getElementById('imagePreviewContainer');
+				previewContainer.innerHTML = '';
 
-					for (var i = 0; i < files.length; i++) {
-						var file = files[i];
-						var reader = new FileReader();
+				for (var i = 0; i < files.length; i++) {
+					var file = files[i];
+					var reader = new FileReader();
 
-						reader.onload = (function(file) {
-							return function(e) {
-								var div = document.createElement('div');
-								div.style.display = 'inline-block';
-								div.style.marginRight = '10px';
+					reader.onload = (function(file) {
+						return function(e) {
+							var div = document.createElement('div');
+							div.style.display = 'inline-block';
+							div.style.marginRight = '10px';
 
-								var img = document.createElement('img');
-								img.src = e.target.result;
-								img.alt = "Image Preview";
-								img.width = 30;
-								div.appendChild(img);
-								previewContainer.appendChild(div);
-							};
-						})(file);
+							var img = document.createElement('img');
+							img.src = e.target.result;
+							img.alt = "Image Preview";
+							img.width = 30;
+							div.appendChild(img);
+							previewContainer.appendChild(div);
+						};
+					})(file);
 
-						reader.readAsDataURL(file);
-					}
-				});
-	</script>
+					reader.readAsDataURL(file);
+				}
+			});
+</script>
 
-	<script>
-		$(document)
-				.ready(
-						function() {
+<script>
+	$(document)
+			.ready(
+					function() {
 
-							function isImageFile(file) {
-								const validImageTypes = [ 'image/gif',
-										'image/jpeg', 'image/png', 'image/jpg' ]; // 원하는 이미지 타입에 따라 확장 가능
-								return file
-										&& validImageTypes.includes(file.type);
-							}
-							document
-									.querySelector('#insert-submit')
-									.addEventListener(
-											'click',
-											function() {
-												var title = document
-														.getElementsByName('productTitle')[0].value;
-												var content = document
-														.getElementsByName('productContent')[0].value;
+						function isImageFile(file) {
+							const validImageTypes = [ 'image/gif',
+									'image/jpeg', 'image/png', 'image/jpg' ]; // 원하는 이미지 타입에 따라 확장 가능
+							return file && validImageTypes.includes(file.type);
+						}
+						document
+								.querySelector('#insert-submit')
+								.addEventListener(
+										'click',
+										function() {
+											var title = document
+													.getElementsByName('productTitle')[0].value;
+											var content = document
+													.getElementsByName('productContent')[0].value;
+											var price = document
+													.getElementsByName('productPrice')[0].value;
 
-												var contentErrorMessage = "";
-												var imgErrorMessage = "";
+											var contentErrorMessage = "";
+											var imgErrorMessage = "";
 
-												if (title.trim() === ''
-														|| content.trim() === '') {
-													console
-															.log('title trim 진입');
-													contentErrorMessage = '제목과 내용을 모두 입력해주세요.';
-													console
-															.log(contentErrorMessage);
+											if (title.trim() === ''
+													|| content.trim() === ''
+													|| price.trim() === '') {
+												console.log('trim 진입');
+												contentErrorMessage = '입력값을 모두 입력해주세요.';
+												console
+														.log(contentErrorMessage);
 
-												}
+											} else if (!isValidPrice(price)) {
+												contentErrorMessage = '올바른 형식의 가격을 입력해주세요.';
+											}
 
-												if (files
-														&& files.length > 0
-														&& !Array
-																.from(files)
-																.every(
-																		isImageFile)) {
-													console.log('img trim 진입');
-													imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
-													console
-															.log('img error save');
-												}
+											if (files
+													&& files.length > 0
+													&& !Array.from(files)
+															.every(isImageFile)) {
+												console.log('img trim 진입');
+												imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
+												console.log('img error save');
+											}
 
-												if (contentErrorMessage !== "") {
-													console
-															.log('title error not null');
+											if (contentErrorMessage !== "") {
+												console
+														.log('title error not null');
 
-													document
-															.getElementById('content-error-message').textContent = contentErrorMessage;
+												document
+														.getElementById('content-error-message').textContent = contentErrorMessage;
 
+												$('#content-error-message')
+														.show();
+												console.log('title error show');
+
+												setTimeout(function() {
 													$('#content-error-message')
-															.show();
-													console
-															.log('title error show');
+															.fadeOut('slow');
+												}, 5000);
+											}
 
-													setTimeout(
-															function() {
-																$(
-																		'#content-error-message')
-																		.fadeOut(
-																				'slow');
-															}, 5000);
-												}
+											if (imgErrorMessage !== '') {
+												console
+														.log('img error not null');
+												document
+														.getElementById('img-error-message').textContent = imgErrorMessage;
+												$('#img-error-message').show();
+												console.log('img error show');
 
-												if (imgErrorMessage !== '') {
-													console
-															.log('img error not null');
-													document
-															.getElementById('img-error-message').textContent = imgErrorMessage;
+												setTimeout(function() {
 													$('#img-error-message')
-															.show();
-													console
-															.log('img error show');
+															.fadeOut('slow');
+												}, 5000);
+											}
 
-													setTimeout(
-															function() {
-																$(
-																		'#img-error-message')
-																		.fadeOut(
-																				'slow');
-															}, 5000);
-												}
-
-												if (contentErrorMessage === ""
-														&& imgErrorMessage === "") {
-													document.getElementById(
-															'form-validation')
-															.submit(); // 폼을 제출
-												}
-											});
-
-							setTimeout(function() {
-								$('#error-message').fadeOut('slow');
-							}, 5000);
-
-							if (Modernizr.touch) {
-								// show the close overlay button
-								$('.close-overlay').removeClass('hidden');
-								// handle the adding of hover class when clicked
-								$('.img').click(function(e) {
-									if (!$(this).hasClass('hover')) {
-										$(this).addClass('hover');
-									}
-								});
-								// handle the closing of the overlay
-								$('.close-overlay').click(
-										function(e) {
-											e.preventDefault();
-											e.stopPropagation();
-											if ($(this).closest('.img')
-													.hasClass('hover')) {
-												$(this).closest('.img')
-														.removeClass('hover');
+											if (contentErrorMessage === ""
+													&& imgErrorMessage === "") {
+												document.getElementById(
+														'form-validation')
+														.submit(); // 폼을 제출
 											}
 										});
-							} else {
-								// handle the mouseenter functionality
-								$('.img').mouseenter(function() {
+
+						setTimeout(function() {
+							$('#error-message').fadeOut('slow');
+						}, 5000);
+
+						if (Modernizr.touch) {
+							// show the close overlay button
+							$('.close-overlay').removeClass('hidden');
+							// handle the adding of hover class when clicked
+							$('.img').click(function(e) {
+								if (!$(this).hasClass('hover')) {
 									$(this).addClass('hover');
-								})
-								// handle the mouseleave functionality
-								.mouseleave(function() {
-									$(this).removeClass('hover');
-								});
-							}
-						});
-	</script>
+								}
+							});
+							// handle the closing of the overlay
+							$('.close-overlay').click(
+									function(e) {
+										e.preventDefault();
+										e.stopPropagation();
+										if ($(this).closest('.img').hasClass(
+												'hover')) {
+											$(this).closest('.img')
+													.removeClass('hover');
+										}
+									});
+						} else {
+							// handle the mouseenter functionality
+							$('.img').mouseenter(function() {
+								$(this).addClass('hover');
+							})
+							// handle the mouseleave functionality
+							.mouseleave(function() {
+								$(this).removeClass('hover');
+							});
+						}
+					});
+
+	function isValidPrice(price) {
+		// 가격이 숫자이고 1 이상 50,000,000 이하인지 검사
+		var numericPrice = parseFloat(price);
+		return !isNaN(numericPrice) && numericPrice >= 1
+				&& numericPrice <= 50000000;
+	}
+</script>
 <!-- / portfolio script -->
 </body>
 </html>

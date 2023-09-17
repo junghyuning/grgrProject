@@ -579,6 +579,7 @@
 			return form.test(email);
 		}
 	</script>
+	
 	<!-- end of custom script -->
 
 	<!-- end of custom script -->

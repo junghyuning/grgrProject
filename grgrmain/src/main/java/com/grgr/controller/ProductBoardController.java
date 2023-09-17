@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.exception.FileUploadFailException;
-import com.grgr.exception.NumberException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.service.ProductBoardService;
 import com.grgr.util.SearchCondition;
@@ -38,7 +39,7 @@ public class ProductBoardController {
 	public String productBoardListGet(SearchCondition searchCondition, Model model) {
 		System.out.println("목록 진입");
 		Map<String, Object> result = productBoardService.getProductBoardList(searchCondition);
-		model.addAttribute("productBoardList", result.get("productBoardList"));		
+		model.addAttribute("productBoardList", result.get("productBoardList"));
 		model.addAttribute("pager", result.get("pager"));
 		model.addAttribute("fileList", result.get("fileList"));
 		return "board/product_boardlist";
@@ -77,7 +78,7 @@ public class ProductBoardController {
 	@PostMapping("/insert")
 	public String ProductBoardInsertPost(ProductBoardVO productBoard,
 			@RequestParam(value = "files", required = false) List<MultipartFile> files)
-			throws WriteNullException, FileUploadFailException, NumberException, IOException {
+			throws WriteNullException, FileUploadFailException, IOException {
 
 		productBoardService.addProduct(productBoard, files);
 
@@ -105,7 +106,7 @@ public class ProductBoardController {
 
 	/* 페이지 수정 */
 	@PostMapping(value = "/modify")
-	public String ProductBoardModifyPost(ProductBoardVO productBoard, RedirectAttributes rttr) {
+	public String ProductBoardModifyPost(@Valid @ModelAttribute ProductBoardVO productBoard, RedirectAttributes rttr) {
 		if (productBoard.getProductTitle() == null || productBoard.getProductContent() == null) {
 			throw new WriteNullException("제목 또는 내용이 비어있습니다.");
 		}
