@@ -37,10 +37,10 @@ public class Userinfo {
 	private String email;
 	private int userStatus;
 	private int active;
-	private int point;
 	private String businessNo;
 	private Date lastLogin;
 	private Date regdate;
 	private Date userUpdate;
 	private int userUpdateUno;
+	private int userLoc;
 }

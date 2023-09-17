@@ -1,6 +1,5 @@
 package com.grgr.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.grgr.dto.UserVO;
@@ -51,4 +50,9 @@ public interface UserService {
 	 
 	 /* 유저 위치 정보 업데이트*/
 	 String getAddressFromCoordinates(String loginId, String latitude, String longitude);
+	 
+	 /* 네이버 로그인시 유저정보 삽입 OR 업데이트 */
+	 boolean loginNaverUser(UserVO profile);
+	 
+	 UserVO getNaverLoginUser(String naverId);
 }

@@ -15,13 +15,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grgr.dao.OAuthNaverDAO;
 import com.grgr.dao.UserDAO;
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
 import com.grgr.dto.UserVO;
-import com.grgr.mapper.UserMapper;
 import com.grgr.util.AdminPager;
-import com.grgr.util.Pager;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +29,8 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final UserDAO userDAO;
-	private final UserMapper userMapper;
     private final JavaMailSender mailSender;
+    private final OAuthNaverDAO naverDAO;
 
 	/* 회원가입 */
 	@Override
@@ -219,8 +218,33 @@ public class UserServiceImpl implements UserService {
 	    }
 	    return null; 
 	}
-
 	
+	/* NaverLogin 관련 회원가입 및 정보 Update를 하는 서비스 클래스 */
+	@Override
+	@Transactional
+	public boolean loginNaverUser(UserVO profile) {
 		
+		UserVO user = naverDAO.selectByEmail(profile.getEmail());
+		int result = 0;
+		//같은 이메일의 사용자가 존재하지 않는 경우
+		if(user == null) {
+			result = naverDAO.insertSnsUser(profile);
+		} else {
+			//이미 같은 이메일의 사용자가 존재하는 경우
+			result = naverDAO.updateSnsUser(profile);
+		}
+		
+		return (result > 0);
 	}
+
+	@Override
+	public UserVO getNaverLoginUser(String naverId) {
+		// TODO Auto-generated method stub
+		return naverDAO.selectByNaverId(naverId);
+	}
+	
+	
+}
+	
+
 

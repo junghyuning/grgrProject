@@ -39,6 +39,7 @@
 	rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/css/login-register.css"
 	rel="stylesheet">
+
 </head>
 
 <body>
@@ -62,13 +63,11 @@
 					<div class="card-body p-x-25">
 						<ul class="nav nav-tabs nav-pills text-center p-x-50"
 							role="tablist">
-							<li class="nav-item"><a
-								class="nav-link active p-x-40"
-								href="<c:url value="/user/login"/>" > <i
+							<li class="nav-item"><a class="nav-link active p-x-40"
+								href="<c:url value="/user/login"/>"> <i
 									class="fas fa-lock mr-5 va-middle"></i> <span class="va-middle">로그인</span>
 							</a></li>
-							<li class="nav-item"><a
-								class="nav-link active p-x-40"
+							<li class="nav-item"><a class="nav-link active p-x-40"
 								href="<c:url value="/user/register"/>"> <i
 									class="fas fa-user mr-5 va-middle"></i> <span class="va-middle">회원가입</span>
 							</a></li>
@@ -125,11 +124,14 @@
 								<!-- / login-form -->
 								<div class="pt-60 text-center">
 									<p style="margin-bottom: 4px;">간편 로그인</p>
-									<a href="#x" class="btn btn-sm btn-outline-facebook mt-5">
-										<span class="fab fa-facebook-f mr-5"></span> <span>Facebook</span>
-									</a> <a href="#x" class="btn btn-sm btn-outline-twitter mt-5">
+									<a class="socialLogin" >
+									<img class="w-30 h-auto" src="<c:url value="/images/naver_login.png"/>"
+										art="네이버 로그인"
+										onclick="location.href='<c:url value="/oauth/naver"/>';"></a>
+									<a href="#x" class="btn btn-sm btn-outline-twitter mt-5">
 										<span class="fab fa-twitter mr-5"></span> <span>Twitter</span>
-									</a> <a href="<c:url value="/oauth/google"/>" class="btn btn-sm btn-outline-warning mt-5">
+									</a> 
+									<a href="<c:url value="/oauth/google"/>" class="btn btn-sm btn-outline-warning mt-5">
 										<span class="fab fa-google mr-5"></span> <span>Google</span>
 									</a>
 								</div>
