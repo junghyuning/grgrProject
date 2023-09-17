@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.exception.FileUploadFailException;
+import com.grgr.exception.NumberException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.service.ProductBoardService;
 import com.grgr.util.SearchCondition;
@@ -76,7 +77,7 @@ public class ProductBoardController {
 	@PostMapping("/insert")
 	public String ProductBoardInsertPost(ProductBoardVO productBoard,
 			@RequestParam(value = "files", required = false) List<MultipartFile> files)
-			throws WriteNullException, FileUploadFailException, IOException {
+			throws WriteNullException, FileUploadFailException, NumberException, IOException {
 
 		productBoardService.addProduct(productBoard, files);
 

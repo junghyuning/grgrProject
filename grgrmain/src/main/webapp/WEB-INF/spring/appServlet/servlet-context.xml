@@ -49,6 +49,7 @@
 		<interceptor>
 			<mapping path="*/hide/**"/>
 			<mapping path="/notice/*"/>
+			<mapping path="/admin/user-list"/>
 			<mapping path="/user/modify"/>
 			<mapping path="/user/remove"/> 
 			<mapping path="/noticeboard/write"/>
