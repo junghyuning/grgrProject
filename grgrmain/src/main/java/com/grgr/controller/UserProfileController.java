@@ -114,5 +114,14 @@ public class UserProfileController {
 		model.addAttribute("boardWriteList", map.get("boardWriteList"));
 
 	}
+	
+	/* 관심게시글 조회 페이지 이동 */
+	@GetMapping("/myLikeList")
+	public void myLikeListGet(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, Model model) {
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
+		Map<String, Object> map = userService.getLikeList(loginUno, pageNum);
+		model.addAttribute("pager", map.get("pager"));
+		model.addAttribute("likeList", map.get("likeList"));
+	}
 
 }

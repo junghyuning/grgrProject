@@ -378,7 +378,70 @@
 		) total
 	</select>
 
+	<!-- 관심게시글 조회(조인) -->
+	<resultMap id="LikeResultMap" type="com.grgr.dto.MyLike">
+	<result property="title" column="TITLE"/>
+	<result property="content" column="CONTENT"/>
+	<result property="regdate" column="REGDATE"/>
+	<result property="viewCnt" column="VIEW_CNT"/>
+	<result property="nickName" column="NICKNAME"/>
+	<result property="boardtype" column="BOARDTYPE"/>
+	<result property="likeNo" column="LIKE_NO"/>
+	<result property="likeRegdate" column="LIKE_REGDATE"/>
+	<result property="bno" column="BNO"/>
+	<result property="uno" column="UNO"/>
+	</resultMap>
 
+	<select id="getLikeList" parameterType="int" resultMap="LikeResultMap">
+	SELECT * FROM (
+	SELECT UNO, BNO, TITLE, CONTENT, VIEWCNT, REGDATE, NICKNAME, BOARDTYPE, LIKENO, LIKEREGDATE, ROW_NUMBER() 
+	OVER (ORDER BY LIKEREGDATE DESC) AS RN FROM (
+	
+	SELECT INFO_LIKE.UNO AS UNO, 
+	INFO_LIKE.INFO_BNO AS BNO, 
+	INFO_LIKE.INFO_LIKE_NO AS LIKENO, 
+	INFO_LIKE.INFO_LIKE_REGDATE AS LIKEREGDATE,
+	INFO_BOARD.INFO_TITLE AS TITLE,
+	INFO_BOARD.INFO_CONTENT AS CONTENT,
+	INFO_BOARD.INFO_VIEW_CNT AS VIEWCNT,
+	INFO_BOARD.INFO_REGDATE AS REGDATE,
+	INFO_BOARD.BOARDTYPE AS BOARDTYPE,
+	USERINFO.NICKNAME AS NICKNAME 
+	FROM INFO_LIKE
+	INNER JOIN USERINFO ON INFO_LIKE.UNO = USERINFO.UNO
+	INNER JOIN INFO_BOARD ON INFO_LIKE.INFO_BNO = INFO_BOARD.INFO_BNO
+	WHERE INFO_LIKE.UNO = #{uno}
+	
+	UNION ALL
+	
+	SELECT FREE_LIKE.UNO AS UNO, 
+	FREE_LIKE.FREE_BNO AS BNO, 
+	FREE_LIKE.FREE_LIKE_NO AS LIKENO,
+	FREE_LIKE.FREE_LIKE_REGDATE AS LIKEREGDATE,
+	FREE_BOARD.FREE_TITLE AS TITLE,
+	FREE_BOARD.FREE_CONTENT AS CONTENT,
+	FREE_BOARD.FREE_VIEW_CNT AS VIEWCNT,
+	FREE_BOARD.FREE_REGDATE AS REGDATE,
+	FREE_BOARD.BOARDTYPE AS BOARDTYPE,
+	USERINFO.NICKNAME AS NICKNAME 
+	FROM FREE_LIKE
+	INNER JOIN USERINFO ON FREE_LIKE.UNO = USERINFO.UNO
+	INNER JOIN FREE_BOARD ON FREE_LIKE.FREE_BNO = FREE_BOARD.FREE_BNO
+	WHERE FREE_LIKE.UNO = #{uno}
+	) 
+	
+	COMBINED) TEMP WHERE RN BETWEEN #{startRow} AND #{endRow} 
+	</select>
+
+	<!-- 관심게시글 전체 갯수 -->
+	<select id="selectLikeCount" resultType="int" parameterType="int">
+	SELECT COUNT(*) AS total_count 
+	FROM (
+	SELECT INFO_LIKE.UNO AS UNO FROM INFO_LIKE WHERE INFO_LIKE.UNO = #{uno} 
+	UNION ALL 
+	SELECT FREE_LIKE.UNO AS UNO FROM FREE_LIKE WHERE FREE_LIKE.UNO = #{uno}
+	) total 
+	</select>
 
 	<!-- 검색 조건문 -->
 	<!-- TC:제목+내용, T: 제목, C: 내용, -->

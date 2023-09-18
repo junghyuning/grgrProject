@@ -32,6 +32,9 @@ public interface UserService {
 
 	/* 내가 쓴 게시글 조회 */
 	Map<String, Object> getBoardWriteList(int uno, int pageNum);
+	
+	/* 관심게시글 조회 */
+	Map<String, Object> getLikeList(int uno, int pageNum);
 
 	/* 아이디 찾기 */
 	public String findUserIdByNameAndEmail(String name, String email);
