@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 public class InfoLikeServiceImpl implements InfoLikeService{
 	private final InfoLikeDAO infoLikeDAO;
 	
+	@Override
 	public Map<String, Object> getMyLikeStatus(int infoBno, int loginUno) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("infoBno", infoBno);
@@ -30,6 +31,7 @@ public class InfoLikeServiceImpl implements InfoLikeService{
 		return resultMap;
 	}
 	
+	@Override
 	public Map<String, Object> likeToggle(int infoBno, int loginUno) {
 		Map<String , Object> map = new HashMap<String, Object>();
 		map.put("infoBno", infoBno);

@@ -58,13 +58,13 @@
 			<beans:ref bean="adminAuthInterceptor"/>
 		</interceptor>
 		<interceptor>
-			<!--  <mapping path="/user/**"/>  -->
 			<mapping path="/infoboard/**"/>
 			<mapping path="/inforeport/**"/>
 			<mapping path="/productboard/**"/>
 			<mapping path="/noticeboard/write"/>
 			<mapping path="/board/**"/>
-			<!-- <exclude-mapping path="/user/login-register"/> -->
+			<mapping path="/mypage/**"/>
+			<mapping path="/qnaboard/**"/>
 			<beans:ref bean="loginAuthInterceptor" />
 		</interceptor>
 	</interceptors>

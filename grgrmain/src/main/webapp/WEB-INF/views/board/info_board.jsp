@@ -5,37 +5,8 @@
 <!DOCTYPE html>
 <html lang="kor">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
 <!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
+<title>끼리끼리 - 정보공유게시판</title>
 <style>
 .va-middle {
 	font-size: 20px;
@@ -345,10 +316,13 @@
 	        $.ajax({
 	            type: "POST",
 	            url: "<c:url value="/inforeport/board-add"/>", // 신고 처리 컨트롤러 URL
+	            headers: {
+		            'Content-Type': 'text/html'
+		        },
 	            data: JSON.stringify({ 
 	            	infoBno: infoBno,
 	            	reportInfoboardReason: reportReason }),
-	            contentType: "application/json",
+	            	contentType: "application/json; charset=utf-8",
 	            success: function(response) {	            	
 	            	//신고 처리
 	                if (response === "success") {//신고 성공 시 모달 닫기
@@ -365,7 +339,7 @@
 	            },
 	            error: function(xhr){
 	            	console.log(xhr.responseText);
-	            	alert("신고 사유를 입력해주세요",xhr.responseText);
+	            	alert(xhr.responseText);
 	            }
 	        });
 	    };
@@ -502,11 +476,11 @@
 				
 					if (comment.uno === loginUno) {
 						//html += '<a href="#x" class="comment-modify"> <i class="far fa-comments fs-15 mr-5"></i>변경</a>';
-						html += '<a href="#x" class="comment-remove"> <i class="far fa-comments fs-15 mr-5"></i>삭제</a>';
+						html += '<a href="#x" class="comment-remove"> <i class="fas fa-times text-danger mr-5"></i>삭제</a>';
 					}
 					console.log("삭제 loginUno"+ loginUno);
 					if (loginUserStatus === 1) {
-						html += '<a href="#x" class="comment-hide"> <i class="far fa-comments fs-15 mr-5"></i>숨김</a>';
+						html += '<a href="#x" class="comment-hide"> <i class="fas fa-times text-danger mr-5"></i>숨김</a>';
 					}
 					html += '</span>';
 					html += '</p>';

@@ -228,7 +228,8 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			result = naverDAO.insertSnsUser(profile);
 		} else {
-			// 이미 같은 이메일의 사용자가 존재하는 경우
+			//이미 같은 이메일의 사용자가 존재하는 경우
+			profile.setUno(user.getUno());
 			result = naverDAO.updateSnsUser(profile);
 		}
 
