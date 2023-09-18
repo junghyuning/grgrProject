@@ -42,15 +42,15 @@
 	href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <style>
 .update-location-button {
-    background-color: #ffffff; 
-    color: #0074cc; 
-    border: none; 
-    padding: 10px 20px; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    font-size: 16px;
-  }
- </style>
+	background-color: #ffffff;
+	color: #0074cc;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+}
+</style>
 </head>
 <body>
 	<header class="xxl bg-img "
@@ -65,15 +65,18 @@
 
 				<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
 					<ul class="navbar-nav ml-30">
-						<li class="nav-item"><a class="nav-link" href="<c:url value="/info/matzib"/>">맛집정보</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="<c:url value="/info/matzib"/>">맛집정보</a></li>
 						<li class="nav-item ml-30"><a class="nav-link" href="#x">의료정보</a>
 						</li>
 					</ul>
 					<!-- / navbar-nav -->
 				</div>
-				<div class="input-group input-w-overlap-btn ml-20" style="width:300px;">
+				<div class="input-group input-w-overlap-btn ml-20"
+					style="width: 300px;">
 					<input type="text" class="form-control pill"
-						placeholder="검색어를 입력하세요." style="width:300px;"> <span class="input-group-btn">
+						placeholder="검색어를 입력하세요." style="width: 300px;"> <span
+						class="input-group-btn">
 						<button
 							class="btn btn-sm btn-icon btn-circle btn-primary overlapping-btn"
 							type="button">
@@ -91,7 +94,8 @@
 						</a></li>
 					</ul>
 					<ul class="navbar-button p-0 m-0 ml-80">
-						<li class="nav-item"><a href="<c:url value="/user/register"/>"
+						<li class="nav-item"><a
+							href="<c:url value="/user/register"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i> <span>회원가입</span>
 						</a></li>
@@ -99,21 +103,32 @@
 				</c:if>
 				<c:if test="${loginUno!=null && loginUserStatus!=1 }">
 
-				<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
-					<ul class="navbar-nav ml-30">
-						<li class="nav-item"><a class="nav-link" style="width:150px;">"${loginNickname }"&nbsp;님 <br> 환영합니다.</a></li>
-						<li class="nav-item ml-30"><a class="nav-link" href="">
-						<button class="update-location-button"onclick="updateLocation()">Update Location</button></a>
-						</li>
-					</ul>
-					<!-- / navbar-nav -->
-				</div>
-					
+					<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
+						<ul class="navbar-nav ml-30">
+							<li class="nav-item"><a class="nav-link"
+								style="width: 150px;">"${loginNickname }"&nbsp;님 <br>
+									환영합니다.
+							</a></li>
+							<li class="nav-item ml-30"><a class="nav-link" href="">
+									<button class="update-location-button"
+										onclick="updateLocation()">Update Location</button>
+							</a></li>
+						</ul>
+						<!-- / navbar-nav -->
+					</div>
+
 					<ul class="navbar-button p-0 m-0 ml-80">
 						<li class="nav-item"><a
 							href="<c:url value="/mypage/userProfile"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>마이페이지</span>
+						</a></li>
+					</ul>
+					<ul class="navbar-button p-0 m-0 ml-80">
+						<li class="nav-item"><a
+							href="<c:url value="/cart/list"/>"
+							class="btn btn-sm btn-primary pill"> <i
+								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>장바구니</span>
 						</a></li>
 					</ul>
 					<ul class="navbar-button p-0 m-0 ml-80">

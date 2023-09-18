@@ -47,19 +47,20 @@ public class UserProfileController {
 	/* 회원 조회(마이페이지) */
 	@GetMapping("/userProfile")
 	public String userProfilePageGet(HttpSession session, Model model) {
-	    logger.info("회원 마이페이지 진입");
-	    
-	    Integer uno = (Integer) session.getAttribute("loginUno"); 
-	    model.addAttribute("user", userService.userProfile(uno));
-	    return "mypage/userProfile";
+		logger.info("회원 마이페이지 진입");
+
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
+		model.addAttribute("user", userService.userProfile(loginUno));
+		return "mypage/userProfile";
 	}
-	
+
 	/* 회원 정보 수정 페이지 이동 */
 	@GetMapping("/updateUserProfile")
 	public String updateUserProfileGet(HttpSession session, Model model) {
 		logger.info("회원 정보 수정 페이지 진입");
-		 Integer uno = (Integer) session.getAttribute("loginUno"); 
-		model.addAttribute("user", userService.userProfile(uno));
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
+		model.addAttribute("user", userService.userProfile(loginUno));
+		model.addAttribute("loginUno", loginUno);
 		return "mypage/updateUserProfile";
 	}
 
@@ -95,9 +96,10 @@ public class UserProfileController {
 
 	/* 내가 쓴 댓글 조회페이지 이동 */
 	@GetMapping("/myCommentList")
-	public void myCommentListGet(@RequestParam int uno, @RequestParam(defaultValue = "1") int pageNum, Model model)
-			{
-		Map<String, Object> map = userService.getCommentList(uno, pageNum);
+	public void myCommentListGet(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, Model model) {
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
+		Map<String, Object> map = userService.getCommentList(loginUno, pageNum);
+		
 		model.addAttribute("pager", map.get("pager"));
 		model.addAttribute("commentList", map.get("commentList"));
 
@@ -105,9 +107,9 @@ public class UserProfileController {
 
 	/* 내가 쓴 게시글 조회 페이지 이동 */
 	@GetMapping("/myBoardWriteList")
-	public void myBoardWriteListGet(@RequestParam int uno, @RequestParam(defaultValue = "1") int pageNum, Model model)
-			{
-		Map<String, Object> map = userService.getBoardWriteList(uno, pageNum);
+	public void myBoardWriteListGet(HttpSession session, @RequestParam(defaultValue = "1") int pageNum, Model model) {
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
+		Map<String, Object> map = userService.getBoardWriteList(loginUno, pageNum);
 		model.addAttribute("pager", map.get("pager"));
 		model.addAttribute("boardWriteList", map.get("boardWriteList"));
 
