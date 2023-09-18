@@ -1,6 +1,7 @@
 package com.grgr.auth;
 
 import java.io.IOException;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -20,19 +22,29 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.grgr.dto.UserVO;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class NaverLoginBean implements NaverUrls {
-	private static final String CLIENT_ID = "mHXwNpAULbrozZWrhDo2";
-	private static final String CLIENT_SECRET = "totvPNJ11j";
-	private static final String REDIRECT_URL = "http://localhost/grgrmain/oauth/naver/callback";
+	Properties properties=new Properties();
+	//프로퍼티스 파일의 경로
+	
+	@Value("${naver.client.id}")
+	private String CLIENT_ID;
+	
+	@Value("${naver.client.secret}")
+	private String CLIENT_SECRET;
+	
+	@Value("${naver.redirect.url}")
+	private String REDIRECT_URL;
+	
 	private static final String SESSION_STATE = "naverState";
 
 	private OAuth20Service oAuth20Service;
 
 	public String getNaverAuthUrl(HttpSession session) {
-
+		
 		String state = UUID.randomUUID().toString();
 
 		session.setAttribute(SESSION_STATE, state);
@@ -40,6 +52,10 @@ public class NaverLoginBean implements NaverUrls {
 		// ScribeJava 에서 제공하는 인증 URL 생성 메서드
 		oAuth20Service = new ServiceBuilder(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL).state(state)
 				.build(NaverLoginApi20.instance());
+		log.warn("CLIENT_ID : "+CLIENT_ID);
+		log.warn("CLIENT_ID : "+CLIENT_SECRET);
+		log.warn("CLIENT_ID : "+REDIRECT_URL);
+		log.warn("request 경로 확인" + oAuth20Service.getAuthorizationUrl());
 
 		return oAuth20Service.getAuthorizationUrl();
 	}

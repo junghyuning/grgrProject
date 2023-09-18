@@ -3,12 +3,14 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grgr.dto.ReportInfoboard;
@@ -31,10 +33,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ReportInfoController {
 	private final ReportInfoService reportInfoService;
 	
-	@PostMapping("/board-add")
+	@PostMapping(value="/board-add", produces = "application/json; charset=utf8")
+	@ResponseBody
 	public ResponseEntity<String> addReportInfoBoard(@RequestBody @Valid ReportInfoboard reportInfoboard, Errors  errors, HttpSession session){
 		log.info("addReportInfoBoard");
 		if (errors.hasErrors()) {
+			 // 응답헤더 지정
 			log.info("valid - reportInfoboardReason");
 			String errorMessage = errors.getFieldError("reportInfoboardReason").getDefaultMessage();
 			log.info("errorMessage"+errorMessage);
