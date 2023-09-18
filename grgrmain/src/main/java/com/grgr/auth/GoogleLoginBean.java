@@ -92,9 +92,7 @@ public class GoogleLoginBean implements GoogleUrls {
 		//pw는 not null 조건이 걸려있으므로 랜덤값 생성하여 저장
 		userVO.setUserPw(UUID.randomUUID().toString()); 
 		userVO.setEmail((String) responseObject.get("email"));
-		userVO.setPhone((String) responseObject.get("mobile"));
-		userVO.setNickName((String) responseObject.get("nickname"));
-		userVO.setGoogleId((String) responseObject.get("id"));
+		userVO.setGoogleId((String) responseObject.get("sub"));
 	
 		return userVO;
 	}
