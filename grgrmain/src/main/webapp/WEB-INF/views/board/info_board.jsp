@@ -316,15 +316,14 @@
 	        $.ajax({
 	            type: "POST",
 	            url: "<c:url value="/inforeport/board-add"/>", // 신고 처리 컨트롤러 URL
-	            headers: {
-		            'Content-Type': 'text/html'
-		        },
 	            data: JSON.stringify({ 
 	            	infoBno: infoBno,
 	            	reportInfoboardReason: reportReason }),
-	            	contentType: "application/json; charset=utf-8",
+	            contentType: "application/json",
+	            dataType:"text",
 	            success: function(response) {	            	
 	            	//신고 처리
+	            	console.log("신고성공");
 	                if (response === "success") {//신고 성공 시 모달 닫기
 	                    alert("신고가 접수되었습니다.");
 	                    $('#reportModal').modal('hide');
@@ -338,7 +337,7 @@
 	            	$('#modal-reportReason-input').val('');
 	            },
 	            error: function(xhr){
-	            	console.log(xhr.responseText);
+	            	console.log("신고실패");
 	            	alert(xhr.responseText);
 	            }
 	        });
