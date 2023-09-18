@@ -60,4 +60,9 @@ public interface UserService {
 	boolean loginKakaoUser(UserVO profile);
 
 	UserVO getKakaoLoginUser(String kakaoId);
+	
+	/* 구글 로그인시 유저정보 삽입 OR 업데이트 */
+	boolean loginGoogleUser(UserVO profile);
+
+	UserVO getGoogleLoginUser(String naverId);
 }
