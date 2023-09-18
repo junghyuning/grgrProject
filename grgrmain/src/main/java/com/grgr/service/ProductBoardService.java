@@ -8,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductUserDTO;
+import com.grgr.exception.FileDeleteException;
 import com.grgr.exception.FileUploadFailException;
+import com.grgr.exception.PostUpdateException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.util.SearchCondition;
 
@@ -29,16 +31,11 @@ public interface ProductBoardService {
 			throws WriteNullException, FileUploadFailException, IOException;
 
 	/* 게시판 수정 */
-	void modifyProduct(ProductBoardVO productBoard);
+	void modifyProduct(ProductBoardVO productBoard, List<MultipartFile> files)
+			throws FileUploadFailException, IOException;
 
 	/* 게시판 삭제 */
-	void removeProduct(int productId, int uno);
-
-	/* 조회수 증가 */
-	// int increaseProductViewCnt(int productId);
-
-	/* 신고수 증가 */
-	// int increaseProductReportNo(int productId);
+	void removeProduct(int productId, int uno) throws PostUpdateException;
 
 	/* 게시판 총 갯수 */
 	int productBoardCount(SearchCondition searchCondition);
@@ -47,5 +44,8 @@ public interface ProductBoardService {
 	ProductUserDTO getBoardUserInfo(int productId);
 
 	void hideProductBoard(int productId, int loginUser, int loginUserStatus);
+
+	/* 이미지 삭제 */
+	void removeProductFiles(List<Integer> deleteFileList) throws FileDeleteException;
 
 }
