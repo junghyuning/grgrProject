@@ -162,7 +162,7 @@
 								class="btn btn-xs btn-primary pill"
 								style="float: right; font-size: 15px"><span>장바구니 이동</span></a>
 						</div>
-						
+
 					</div>
 
 					<c:if
@@ -199,7 +199,7 @@
 								정보</a></li>
 						<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
 							href="#reviews" role="tab"><i class="fas fa-star mr-5"></i>
-								리뷰 (2)</a></li>
+								리뷰</a></li>
 					</ul>
 					<!-- / nav tabs -->
 					<div class="tab-content">
@@ -226,45 +226,70 @@
 							</div>
 							<!-- / table-overflow -->
 						</div>
+						<div class="tab-pane fade mt-30" id="reviews" role="tabpanel">
+							<div class="table-overflow">
+								<table class="table table-xl mb-0">
+									<tbody>
+										<tr>
+											<td>
+												<div class="list-media img-lg">
+													<div class="list-item">
+
+															
+														</div>
+														<!-- / media-img -->
+														<div class="info">
+															<ul id="comments-list"
+																style="border-bottom: solid 1px #97989d; padding-left: 0px">
+															</ul>
+															<nav aria-label="pagination-center">
+																<ul class="pagination justify-content-center">
+																</ul>
+															</nav>
+
+														</div>
+														<!-- / info -->
+													</div> <!-- / list-item -->
+
+											</td>
+										</tr>
+										<tr>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- / table-overflow -->
+						</div>
 						<!-- / tab-pane -->
 					</div>
-					<!-- / tab-content -->
+					<!-- / tab-pane -->
 				</div>
-				<!-- / card-body -->
+				<!-- / tab-content -->
 			</div>
-			<!-- / card -->
-
-			<!-------------------------------------------댓글영역 ----------------------------------------------->
-
-			<i class="far fa-comments fs-20 text-warning d-block mb-15"
-				style="border-top: 1px solid #97989d; padding-top: 15px">댓글</i>
-
-			<!-- 댓글 출력 -->
-			<ul id="comments-list"
-				style="border-bottom: solid 1px #97989d; padding-left: 0px">
-
-			</ul>
-
-			<!-- 댓글 제출 폼 -->
-			<div id="reply-form">
-				<form id="replyForm">
-					<textarea id="reply" class="form-control border-faded" rows="15"
-						placeholder="댓글을 입력하세요"></textarea>
-					<button type="button" id="submit-reply"
-						class="btn btn-primary-gradient w-100 mt-15">
-						<span>댓글 등록</span>
-					</button>
-				</form>
-			</div>
-			<!-- / replyForm - 댓글 제출 폼 -->
-			<!-- 페이지 네비게이션 -->
-			<nav aria-label="pagination-center">
-				<ul class="pagination justify-content-center">
-				</ul>
-			</nav>
-			<!-- 페이지 네비 -->
+			<!-- / card-body -->
 		</div>
+		<!-- / card -->
+
+		<!-------------------------------------------댓글영역 ----------------------------------------------->
+
+		<i class="far fa-comments fs-20 text-warning d-block mb-15"
+			style="border-top: 1px solid #97989d; padding-top: 15px">리뷰 작성하기</i>
+
+		<!-- 댓글 출력 -->
+
+		<!-- 댓글 제출 폼 -->
+		<div id="reply-form">
+			<form id="replyForm">
+				<textarea id="reply" class="form-control border-faded" rows="15"
+					placeholder="리뷰를 입력하세요"></textarea>
+				<button type="button" id="submit-reply"
+					class="btn btn-primary-gradient w-100 mt-15">
+					<span>리뷰 등록</span>
+				</button>
+			</form>
 		</div>
+		<!-- / replyForm - 댓글 제출 폼 -->
 		<!-- 대댓글 폼 : 대댓 버튼 누를시 댓글아래로 이동하여 style -> block-->
 		<div id="comment-reply" data-group=""
 			style="display: none; width: 95%; display: flex; justify-content: flex-end; align-items: center; margin: 10px;">
@@ -386,7 +411,7 @@
 		    html += '" data-group="' + comment.productCommentGroup;
 		    html += '" data-productId="' + comment.productId + '">';
 			if (comment.productCommentBlindstate === 3) { // 댓글이 삭제
-				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">삭제된 댓글입니다.</p>';
+				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">삭제된 리뷰입니다.</p>';
 			} else if (comment.productCommentBlindstate == 2) { //게시자가 숨겼다면
 				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">관리자에의해 비공개된 댓글입니다.</p>';
 			} else { // 정상적으로 보이는 게시물

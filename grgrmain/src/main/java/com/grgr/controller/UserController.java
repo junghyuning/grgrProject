@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,8 +61,15 @@ public class UserController {
 
 	/* 회원가입 */ /* 추후에 수정 필요(회원가입 페이지 + 로그인 페이지 통합) */
 	@PostMapping("/join")
-	public String joinPOST(UserVO user) throws Exception {
+	public String joinPOST(@ModelAttribute("user") @Valid UserVO user, BindingResult bindingResult, Model model)
+			throws Exception {
 		logger.info("가입 진행");
+
+		if (bindingResult.hasErrors()) {
+			// 아이디 형식 검증 오류가 있을 경우
+			String errorMessage = bindingResult.getFieldError("userId").getDefaultMessage();
+			model.addAttribute("errorMessage", errorMessage); // 오류 메시지를 모델에 추가
+		}
 
 		String rawPw = ""; // 인코딩 전 비밀번호
 		String encodePw = ""; // 인코딩 후 비밀번호

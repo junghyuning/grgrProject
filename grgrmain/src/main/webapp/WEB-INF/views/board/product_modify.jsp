@@ -229,14 +229,25 @@
 														.getElementsByName('productContent')[0].value;
 
 												if (title.trim() === ''
-														|| content.trim() === '') {
-													alert('제목과 내용을 모두 입력해주세요.');
+														|| content.trim() === ''
+														|| price.trim() === '') {
+													alert('제목과 내용, 가격을 모두 입력해주세요.');
+												} else if (!isValidPrice(price)) {
+													alert('올바른 형식의 가격을 입력해주세요.');
 												} else {
 													document.getElementById(
 															'form-validation')
 															.submit(); // 폼을 제출
 												}
 											});
+
+							function isValidPrice(price) {
+								// 가격이 숫자이고 1 이상 50,000,000 이하인지 검사
+								var numericPrice = parseFloat(price);
+								return !isNaN(numericPrice)
+										&& numericPrice >= 1
+										&& numericPrice <= 50000000;
+							}
 							if (Modernizr.touch) {
 								// show the close overlay button
 								$('.close-overlay').removeClass('hidden');
