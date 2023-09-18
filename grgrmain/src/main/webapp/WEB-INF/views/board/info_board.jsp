@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="kor">
 <head>
@@ -164,8 +165,8 @@
 
 						<i class="fas fa-user mr-5"></i>${infoBoard.nickname } <span
 							class="mr-5 ml-5 text-muted">|</span><i
-							class="fas fa-calendar-alt mr-5"></i>${infoBoard.infoRegdate }<span
-							class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
+							class="fas fa-calendar-alt mr-5"></i><fmt:formatDate value="${infoBoard.infoRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
+						<span class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
 						<c:choose>
 							<c:when test="${infoBoard.infoKeyword=='food'}">맛집</c:when>
 							<c:when test="${infoBoard.infoKeyword=='market'}">기타 후기</c:when>
