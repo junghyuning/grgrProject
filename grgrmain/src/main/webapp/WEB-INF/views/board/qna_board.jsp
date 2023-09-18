@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="kor">
 <head>
@@ -156,14 +157,16 @@
 					<p
 						class="fs-12 post-meta-small p-y-15 pl-15 mb-15 border-secondary"
 						style="clear: both; padding: 10px">
-
-						<i class="fas fa-user mr-5"></i>${qnaBoard.nickname } <span
-							class="mr-5 ml-5 text-muted">|</span><i
-							class="fas fa-calendar-alt mr-5"></i>${qnaBoard.qnaRegdate }<span
-							class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
+						<i class="fas fa-user mr-5"></i>${qnaBoard.nickname} <span
+							class="mr-5 ml-5 text-muted">|</span> <i
+							class="fas fa-calendar-alt mr-5"></i>
+						<fmt:formatDate value="${qnaBoard.qnaRegdate}"
+							pattern="yyyy-MM-dd HH:mm:ss" />
+						<span class="mr-5 ml-5 text-muted">|</span> <i
+							class="fas fa-tag mr-5"></i>
 						<c:choose>
-							<c:when test="${qnaBoard.qnaKeyword=='member'}">일반회원</c:when>
-							<c:when test="${qnaBoard.qnaKeyword=='trade'}">상권회원</c:when>
+							<c:when test="${qnaBoard.qnaKeyword == 'member'}">일반회원</c:when>
+							<c:when test="${qnaBoard.qnaKeyword == 'trade'}">상권회원</c:when>
 						</c:choose>
 					</p>
 

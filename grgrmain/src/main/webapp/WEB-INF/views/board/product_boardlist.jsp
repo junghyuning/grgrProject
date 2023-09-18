@@ -187,7 +187,7 @@
 													<p class="product-regdate">
 														<i class="far fa-calendar-alt mr-5"></i>
 														<fmt:formatDate value="${productBoardList.productRegdate}"
-															pattern="yyyy/MM/dd" />
+															pattern="yyyy-MM-dd HH:mm:ss" />
 													</p>
 
 													<div class="product-card-footer">
