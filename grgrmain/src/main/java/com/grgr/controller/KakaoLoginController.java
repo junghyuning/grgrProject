@@ -29,7 +29,7 @@ public class KakaoLoginController {
 
 	@RequestMapping("/kakao")
 	public String kakaoLogin(HttpSession session) throws UnsupportedEncodingException {
-		String kakaoAuthUrl = kakaoLoginBean.getKakaoAuthUrl(session);
+		String kakaoAuthUrl = kakaoLoginBean.getKakaoAuthUrl(session) + "&response_type=code";
 		return "redirect:" + kakaoAuthUrl;
 	}
 
