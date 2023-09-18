@@ -157,8 +157,7 @@
 									id="addToCartBtn">
 									<i class="fas fa-shopping-cart mr-5"></i> <span>장바구니 담기</span>
 								</button>
-							</span> <a
-								href="<c:url value='/cart/list?uno=${sessionScope.loginUno}' />"
+							</span> <a href="<c:url value="/cart/list" />"
 								class="btn btn-xs btn-primary pill"
 								style="float: right; font-size: 15px"><span>장바구니 이동</span></a>
 						</div>
@@ -233,23 +232,20 @@
 										<tr>
 											<td>
 												<div class="list-media img-lg">
-													<div class="list-item">
-
-															
-														</div>
-														<!-- / media-img -->
-														<div class="info">
-															<ul id="comments-list"
-																style="border-bottom: solid 1px #97989d; padding-left: 0px">
+													<div class="list-item"></div>
+													<!-- / media-img -->
+													<div class="info">
+														<ul id="comments-list"
+															style="border-bottom: solid 1px #97989d; padding-left: 0px">
+														</ul>
+														<nav aria-label="pagination-center">
+															<ul class="pagination justify-content-center">
 															</ul>
-															<nav aria-label="pagination-center">
-																<ul class="pagination justify-content-center">
-																</ul>
-															</nav>
+														</nav>
 
-														</div>
-														<!-- / info -->
-													</div> <!-- / list-item -->
+													</div>
+													<!-- / info -->
+												</div> <!-- / list-item -->
 
 											</td>
 										</tr>

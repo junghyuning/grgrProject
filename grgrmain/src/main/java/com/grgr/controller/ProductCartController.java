@@ -46,9 +46,9 @@ public class ProductCartController {
 	}
 
 	@GetMapping("/list")
-	public String cartList(@RequestParam("uno") int uno, Model model, HttpSession session) {
+	public String cartList(Model model, HttpSession session) {
 		Integer loginUno = (Integer) session.getAttribute("loginUno");
-		List<ProductCartDTO> cartList = productCartService.getCartList(uno);
+		List<ProductCartDTO> cartList = productCartService.getCartList(loginUno);
 
 		model.addAttribute("cartList", cartList);
 		System.out.println(cartList);
