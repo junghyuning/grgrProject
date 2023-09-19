@@ -450,7 +450,7 @@
 											pwckCheck = true;
 										}
 
-										/* 닉네임 유효성 검사 */
+										/* 닉네임 유효성 검사 */ 
 										if (nickName == "") {
 											$('.final_nickName_ck').css(
 													'display', 'block');
