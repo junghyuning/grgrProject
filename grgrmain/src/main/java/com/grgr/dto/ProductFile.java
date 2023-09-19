@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProductFile {
-		private int productFileNO;
+		private int productFileNo;
 		private int productId;
 		private String productFileOrigin;
 		private String productFileUpload;

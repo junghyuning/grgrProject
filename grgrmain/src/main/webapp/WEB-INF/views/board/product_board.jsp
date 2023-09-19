@@ -139,12 +139,6 @@
 					<p class="lead m-y-40">
 						<c:out value="${productBoard.productContent}" />
 					</p>
-					<p class="ratings mb-0">
-						<i class="fas fa-star fs-16"></i> <i class="fas fa-star fs-16"></i>
-						<i class="fas fa-star fs-16"></i> <i class="fas fa-star fs-16"></i>
-						<i class="fas fa-star fs-16"></i> <span class="ml-5">(2
-							Reviews)</span>
-					</p>
 
 
 					<div class="form-cart">
@@ -366,7 +360,7 @@
 					
 					if(data.productCommentList.length===0){
 						var html="<li class='comment'>";
-						html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">댓글이 존재하지 않습니다. 첫번째 댓글을 입력해주세요.</p>';
+						html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">리뷰가 존재하지 않습니다. 첫번째 리뷰를 입력해주세요.</p>';
 					
 						html+="</li>";
 						$("#comments-list").html(html);
