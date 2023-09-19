@@ -191,7 +191,7 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 	public void removeProductFiles(List<Integer> deleteFileList) throws FileDeleteException {
 		// TODO Auto-generated method stub
 		for (Integer fileNo : deleteFileList) {
-			productBoardDAO.deleteProductFiile(fileNo);
+			productBoardDAO.deleteProductFile(fileNo);
 		}
 	}
 
