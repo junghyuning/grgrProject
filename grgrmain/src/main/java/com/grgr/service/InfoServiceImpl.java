@@ -15,6 +15,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grgr.dto.Matzib;
 import com.grgr.dto.MatzibResponse;
+import com.grgr.dto.Medical;
+import com.grgr.dto.MedicalResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +37,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class InfoServiceImpl implements InfoService {
 
-	
+	/* 맛집 관련*/
 	@Override
 	public List<Matzib> getMatzibList(String query) {
 	    RestTemplate restTemplate = new RestTemplate();
@@ -71,6 +73,45 @@ public class InfoServiceImpl implements InfoService {
 	    }
 
 	    return matzibList;
+	}
+
+	
+	/* 의료정보 관련*/
+	@Override
+	public List<Medical> getMedicalList(String query) {
+	    RestTemplate restTemplate = new RestTemplate();
+	    List<Medical> medicalList = new ArrayList<>();
+
+	    
+	    for (int page = 1; page <=4; page++) {
+	        // Kakao API 호출 URI 생성
+	        URI uri = UriComponentsBuilder.fromUriString("https://dapi.kakao.com/v2/local/search/keyword.json")
+	                .queryParam("query", query)
+	                .queryParam("size", 15)
+	                .queryParam("sort", "accuracy")
+	                .queryParam("category_group_code", "HP8")
+	                .queryParam("page", page)
+	                .encode()
+	                .build()
+	                .toUri();
+
+	        // Kakao API 헤더 설정
+	        String kakaoApiKey = "0fb3ecb8e0027e1631f8bac23640202b";
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("Authorization", "KakaoAK " + kakaoApiKey); // API 키 설정
+	        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+	        // Kakao API 호출
+	        RequestEntity<Void> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
+	        ResponseEntity<MedicalResponse> responseEntity = restTemplate.exchange(requestEntity, MedicalResponse.class);
+	        MedicalResponse medicalResponse = responseEntity.getBody();
+
+	        if (medicalResponse != null) {
+	            medicalList.addAll(medicalResponse.getDocuments());
+	        }
+	    }
+
+	    return medicalList;
 	}
 
 }

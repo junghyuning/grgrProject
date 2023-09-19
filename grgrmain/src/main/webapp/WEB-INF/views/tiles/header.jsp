@@ -91,7 +91,7 @@
 					<ul class="navbar-nav ml-30">
 						<li class="nav-item"><a class="nav-link"
 							href="<c:url value="/info/matzib"/>">맛집정보</a></li>
-						<li class="nav-item ml-30"><a class="nav-link" href="#x">의료정보</a>
+						<li class="nav-item ml-30"><a class="nav-link" href="<c:url value="/info/medical"/>">의료정보</a>
 						</li>
 					</ul>
 					<!-- / navbar-nav -->
@@ -118,7 +118,7 @@
 					<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
 						<ul class="navbar-nav ml-30">
 							<li class="nav-item"><a class="nav-link"
-								style="width: 150px;">"${loginNickname }"&nbsp;님의 위치는 "${loginLoc}" 입니다.
+								style="width: 150px;">"${loginNickname }"&nbsp;님의 위치는 "${loginLocation}" 입니다.
 							</a></li>
 							<li class="nav-item ml-30"><a class="nav-link" href="">
 									<button class="update-location-button"
