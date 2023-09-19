@@ -19,10 +19,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.grgr.dto.Matzib;
+import com.grgr.dto.Medical;
 import com.grgr.service.InfoService;
 import lombok.RequiredArgsConstructor;
 
-
+@CrossOrigin(origins = "*")
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/info")
@@ -40,5 +41,16 @@ public class InformationController {
         List<Matzib> matzibList = infoService.getMatzibList(query);
         model.addAttribute("matzibList", matzibList);
         return "info/matzibList"; 
+    }
+    
+    /* 의료정보 검색 */
+    @GetMapping("/medical")
+    public String getMedicalList(Model model) {
+       
+    	
+    	String query = (String)session.getAttribute("loginLocation")+"병원";
+        List<Medical> medicalList = infoService.getMedicalList(query);
+        model.addAttribute("medicalList", medicalList);
+        return "info/medicalList"; 
     }
 }
