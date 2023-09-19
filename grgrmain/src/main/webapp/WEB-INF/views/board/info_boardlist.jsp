@@ -159,7 +159,7 @@
 															style="margin-bottom: 0">
 															<span class="text-sm text-info">조회수 : </span> <span
 																class="timer va-middle" id="count-inline-three"
-																data-to="1155" data-speed="3000">${infoBoard.infoViewCnt }</span>
+																data-to=${infoBoard.infoViewCnt } data-speed="3000">${infoBoard.infoViewCnt }</span>
 														</p>
 													</div>
 
