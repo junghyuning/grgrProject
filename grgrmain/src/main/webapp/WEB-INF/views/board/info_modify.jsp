@@ -4,37 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
 <!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
+<title>끼리끼리 - 정보공유게시판</title>
 </head>
 <style>
 .va-middle {

@@ -38,7 +38,7 @@ public class ReportInfoboard {
 	private int reportInfoboardNo;
 	private int infoBno;
 	private int uno;
-	@NotEmpty
+	@NotEmpty(message = "신고 사유를 입력해 주세요.")
 	private String reportInfoboardReason;
 	private Date reportInfoboardRegdate;
 }

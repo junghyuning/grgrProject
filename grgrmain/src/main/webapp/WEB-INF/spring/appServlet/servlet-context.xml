@@ -4,7 +4,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
@@ -47,24 +49,24 @@
 	<!-- 관리자 인터셉터 -->
 	<interceptors>
 		<interceptor>
-			<mapping path="*/hide/**"/>
-			<mapping path="/notice/*"/>
-			<mapping path="/admin/user-list"/>
-			<mapping path="/user/modify"/>
-			<mapping path="/user/remove"/> 
-			<mapping path="/noticeboard/write"/>
-			<mapping path="/noticeboard/modify"/>
-			<mapping path="/noticeboard/remove"/>
-			<beans:ref bean="adminAuthInterceptor"/>
+			<mapping path="*/hide/**" />
+			<mapping path="/notice/*" />
+			<mapping path="/admin/user-list" />
+			<mapping path="/user/modify" />
+			<mapping path="/user/remove" />
+			<mapping path="/noticeboard/write" />
+			<mapping path="/noticeboard/modify" />
+			<mapping path="/noticeboard/remove" />
+			<beans:ref bean="adminAuthInterceptor" />
 		</interceptor>
 		<interceptor>
-			<!--  <mapping path="/user/**"/>  -->
-			<mapping path="/infoboard/**"/>
-			<mapping path="/inforeport/**"/>
-			<mapping path="/productboard/**"/>
-			<mapping path="/noticeboard/write"/>
-			<mapping path="/board/**"/>
-			<!-- <exclude-mapping path="/user/login-register"/> -->
+			<mapping path="/infoboard/**" />
+			<mapping path="/inforeport/**" />
+			<mapping path="/productboard/**" />
+			<mapping path="/noticeboard/write" />
+			<mapping path="/board/**" />
+			<mapping path="/mypage/**" />
+			<mapping path="/qnaboard/**" />
 			<beans:ref bean="loginAuthInterceptor" />
 		</interceptor>
 	</interceptors>
@@ -82,8 +84,9 @@
 		base-package="com.grgr.dto" />
 	<context:component-scan
 		base-package="com.grgr.auth" />
-		
-	<context:component-scan base-package="xyz.grgr.auth" />
+
+	<context:component-scan
+		base-package="xyz.grgr.auth" />
 	<!-- 파일 업로드 처리 기능을 제공하는 클래스를 Spring Bean으로 등록 -->
 	<!-- => Spring Bean의 식별자(beanName)를 반드시 [multipartResolver]로 설정 -->
 	<!-- <beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
@@ -119,14 +122,18 @@
 		<beans:property name="cacheSeconds" value="60" />
 		<beans:property name="defaultEncoding" value="utf-8" />
 	</beans:bean>
+
 	<!-- defaultLocale 필드에 기본적으로 사용될 메세지의 사용 언어를 속성값으로 설정 -->
 	<beans:bean
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" id="localeResolver">
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
+		id="localeResolver">
 		<!-- defaultLocale 필드에 기본적으로 사용될 메세지의 사용 언어를 속성값으로 설정 -->
 		<beans:property name="defaultLocale" value="ko" />
 	</beans:bean>
-	
+
+
 	<!-- 로그인관련 api key 저장 properties -->
-	
+	<context:property-placeholder location="classpath:/apiKeys.properties" />
 
 </beans:beans>
+

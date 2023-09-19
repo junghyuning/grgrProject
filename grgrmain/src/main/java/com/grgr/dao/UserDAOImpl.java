@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
+import com.grgr.dto.MyLike;
 import com.grgr.dto.UserVO;
 import com.grgr.mapper.UserMapper;
 
@@ -136,6 +137,18 @@ public class UserDAOImpl implements UserDAO {
 		parameterMap.put("loginId", loginId);
 		parameterMap.put("address", address);
 		sqlSession.update("getAddressFromCoordinate", parameterMap);
+	}
+	
+	/* 관심게시글 조회 */
+	@Override
+	public List<MyLike> getLikeList(int uno, int startRow, int endRow) {
+		return sqlSession.getMapper(UserMapper.class).getLikeList(uno, startRow, endRow);
+	}
+	
+	/* 전체 관심게시글 수 */
+	@Override
+	public int selectLikeCount(int uno) {
+		return sqlSession.getMapper(UserMapper.class).selectLikeCount(uno);
 	}
 	
 }

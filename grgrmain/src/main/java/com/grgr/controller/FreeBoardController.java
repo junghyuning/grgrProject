@@ -3,7 +3,6 @@ package com.grgr.controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grgr.dto.FreeBoard;
-import com.grgr.dto.InfoBoard;
 import com.grgr.exception.FileUploadFailException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.service.FreeBoardService;

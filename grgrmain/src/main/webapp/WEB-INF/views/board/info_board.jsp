@@ -2,40 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="kor">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
 <!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
+<title>끼리끼리 - 정보공유게시판</title>
 <style>
 .va-middle {
 	font-size: 20px;
@@ -193,8 +165,8 @@
 
 						<i class="fas fa-user mr-5"></i>${infoBoard.nickname } <span
 							class="mr-5 ml-5 text-muted">|</span><i
-							class="fas fa-calendar-alt mr-5"></i>${infoBoard.infoRegdate }<span
-							class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
+							class="fas fa-calendar-alt mr-5"></i><fmt:formatDate value="${infoBoard.infoRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
+						<span class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
 						<c:choose>
 							<c:when test="${infoBoard.infoKeyword=='food'}">맛집</c:when>
 							<c:when test="${infoBoard.infoKeyword=='market'}">기타 후기</c:when>
@@ -349,8 +321,10 @@
 	            	infoBno: infoBno,
 	            	reportInfoboardReason: reportReason }),
 	            contentType: "application/json",
+	            dataType:"text",
 	            success: function(response) {	            	
 	            	//신고 처리
+	            	console.log("신고성공");
 	                if (response === "success") {//신고 성공 시 모달 닫기
 	                    alert("신고가 접수되었습니다.");
 	                    $('#reportModal').modal('hide');
@@ -364,8 +338,8 @@
 	            	$('#modal-reportReason-input').val('');
 	            },
 	            error: function(xhr){
-	            	console.log(xhr.responseText);
-	            	alert("신고 사유를 입력해주세요",xhr.responseText);
+	            	console.log("신고실패");
+	            	alert(xhr.responseText);
 	            }
 	        });
 	    };
@@ -502,11 +476,11 @@
 				
 					if (comment.uno === loginUno) {
 						//html += '<a href="#x" class="comment-modify"> <i class="far fa-comments fs-15 mr-5"></i>변경</a>';
-						html += '<a href="#x" class="comment-remove"> <i class="far fa-comments fs-15 mr-5"></i>삭제</a>';
+						html += '<a href="#x" class="comment-remove"> <i class="fas fa-times text-danger mr-5"></i>삭제</a>';
 					}
 					console.log("삭제 loginUno"+ loginUno);
 					if (loginUserStatus === 1) {
-						html += '<a href="#x" class="comment-hide"> <i class="far fa-comments fs-15 mr-5"></i>숨김</a>';
+						html += '<a href="#x" class="comment-hide"> <i class="fas fa-times text-danger mr-5"></i>숨김</a>';
 					}
 					html += '</span>';
 					html += '</p>';

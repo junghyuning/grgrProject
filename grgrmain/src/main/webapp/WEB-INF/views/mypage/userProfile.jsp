@@ -38,6 +38,13 @@
 <link
 	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
 	rel="stylesheet" type="text/css">
+
+<style>
+.btn-group-vertical .btn {
+	margin-bottom: 10px; /* 원하는 간격으로 조정합니다. */
+}
+</style>
+
 </head>
 
 <body>
@@ -131,35 +138,9 @@
 					<!-- / project-post -->
 				</div>
 				<!-- / column -->
-
+				<jsp:include page="/WEB-INF/views/tiles/mypage_sidebar.jsp" />
 				<div class="col-lg-4 sidebar">
-					<div class="widget text-left pb-20 mt-0">
-						<div
-							class="promo-box p-x-0 p-y-15 mb-0 promo-left bg-transparent no-shadow">
-							<div class="widget text-left p-y-15">
-								<a
-									href="<c:url value='/mypage/myBoardWriteList?uno=${user.uno}' />"
-									class="btn btn-primary btn-block mb-15"><i
-									class="fas fa-user mr-5"></i> <span>내가 쓴 글</span></a> <a
-									href="<c:url value='/mypage/myCommentList?uno=${user.uno}' />"
-									class="btn btn-primary btn-block"><i
-									class="fas fa-user mr-5"></i> <span>내가 쓴 댓글</span></a>
-							</div>
-							<!-- / promo-container -->
-						</div>
-					</div>
-					<!-- / widget -->
 
-					<!-- / widget -->
-
-
-					<!-- / widget -->
-
-					<div class="widget text-left p-y-15">
-						<a href="<c:url value='/mypage/updateUserProfile' />"
-							class="btn btn-primary btn-block"><i class="fas fa-user mr-5"></i>
-							<span>회원정보 수정</span></a>
-					</div>
 					<!-- / widget -->
 				</div>
 				<!-- / column -->

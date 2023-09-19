@@ -44,9 +44,13 @@ public interface ProductBoardMapper {
 
 	int blindProductBoard(Map<String, Object> map);
 
-	// 사진
+	/* 사진 */
+	List<ProductFile> selectProductFile(int productId);
+
+	/* 사진 추가 */
 	int insertProductFile(ProductFile productFile);
 
-	List<ProductFile> selectProductFile(int productId);
+	/* 사진 삭제 */
+	int deleteProductFiile(int productFileNo);
 
 }

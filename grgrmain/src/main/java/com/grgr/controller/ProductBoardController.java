@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.exception.FileUploadFailException;
+import com.grgr.exception.PostUpdateException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.service.ProductBoardService;
 import com.grgr.util.SearchCondition;
@@ -106,19 +107,21 @@ public class ProductBoardController {
 
 	/* 페이지 수정 */
 	@PostMapping(value = "/modify")
-	public String ProductBoardModifyPost(@Valid @ModelAttribute ProductBoardVO productBoard, RedirectAttributes rttr) {
+	public String ProductBoardModifyPost(@Valid @ModelAttribute ProductBoardVO productBoard,
+			@RequestParam(value = "files", required = false) List<MultipartFile> files)
+			throws FileUploadFailException, IOException {
 		if (productBoard.getProductTitle() == null || productBoard.getProductContent() == null) {
 			throw new WriteNullException("제목 또는 내용이 비어있습니다.");
 		}
 
-		productBoardService.modifyProduct(productBoard);
+		productBoardService.modifyProduct(productBoard, files);
 		return "redirect:/productboard/get?productId=" + productBoard.getProductId();
 	}
 
 	/* 페이지 삭제 */
 	@RequestMapping("/remove")
 	public String ProductBoardDeletePost(@RequestParam Integer productId, SearchCondition searchCondition,
-			HttpSession session, RedirectAttributes rattr) {
+			HttpSession session, RedirectAttributes rattr) throws PostUpdateException {
 
 		Integer loginUno = (Integer) session.getAttribute("loginUno");
 		productBoardService.removeProduct(productId, loginUno);

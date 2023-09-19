@@ -9,5 +9,7 @@ public class MainInfo {
 	private String infoTitle;
 	private String infoContent;
 	private String infoKeyword;
+	private String infoLoc;
 	private String infoFileUpload;
+	
 }

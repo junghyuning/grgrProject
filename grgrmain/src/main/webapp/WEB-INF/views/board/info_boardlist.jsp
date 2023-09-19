@@ -5,37 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
-<!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
+<title>끼리끼리 - 정보공유게시판</title>
 </head>
 <style>
 .page-link {
@@ -189,7 +159,7 @@
 															style="margin-bottom: 0">
 															<span class="text-sm text-info">조회수 : </span> <span
 																class="timer va-middle" id="count-inline-three"
-																data-to="1155" data-speed="3000">${infoBoard.infoViewCnt }</span>
+																data-to=${infoBoard.infoViewCnt } data-speed="3000">${infoBoard.infoViewCnt }</span>
 														</p>
 													</div>
 
@@ -198,7 +168,8 @@
 														style="display: block; text-align: right;">
 														<i class="fas fa-user mr-5"></i>${infoBoard.nickname} <span
 															class="m-x-10 text-muted">|</span> <i
-															class="far fa-calendar-alt mr-5"></i>${infoBoard.infoRegdate}
+															class="far fa-calendar-alt mr-5"></i>
+														<fmt:formatDate value="${infoBoard.infoRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
 														<span class="m-x-10 text-muted">|</span> <i
 															class="fas fa-tag mr-10"></i>
 														<c:choose>

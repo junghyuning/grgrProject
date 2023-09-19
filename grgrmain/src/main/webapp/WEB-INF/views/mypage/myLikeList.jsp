@@ -61,23 +61,13 @@
 }
 </style>
 <body>
-	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
-
-	<div id="top"></div>
-	<!-- / top -->
 
 
-
-	<!-- 큰 컨테이너  -->
+<!-- 큰 컨테이너  -->
 	<section class="big">
 		<div class="container">
-			<h2 class="hidden">userBoardWrite List</h2>
+			<h2 class="hidden">userLikeList</h2>
 			<!-- 키워드 -->
 			<ul class="list-inline text-center mb-30">
 				<li id="keyword-button"><a
@@ -91,59 +81,13 @@
 					class="btn btn-outline-primary m-y-10 mr-10">관심게시글</a></li>
 			</ul>
 
-
-			<div>
-				<!-- 검색 -->
-				<!-- select -->
-				<%-- <div class="card">
-					<div class="card-body"
-						style="padding-bottom: 20px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
-						<form action="list" method="get"
-							class="d-flex align-items-center justify-content-between">
-							<input type="hidden" name="pageNum" value="1">
-							<div class="col-md-3 tablet-top" style="padding-right: 10px">
-								<select class="custom-select" id="select" name="searchType">
-									<option value="TC"
-										${pager.searchCondition.searchType == 'TC' ? 'selected' : ''}>제목+내용</option>
-									<option value="T"
-										${pager.searchCondition.searchType == 'T' ? 'selected' : ''}>제목</option>
-									<option value="W"
-										${pager.searchCondition.searchType == 'W' ? 'selected' : ''}>작성자</option>
-									<!-- 나머지 옵션 -->
-								</select>
-								<!-- / custom-select -->
-							</div>
-							<!-- / column -->
-							<div class="input-group input-w-overlap-btn mb-0">
-								<input type="text" class="form-control pill"
-									name="searchKeyword" placeholder="검색어를 입력하세요."
-									value="${pager.searchCondition.searchKeyword }" /> <span
-									class="input-group-btn">
-									<button id="search-button"
-										class="btn btn-sm btn-primary lh-0 overlapping-btn big-btn pill"
-										type="button">
-										<i class="fas fa-search mr-5"></i> 검색
-									</button>
-								</span>
-								<!-- / input-group-btn -->
-							</div>
-							<!-- / input-group -->
-						</form>
-					</div>
-				</div> --%>
-
-				<!-- 검색입력창 -->
-
-
-			</div>
-
 			<div>
 				<ul class="row portfolio project-grid lightbox list-unstyled mb-0"
 					id="grid" style="clear: both">
 					<!--====================================================================================================  -->
 					<!-- project : 게시글 list 출력 -->
 					<c:set var="i" value="0" />
-					<c:forEach items="${boardWriteList}" var="boardWriteList">
+					<c:forEach items="${likeList}" var="likeList">
 						<li class="col-md-12 col-lg-0 project">
 							<!-- &pageNum=${pageNum} -->
 							<div class="promo-box">
@@ -158,43 +102,30 @@
 										<!-- / column -->
 										<div class="col-lg-10 text-left tablet-lg-center">
 											<c:choose>
-												<c:when test="${boardWriteList.boardtype == 'QNA'}">
-													<a
-														href="<c:url value='/qnaboard/read?qnaBno=${boardWriteList.bno}'/>">
-														<p class="mb-20">${boardWriteList.title}</p>
-													</a>
-												</c:when>
-												<c:when test="${boardWriteList.boardtype == 'INFO'}">
+												<c:when test="${likeList.boardtype == 'INFO'}">
 
 													<a
-														href="<c:url value='/infoboard/read?infoBno=${boardWriteList.bno}'/>">
-														<p class="mb-20">${boardWriteList.title}</p>
+														href="<c:url value='/infoboard/read?infoBno=${likeList.bno}'/>">
+														<p class="mb-20">${likeList.title}</p>
 													</a>
 												</c:when>
-												<c:when test="${boardWriteList.boardtype == 'FREE'}">
+												<c:when test="${likeList.boardtype == 'FREE'}">
 
 													<a
-														href="<c:url value='/freeboard/read?freeBno=${boardWriteList.bno}'/>">
-														<p class="mb-20">${boardWriteList.title}</p>
-													</a>
-												</c:when>
-												<c:when test="${boardWriteList.boardtype == 'MARKET'}">
-
-													<a
-														href="<c:url value='/productboard/get?productId=${boardWriteList.bno}'/>">
-														<p class="mb-20">${boardWriteList.title}</p>
+														href="<c:url value='/freeboard/read?freeBno=${likeList.bno}'/>">
+														<p class="mb-20">${likeList.title}</p>
 													</a>
 												</c:when>
 											</c:choose>
 
-											<p class="lead mb-20">${boardWriteList.content}</p>
+											<p class="lead mb-20">${likeList.content}</p>
 											<p class="fs-16 post-meta-small mt-15 mb-0"
 												style="text-align: right">
-												<i class="fas fa-user mr-5"></i>${boardWriteList.nickName} <span
+												<i class="fas fa-user mr-5"></i>${likeList.nickName} <span
 													class="m-x-10 text-muted">|</span> <i
-													class="far fa-calendar-alt mr-5"></i>${boardWriteList.regdate}<span
+													class="far fa-calendar-alt mr-5"></i>${likeList.regdate}<span
 													class="m-x-10 text-muted">|</span> <i
-													class="fas fa-tag mr-10"></i>
+													class="fas fa-tag mr-10"> ${likeList.boardtype}</i>
 											</p>
 										</div>
 										<!-- / column -->
@@ -202,7 +133,7 @@
 									<!-- / row -->
 								</div>
 								<!-- / cta -->
-							</div> <!-- / promo-box --> </a>
+							</div> <!-- / promo-box -->
 						</li>
 					</c:forEach>
 					<!--====================================================================================================  -->
@@ -222,7 +153,7 @@
 				<c:choose>
 					<c:when test="${pager.pageNum != i}">
 						<li class="page-item"><a class="page-link"
-							href="<c:url value='/mypage/myBoardWriteList'>
+							href="<c:url value='/mypage/myLikeList'>
                             <c:param name='pageNum' value='${i}'/>
                             <c:param name='uno' value='${param.uno}'/>
                         </c:url>">${i}</a>
@@ -235,19 +166,16 @@
 				</c:choose>
 			</c:forEach>
 			<!-- 다음 블록 이동 표시 -->
+
 		</ul>
 	</nav>
-
 	<!-- / pagination-center -->
 
 	<a href="#top" class="scroll-to-top is-visible smooth-scroll"
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
 
 	<!-- footer 영역 -->
-
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
-	<!-- / container -->
-
 
 	<!-- core JavaScript -->
 	<script

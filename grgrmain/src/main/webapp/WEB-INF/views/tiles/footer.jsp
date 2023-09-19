@@ -2,15 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="kor">
-<style>
-.custom-text {
-    font-size: 16px;
-    color: #333333;
-    margin-bottom: 15px;
-}
-</style>
-<body>
+
+
+
+
 	<footer style="padding-bottom: 0px; background-color: #E2E6FC;">
 		<div class="container">
 			<div class="row v-center mobile-center">
@@ -113,56 +108,217 @@
      </footer>
 
             
-<!-- core JavaScript -->
-<script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-<!-- / core JavaScript -->
+	<!-- core JavaScript -->
+	<script
+		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+	<!-- / core JavaScript -->
 
-<!-- preloader -->
-<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
-<!-- / preloader -->
+	<!-- preloader -->
+	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
+	<!-- / preloader -->
 
-<!-- hide nav -->
-<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
-<!-- / hide nav -->
+	<!-- smooth scroll -->
+	<script
+		src="${pageContext.request.contextPath}/assets/js/jquery.easing.min.js"></script>
+	<!-- / smooth scroll -->
 
-<!-- portfolio script -->
-<script src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
-<script>
-$(document).ready(function(){
-    if (Modernizr.touch) {
-        // show the close overlay button
-        $(".close-overlay").removeClass("hidden");
-        // handle the adding of hover class when clicked
-        $(".img").click(function(e){
-            if (!$(this).hasClass("hover")) {
-                $(this).addClass("hover");
-            }
-        });
-        // handle the closing of the overlay
-        $(".close-overlay").click(function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            if ($(this).closest(".img").hasClass("hover")) {
-                $(this).closest(".img").removeClass("hover");
-            }
-        });
-    } else {
-        // handle the mouseenter functionality
-        $(".img").mouseenter(function(){
-            $(this).addClass("hover");
-        })
-        // handle the mouseleave functionality
-        .mouseleave(function(){
-            $(this).removeClass("hover");
-        });
-    }
-});
+	<!-- hide nav -->
+	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
+	<!-- / hide nav -->
+
+	<!-- form validation -->
+	<script
+		src="${pageContext.request.contextPath}/assets/js/jquery.validate.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/assets/js/form-validation.js"></script>
+	<!-- end of form validation -->
+
+	<!-- Owl Carousel -->
+	<script
+		src="${pageContext.request.contextPath}/assets/js/owl.carousel.min.js"></script>
+	<script>
+		$('#carousel-auto').owlCarousel({
+			loop : true,
+			margin : 0,
+			nav : false,
+			dots : true,
+			items : 1,
+			animateIn : 'fadeIn',
+			animateOut : 'fadeOut'
+		})
+	</script>
+
+	<script>
+		$('#projects-carousel').owlCarousel({
+			loop : true,
+			margin : 15,
+			responsive : {
+				0 : {
+					items : 1
+				},
+				600 : {
+					items : 2
+				},
+				1000 : {
+					items : 3
+				}
+			}
+		})
+	</script>
+
+	<script>
+		$('.posts-carousel').owlCarousel({
+			loop : true,
+			margin : 15,
+			responsive : {
+				0 : {
+					items : 1
+				},
+				600 : {
+					items : 2
+				},
+				1000 : {
+					items : 3
+				}
+			}
+		})
+	</script>
+
+	<script>
+		$('#testimonial-carousel').owlCarousel({
+			loop : true,
+			margin : 30,
+			smartSpeed : 700,
+			responsive : {
+				0 : {
+					items : 1
+				},
+				600 : {
+					items : 2
+				},
+				1000 : {
+					items : 3
+				}
+			}
+		})
+	</script>
+
+	<script>
+		$('#testimonial-slider')
+				.owlCarousel(
+						{
+							loop : true,
+							margin : 10,
+							nav : true,
+							dots : false,
+							autoplay : true, // 자동 재생 활성화
+							autoplayTimeout : 10000, // 3초마다 슬라이더가 넘어감
+							navText : [
+									"<i class='fas fa-chevron-left title-color'></i>",
+									"<i class='fas fa-chevron-right title-color'></i>" ],
+							items : 1,
+							smartSpeed : 2000
+						})
+	</script>
+	<!-- / Owl Carousel -->
+
+	<!-- counter -->
+	<script
+		src="${pageContext.request.contextPath}/assets/js/jquery.countTo.js"></script>
+	<script>
+		$('.timer').countTo({
+			refreshInterval : 60,
+			formatter : function(value, options) {
+				return value.toFixed(options.decimals);
+			},
+		});
+	</script>
+	<!-- / counter -->
+
+	<!-- portfolio script -->
+	<script
+		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
+	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
+	<script>
+		$(document).ready(function() {
+			if (Modernizr.touch) {
+				// show the close overlay button
+				$(".close-overlay").removeClass("hidden");
+				// handle the adding of hover class when clicked
+				$(".img").click(function(e) {
+					if (!$(this).hasClass("hover")) {
+						$(this).addClass("hover");
+					}
+				});
+				// handle the closing of the overlay
+				$(".close-overlay").click(function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(this).closest(".img").hasClass("hover")) {
+						$(this).closest(".img").removeClass("hover");
+					}
+				});
+			} else {
+				// handle the mouseenter functionality
+				$(".img").mouseenter(function() {
+					$(this).addClass("hover");
+				})
+				// handle the mouseleave functionality
+				.mouseleave(function() {
+					$(this).removeClass("hover");
+				});
+			}
+		});
+	</script>
+	<!-- / portfolio script -->
+
+	<!-- lightbox -->
+	<script
+		src="${pageContext.request.contextPath}/assets/js/jquery.magnific-popup.min.js"></script>
+	<script>
+		// This will create a single gallery from all elements that have class "lightbox"
+		$('.lightbox').each(function() {
+			$(this).magnificPopup({
+				delegate : 'a.image-lightbox', // the selector for gallery item
+				type : 'image',
+				removalDelay : 500,
+				mainClass : 'mfp-fade',
+				gallery : {
+					enabled : true
+				}
+			});
+		});
+	</script>
+	<!-- / lightbox -->
+	<!-- 위치정보 update -->
+	<script>
+			function updateLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var latitude = position.coords.latitude;
+					var longitude = position.coords.longitude;
+
+					$.ajax({
+						type : "POST",
+						url : "user/getAddress",
+						data : {
+							latitude : latitude,
+							longitude : longitude
+						},
+						success : function(response) {
+							alert("위치 정보가 업데이트 되었습니다.");
+						},
+						error : function(error) {
+							alert("위치 정보 업데이트에 실패 했습니다.");
+						}
+					});
+				});
+			} else {
+				alert("Geolocation is not supported by this browser.");
+			}
+		}
 </script>
-<!-- / portfolio script -->
-
-</body>
-
-</html>

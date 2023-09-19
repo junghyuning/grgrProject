@@ -9,7 +9,6 @@ import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductFile;
 import com.grgr.dto.ProductUserDTO;
 
-
 public interface ProductBoardDAO {
 	/* 게시판 목록 */
 	List<ProductBoardVO> selectProductBoardList(Map<String, Object> map);
@@ -44,8 +43,12 @@ public interface ProductBoardDAO {
 
 	int blindProductBoard(Map<String, Object> map);
 
-	// 사진
+	/* 사진 */
+	List<ProductFile> selectProductFile(int productId);
+
+	/* 사진 추가 */
 	int insertProductFile(ProductFile productFile);
 
-	List<ProductFile> selectProductFile(int productId);
+	/* 사진 삭제 */
+	int deleteProductFiile(int productFileNo);
 }

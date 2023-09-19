@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
+import com.grgr.dto.MyLike;
 import com.grgr.dto.UserVO;
 
 public interface UserMapper {
@@ -44,6 +45,13 @@ public interface UserMapper {
 
 	/* 전체 내가 쓴 댓글 수 */
 	int selectCommentCount(int uno);
+	
+	/* 관심게시글 조회 */
+	List<MyLike> getLikeList(@Param("uno") int uno, @Param("startRow") int startRow,
+			@Param("endRow") int endRow);
+	
+	/* 전체 관심게시글 수 */
+	int selectLikeCount(int uno);
 	
 	/*관리자 - 회원보기*/
 	List<UserVO> getAllUsers(Map<String, Object> map);

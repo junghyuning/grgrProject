@@ -21,6 +21,7 @@ import com.grgr.dao.OAuthNaverDAO;
 import com.grgr.dao.UserDAO;
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
+import com.grgr.dto.MyLike;
 import com.grgr.dto.UserVO;
 import com.grgr.util.AdminPager;
 
@@ -230,7 +231,8 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			result = naverDAO.insertSnsUser(profile);
 		} else {
-			// 이미 같은 이메일의 사용자가 존재하는 경우
+			//이미 같은 이메일의 사용자가 존재하는 경우
+			profile.setUno(user.getUno());
 			result = naverDAO.updateSnsUser(profile);
 		}
 
@@ -265,6 +267,25 @@ public class UserServiceImpl implements UserService {
 	public UserVO getKakaoLoginUser(String kakakoId) {
 		// TODO Auto-generated method stub
 		return kakaoDAO.selectByKakaoId(kakakoId);
+	}
+	
+	/* 관심게시글 조회 */
+	@Override
+	public Map<String, Object> getLikeList(int uno, int pageNum) {
+		int totalUser = userDAO.selectLikeCount(uno);
+		int pageSize = 10;
+		int blockSize = 10;
+
+		AdminPager pager = new AdminPager(pageNum, totalUser, pageSize, blockSize);
+
+		System.out.println(uno);
+		List<MyLike> likeList = userDAO.getLikeList(uno, pager.getStartRow(), pager.getEndRow());
+
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("pager", pager);
+		resultMap.put("likeList", likeList);
+
+		return resultMap;
 	}
 
 	@Override

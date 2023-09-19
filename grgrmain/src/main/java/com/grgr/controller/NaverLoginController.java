@@ -43,7 +43,7 @@ public class NaverLoginController {
 		log.info("profile : "+profile);
 		//3. DB에 해당 유저가 존재하는지 check (naverID 컬럼 추가) & userinfoDB에 삽입 or update
 		if( userService.loginNaverUser(profile) == false) {
-			System.out.println("로그인 실패 오류");
+			log.warn("네이버 로그인 및 회원가입 실패");
 			return "redirect:/user/login";
 		}
 		

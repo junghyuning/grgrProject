@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.grgr.dto.FreeBoard;
 import com.grgr.dto.MainInfo;
+import com.grgr.dto.MainProduct;
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.mapper.MainPageMapper;
 
@@ -30,7 +31,7 @@ public class MainPageDAOImpl implements MainPageDAO{
 	}
 
 	@Override
-	public List<ProductBoardVO> selectNewSales() {
+	public List<MainProduct> selectNewSales() {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(MainPageMapper.class).selectNewSales();
 	}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,8 +131,9 @@
 
 						<i class="fas fa-user mr-5"></i>${freeBoard.nickname } <span
 							class="mr-5 ml-5 text-muted">|</span><i
-							class="fas fa-calendar-alt mr-5"></i>${freeBoard.freeRegdate }<span
-							class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
+							class="fas fa-calendar-alt mr-5"></i>
+						<fmt:formatDate value="${freeBoard.freeRegdate }" pattern="yyyy-MM-dd HH:mm:ss" />
+						<span class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
 					</p>
 
 					<p class="m-y-30">${freeBoard.freeContent}</p>
