@@ -28,4 +28,5 @@ public class UserVO {
 	private String userLoc;
 	private String naverId;
 	private String kakaoId;
+	private String googleId;
 }
