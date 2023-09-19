@@ -104,9 +104,9 @@ public class ProductBoardDAOImpl implements ProductBoardDAO {
 	}
 
 	@Override
-	public int deleteProductFiile(int productFileNo) {
+	public int deleteProductFile(int productFileNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(ProductBoardMapper.class).deleteProductFiile(productFileNo);
+		return sqlSession.getMapper(ProductBoardMapper.class).deleteProductFile(productFileNo);
 	}
 
 }

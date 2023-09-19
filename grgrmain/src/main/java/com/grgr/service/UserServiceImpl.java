@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grgr.dao.OAuthGoogleDAO;
 import com.grgr.dao.OAuthKakaoDAO;
 import com.grgr.dao.OAuthNaverDAO;
 import com.grgr.dao.UserDAO;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
 	private final JavaMailSender mailSender;
 	private final OAuthNaverDAO naverDAO;
 	private final OAuthKakaoDAO kakaoDAO;
+	private final OAuthGoogleDAO googleDAO;
 
 	/* 회원가입 */
 	@Override
@@ -284,6 +286,26 @@ public class UserServiceImpl implements UserService {
 		resultMap.put("likeList", likeList);
 
 		return resultMap;
+	}
+
+	@Override
+	public boolean loginGoogleUser(UserVO profile) {
+		UserVO user = naverDAO.selectByEmail(profile.getEmail());
+		int result = 0;
+		// 같은 이메일의 사용자가 존재하지 않는 경우
+		if (user == null) {
+			result = googleDAO.insertSnsUser(profile);
+		} else {
+			// 이미 같은 이메일의 사용자가 존재하는 경우
+			result = googleDAO.updateSnsUser(profile);
+		}
+
+		return (result > 0);
+	}
+
+	@Override
+	public UserVO getGoogleLoginUser(String googleId) {
+		return googleDAO.selectByGoogleId(googleId);
 	}
 
 }
