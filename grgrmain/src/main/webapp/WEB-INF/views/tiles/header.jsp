@@ -74,6 +74,10 @@
 	height: 500px;
 	overflow: hidden;
 }
+.loc{
+	weight: 50px;
+	height: 50px;
+}
 </style>
 </head>
 <body style="background-color: white">
@@ -81,17 +85,16 @@
 		style="background-color: #E2E6FC; padding-bottom: 0px; padding-top: 125px;">
 		<nav
 			class="navbar navbar-expand-lg navbar-light absolute top-0 left-0 right-0">
-			<div class="container">
 				<a href="<c:url value='/main' />" class="navbar col-lg-1"> <img
 					src="${pageContext.request.contextPath}/images/grgr_logo.png"
 					alt="메인로고">
 				</a>
 
-				<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
+				<div class="collapse navbar-collapse" id="navbar-toggle1">
 					<ul class="navbar-nav ml-30">
-						<li class="nav-item"><a class="nav-link"
-							href="<c:url value="/info/matzib"/>">맛집정보</a></li>
-						<li class="nav-item ml-30"><a class="nav-link" href="<c:url value="/info/medical"/>">의료정보</a>
+						<li class="nav-item"><a 
+							href="<c:url value="/info/matzib"/>"><img class="loc" alt="맛집정보" src="<c:url value="/images/restaurant.png"/>"/></a></li>
+						<li class="nav-item"><a  href="<c:url value="/info/medical"/>"><img class="loc" alt="병원정보" src="<c:url value="/images/hospital.png"/>"/></a>
 						</li>
 					</ul>
 					<!-- / navbar-nav -->
@@ -167,8 +170,6 @@
 						</a></li>
 					</ul>
 				</c:if>
-				</div>
 			<!-- / navbar-collapse -->
-			<!-- / container -->
 		</nav>
 	</header>
