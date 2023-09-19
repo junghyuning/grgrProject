@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 작성자 : 김정현 
+<!-- 작성자 : 이건혁 
 수정일 - 수정내용 
-0916 - sns 로그인 기능을 위한 매퍼 작성 (중복체크 / 가입 / 로그인시 업데이트)-->
+0919 - sns 로그인 기능을 위한 매퍼 작성 (중복체크 / 가입 / 로그인시 업데이트)-->
 
 <mapper namespace="com.grgr.mapper.OAuthKakaoMapper">
 
@@ -11,7 +11,6 @@
 		SELECT UNO,
 		 USER_NAME,
 		 NICKNAME, 
-		 PHONE, 
 		 EMAIL, 
 		 KAKAO_ID,
 		 LAST_LOGIN,
@@ -23,30 +22,34 @@
 
 	<!-- 기존회원이 아닌 sns로 회원가입하는 회원일 경우 -->
 	<insert id="insertSnsUser">
+		<selectKey keyProperty="uno" resultType="int"
+			order="BEFORE">
+			SELECT UNO_SEQ.NEXTVAL FROM dual
+		</selectKey>
 		INSERT INTO USERINFO (
 		UNO,
 		USER_NAME,
 		NICKNAME,
 		USER_PW,
-		PHONE,
 		EMAIL,
-		KAKAO_ID
+		KAKAO_ID,
+		USER_UPDATE_UNO
 		)
 		VALUES(
 		UNO_SEQ.NEXTVAL,
+		#{uno},
 		#{userName},
 		#{nickName},
 		#{userPw},
-		#{phone},
 		#{email},
-		#{kakaoId}
+		#{kakaoId},
+		#{uno}
 		)
 	</insert>
 	
 	<!-- 기존회원이면서 sns 로그인을 수행한 결과 로그인시에 회원정보 UPDATE -->
 	<update id="updateSnsUser">
-		UPDATE USERINFO SET 
-		PHONE=#{phone}, 
+		UPDATE USERINFO SET  
 		LAST_LOGIN=SYSDATE, 
 		USER_UPDATE = SYSDATE, 
 		USER_UPDATE_UNO=#{uno},
