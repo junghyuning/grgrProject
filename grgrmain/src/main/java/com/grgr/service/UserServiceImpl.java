@@ -22,6 +22,7 @@ import com.grgr.dao.UserDAO;
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
 import com.grgr.dto.MyLike;
+import com.grgr.dto.ReportAdmin;
 import com.grgr.dto.UserVO;
 import com.grgr.util.AdminPager;
 
@@ -307,5 +308,25 @@ public class UserServiceImpl implements UserService {
 	public UserVO getGoogleLoginUser(String googleId) {
 		return googleDAO.selectByGoogleId(googleId);
 	}
+	
+	/* 신고 조회 */
+	@Override
+	public Map<String, Object> getReportList(int pageNum) {
+		int totalUser = userDAO.selectUserCount();
+		int pageSize = 10;
+		int blockSize = 10;
 
+		AdminPager adminPager = new AdminPager(pageNum, totalUser, pageSize, blockSize);
+
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("startRow", adminPager.getStartRow());
+		pageMap.put("endRow", adminPager.getEndRow());
+		List<ReportAdmin> reportList = userDAO.getReportList(pageMap);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("pager", adminPager);
+		resultMap.put("reportList", reportList);
+
+		return resultMap;
+	}
 }

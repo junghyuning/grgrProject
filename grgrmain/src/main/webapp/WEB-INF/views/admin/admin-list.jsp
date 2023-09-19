@@ -93,6 +93,14 @@ table.table-xl th,
 <body  style="background-color: white">
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 			<div class="col-md-10">
+			<ul class="list-inline text-left mb-30">
+				<li id="keyword-button"><a
+					href="<c:url value='/admin/user-list' />"
+					class="btn btn-outline-primary m-y-10 mr-10">회원목록</a></li>
+				<li id="keyword-button"><a
+					href="<c:url value='/admin/report_list' />"
+					class="btn btn-outline-primary m-y-10 mr-10">신고목록</a></li>
+			</ul>
 				<div class="row">
 					<div class="col-md-12">
 						<h1>회원 목록</h1>
