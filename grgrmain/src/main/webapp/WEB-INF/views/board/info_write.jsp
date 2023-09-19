@@ -3,32 +3,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
+<head>
 <title>끼리끼리 - 정보공유게시판</title>
-</head>
 <style>
-.va-middle {
-	font-size: 20px;
-}
-
-.page-link {
-	font-size: 20px;
-}
-
-.mb-20 {
-	font-size: 2rem;
-	font-weight: 'bold';
-}
-
-.buttion-submit {
-	display: inline-block;
-}
-
 .titleAndError {
 	display: flex;
 	align-items: center; /* 세로 중앙 정렬 */
 	font-size: 20px height: 100px;
 }
 </style>
+</head>
 <!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<!-- 배너 -->
@@ -41,15 +25,8 @@
 		<!-- / container -->
 	</header>
 
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
-
 	<div id="top"></div>
 	<!-- / top -->
-
 
 	<section class="lg bg-light-grey">
 		<div class="container">
@@ -64,12 +41,10 @@
 				<form action="<c:url value="/infoboard/write"/>" method="post" enctype="multipart/form-data"
 					class="validation-inner" id="form-validation"
 					novalidate="novalidate">
-					<!-- <input type="hidden" name="uno" value="loginUno" /><input type="hidden" name="infoUpdateUno" value="loginUno" /><input type="hidden"
-						name="infoLoc" value="loginLoc" />  -->
 					<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
 					<input type="hidden" name="infoUpdateUno"
 						value="${sessionScope.loginUno}" /> <input type="hidden"
-						name="infoLoc" value="${searchCondition.loginLocation }" />
+						name="infoLoc" value="${loginLocation }" />
 					<div class="row">
 						<div class="col-md-3">
 							<div class="col-md-0 tablet-top">
@@ -155,7 +130,6 @@
 							<span id="img-error-message" style="color: red; font-size: 15px;"></span>
 							<!-- 이미지 미리보기 영역 -->
 							<div id="imagePreviewContainer" class="mb-10"></div>
-
 						</div>
 
 
@@ -182,32 +156,11 @@
 	</section>
 	<!-- / pagination-center -->
 
-	<a href="#top" class="scroll-to-top is-hidden smooth-scroll"
+	<a href="#top" class="scroll-to-top is-hidden "
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
 	<!-- footer -->
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 	
-	<!-- core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-	<!-- / core JavaScript -->
-
-	<!-- preloader -->
-	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
-	<!-- / preloader -->
-
-	<!-- hide nav -->
-	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
-	<!-- / hide nav -->
-
-	<!-- portfolio script -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
 		//파일 업로드 input태그에서 선택한 파일을 저장하기위한 변수
 		var files;
@@ -299,31 +252,9 @@
 	        $('#error-message').fadeOut('slow');
 	    }, 5000);
 
-	    if (Modernizr.touch) {
-	        $('.close-overlay').removeClass('hidden');
-	        $('.img').click(function(e) {
-	            if (!$(this).hasClass('hover')) {
-	                $(this).addClass('hover');
-	            }
-	        });
-
-	        $('.close-overlay').click(function(e) {
-	            e.preventDefault();
-	            e.stopPropagation();
-	            if ($(this).closest('.img').hasClass('hover')) {
-	                $(this).closest('.img').removeClass('hover');
-	            }
-	        });
-	    } else {
-	        $('.img').mouseenter(function() {
-	            $(this).addClass('hover');
-	        }).mouseleave(function() {
-	            $(this).removeClass('hover');
-	        });
-	    }
 	});
 	</script>
-	<!-- / portfolio script -->
+
 </body>
 </html>
 

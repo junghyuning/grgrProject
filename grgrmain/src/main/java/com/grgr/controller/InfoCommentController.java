@@ -36,9 +36,8 @@ public class InfoCommentController {
 
 	// 댓글 조회 (GET 사용)
 	@GetMapping("/list/{infoBno}")
-	public Map<String, Object> commentList(@PathVariable int infoBno, @RequestParam(defaultValue = "1") int pageNum,
-			HttpSession session) {
-		Integer loginUno = (Integer) session.getAttribute("loginUno");
+	public Map<String, Object> commentList(@PathVariable int infoBno, @RequestParam(defaultValue = "1") int pageNum) {
+		
 		Map<String, Object> resultMap = infoCommentService.getInfoCommentList(infoBno, pageNum);
 
 		return resultMap;

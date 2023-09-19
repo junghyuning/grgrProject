@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grgr.mapper.ReportFreeMapper">
+
+		<!-- 게시글 신고 삽입 -->
+	<insert id="insertReportFreeBoard">
+		INSERT INTO REPORT_FREEBOARD
+		(REPORT_FREEBOARD_NO, UNO,
+		FREE_BNO,
+		REPORT_FREEBOARD_REASON)
+		VALUES(REPORT_FREEBOARD_SEQ.NEXTVAL, #{uno},
+		#{freeBno},
+		#{reportFreeboardReason})
+	</insert>
+
+	<!-- 신고 게시글 카운트 증가 -->
+	<update id="increaseFreeBoardReportCnt">
+		update FREE_BOARD set FREE_REPORT_CNT = FREE_REPORT_CNT+1
+		where FREE_BNO=#{freeBno}
+	</update>
+
+
+	<!-- 중복 신고 여부 확인 : 테이블내에 본인 해당 게시글에 대한 신고한 이력 COUNT -->
+	<select id="checkDuplicateReport">
+		SELECT COUNT(*)
+		FROM REPORT_FREEBOARD
+		WHERE UNO = #{uno}
+		AND FREE_BNO = #{freeBno}
+	</select>
+	
+</mapper>
+       

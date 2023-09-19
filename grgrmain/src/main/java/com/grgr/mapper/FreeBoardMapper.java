@@ -13,14 +13,14 @@ public interface FreeBoardMapper {
 	int insertFreeBoard(FreeBoard freeBoard);
 	int updateFreeBoard(FreeBoard freeBoard);
 	int deleteFreeBoard(@Param("freeBno") int freeBno,@Param("uno") int uno);
-	int blindFreeBoard(int freeBno);
+	int blindFreeBoard(Map<String, Object> map);
 	int increaseFreeViewCnt(int freeBno);
-	int increaseFreeReportNo(int freeBno);
 	FreeBoard selectFreeBoard(int freeBno);
 	Integer selectPrevFreeBno(Map<String, Object> map);
 	Integer selectNextFreeBno(Map<String, Object> map);
 	List<FreeBoard> selectFreeBoardList(Map<String, Object> map);
-	
+
 	int insertFreeFile(FreeFile freeFile);
 	List<FreeFile> selectFreeFile(int freeBno);
+	int deleteFreeFile(int infoFileNo);
 }

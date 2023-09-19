@@ -5,37 +5,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
-<!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
 <style>
 .va-middle {
 	font-size: 20px;
@@ -50,21 +19,38 @@
 	font-weight: 'bold';
 }
 
-.board-images {
-	width: 100px;
+.uploaded-img {
+	width: 300px;
+	height: auto;
 }
 
 #comment-reply {
 	margin-bottom: 20px; /* 아래쪽 여백을 20px로 설정 */
 	clear: both;
 }
-.comment-style{
+
+.comment-style {
 	font-size: 15px;
-	font-weight:normal;
-	
+	font-weight: normal;
 }
-.comment{
+
+.comment {
 	border-top: 1px solid #97989d;
+}
+
+#like-button img {
+	width: 30px;
+	height: auto;
+}
+
+#like-button span {
+	text-align: center;
+}
+
+#like-button {
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* 내용을 세로로 중앙 정렬 */
 }
 </style>
 </head>
@@ -74,19 +60,17 @@
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<!-- 배너 -->
 	<c:set var="boardName" value="자유게시판" />
-	<header class="xl bg-img bg-fixed" style="background-image: url(/grgrmain/images/free2.jpg); background-size: cover;">
+	<header class="xl bg-img bg-fixed"
+		style="background-image: url(/grgrmain/images/free2.jpg); background-size: cover;">
 		<div class="container text-center">
 			<h1 class="page-title">Free</h1>
-			<p class="w-50 m-x-auto mb-30" style="color: white;"><c:out value="${boardName}" /></p>
+			<p class="w-50 m-x-auto mb-30" style="color: white;">
+				<c:out value="${boardName}" />
+			</p>
 		</div>
 		<!-- / container -->
 	</header>
 
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
 
 	<div id="top"></div>
 	<!-- / top -->
@@ -125,6 +109,49 @@
 							class="btn btn-xs btn-primary pill"
 							style="float: right; font-size: 15px; margin: 10px"><span>숨김</span></a>
 					</c:if>
+					<!-- 신고 -->
+					<c:if test="${freeBoard.uno ne loginUno}">
+						<button type="button"
+							class="btn btn-xs btn-primary pill pull-right"
+							data-toggle="modal" data-target="reportModal"
+							onclick="openReportModal()" data-qna-bno="${freeBoard.freeBno}">
+							<span>신고</span>
+						</button>
+					</c:if>
+
+					<!-- 신고 Modal -->
+					<div class="modal fade" id="reportModal" tabindex="-1"
+						role="dialog" aria-labelledby="reportModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="reportModalLabel">신고하기</h4>
+									<hr>
+								</div>
+								<div class="modal-body">
+									<form id="reportForm">
+										<div class="custom-margin">
+											<label for="modal-reportReason-input">신고사유</label>
+										</div>
+										<div class="custom-margin" style="height: 200px;">
+											<textarea id="modal-reportReason-input"
+												style="height: 200px; background-color: white;"
+												name="reportFreeboardReason" class="form-control" rows="10"
+												placeholder="신고 사유를 입력하세요"></textarea>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="reportButton"
+										onclick="submitReportForm()">신고</button>
+									&nbsp;&nbsp;&nbsp;
+									<button type="button" class="btn btn-primary" id="closeButton"
+										onclick="closeReportModal()">취소</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<p
 						class="fs-12 post-meta-small p-y-15 pl-15 mb-15 border-secondary"
 						style="clear: both; padding: 10px">
@@ -132,27 +159,31 @@
 						<i class="fas fa-user mr-5"></i>${freeBoard.nickname } <span
 							class="mr-5 ml-5 text-muted">|</span><i
 							class="fas fa-calendar-alt mr-5"></i>
-						<fmt:formatDate value="${freeBoard.freeRegdate }" pattern="yyyy-MM-dd HH:mm:ss" />
-						<span class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
+						<fmt:formatDate value="${freeBoard.freeRegdate }"
+							pattern="yyyy-MM-dd HH:mm:ss" />
+						<span class="mr-5 ml-5 text-muted">|</span> <i
+							class="fas fa-tag mr-5"></i>
 					</p>
-
+					<!-- 본문 영역 -->
 					<p class="m-y-30">${freeBoard.freeContent}</p>
+					<!-- 이미지 표시 영역 -->
 					<c:forEach var="file" items="${freeFiles}">
 						<%-- <img src="${pageContext.request.contextPath}/resources/upload/${file.freeFileUpload}" --%>
-						<img src="<c:url value="/upload/${file.freeFileUpload}"/>"
-							alt="${file.freeFileOrigin }" class="board-images" width="50">
+						<img class="uploaded-img"
+							src="<c:url value="/upload/${file.freeFileUpload}"/>"
+							alt="${file.freeFileOrigin }">
 					</c:forEach>
-					<!-- 보던페이지로 이동 -->
-					<a
-						href="<c:url value='/freeboard/list${searchCondition.getQueryString()}' />"
-						class="btn btn-xs btn-primary pill"
-						style="float: right; font-size: 15px"><span>글목록</span></a>
 				</div>
+				<!-- 보던페이지로 이동 -->
+				<a
+					href="<c:url value='/freeboard/list${searchCondition.getQueryString()}' />"
+					class="btn btn-xs btn-primary pill"
+					style="float: right; font-size: 15px"><span>글목록</span></a>
 				<!-- / column -->
 
 				<!-- 이전글, 다음글 -->
 				<nav aria-label="pager" style="clear: both; padding-top: 30px">
-					<ul class="pager">
+					<ul class="pager" style="display: flex; justify-content: space-between;">
 						<c:if test="${!isFirstPost }">
 							<li class="pager-left"><a
 								href="<c:url value='/freeboard/read${searchCondition.getQueryString()}&freeBno=${prevFreeBno}'/>"><i
@@ -162,7 +193,8 @@
 							<li class="pager-left disabled"><i class="fas fa-arrow-left"></i>
 								<span class="ml-5">이전글</span></a></li>
 						</c:if>
-
+						<!-- 좋아요 버튼 -->
+						<li><span id="like-button"> <img> <span></span></span></li>
 						<c:if test="${!isLastPost}">
 							<li class="pager-right"><a
 								href="<c:url value='/freeboard/read${searchCondition.getQueryString()}&freeBno=${nextFreeBno}'/>"><span
@@ -178,15 +210,17 @@
 
 				<!-------------------------------------------댓글영역 ----------------------------------------------->
 
-				<i class="far fa-comments fs-20 text-warning d-block mb-15" style="border-top: 1px solid #97989d; padding-top: 15px">댓글</i>
+				<i class="far fa-comments fs-20 text-warning d-block mb-15"
+					style="border-top: 1px solid #97989d; padding-top: 15px">댓글</i>
 
 				<!-- 댓글 출력 -->
-				<ul id="comments-list" style="border-bottom: solid 1px #97989d; padding-left:0px">
+				<ul id="comments-list"
+					style="border-bottom: solid 1px #97989d; padding-left: 0px">
 
 				</ul>
 
 				<!-- 댓글 제출 폼 -->
-				<div id="reply-form" >
+				<div id="reply-form">
 					<form id="replyForm">
 						<textarea id="reply" class="form-control border-faded" rows="15"
 							placeholder="댓글을 입력하세요"></textarea>
@@ -222,34 +256,109 @@
 	<!-- / pagination-center -->
 
 	<!-- 위로 스크롤 -->
-	<a href="#top" class="scroll-to-top is-hidden smooth-scroll"
-		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
+	<a href="#top" class="scroll-to-top is-hidden" data-nav-status="toggle"><i
+		class="fas fa-chevron-up"></i></a>
 
-	<!-- footer 영역 --> 
+	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 
-	<!-- core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-	<!-- / core JavaScript -->
+	<!-- 신고 스크립트 -->
+	<script>
+	function openReportModal() {
+	    $('#reportModal').modal('show');
+	}
+		// 중복 확인 및 신고 버튼 클릭 시
+	   function submitReportForm() {
+	    	var reportReason = $('#modal-reportReason-input').val();
+	    	var freeBno = ${freeBoard.freeBno};
+	    	console.log("reportReason:", reportReason); // reportReason 값을 로그에 출력
+	    	console.log("freeBno:", freeBno); // freeBno 값을 로그에 출력
+    	
+	        $.ajax({
+	            type: "POST",
+	            url: "<c:url value="/freereport/board-add"/>", // 신고 처리 컨트롤러 URL
+	            data: JSON.stringify({ 
+	            	freeBno: freeBno,
+	            	reportFreeboardReason: reportReason }),
+	            contentType: "application/json",
+	            dataType:"text",
+	            success: function(response) {	            	
+	            	//신고 처리
+	            	console.log("신고성공");
+	                if (response === "success") {//신고 성공 시 모달 닫기
+	                    alert("신고가 접수되었습니다.");
+	                    $('#reportModal').modal('hide');
+	                } else if (response === "duplicate") {//중복 시 알림
+	                    alert("이미 신고된 게시글입니다.");
+	                    $('#reportModal').modal('hide');
+	                } else {
+	                	 alert("로그인이 필요합니다..");
+	                }
+	            	
+	            	$('#modal-reportReason-input').val('');
+	            },
+	            error: function(xhr){
+	            	console.log("신고실패");
+	            	alert(xhr.responseText);
+	            }
+	        });
+	    };
+	    
+	  //취소 클릭 시 창 닫기
+		function closeReportModal() {
+	        $('#reportModal').modal('hide');
+	    }
+	</script>
 
-	<!-- preloader -->
-	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
-	<!-- / preloader -->
+	<!-- 좋아요 기능 -->
+	<script>
+	//좋아요 상태 check
+	function checkLikedStatus(freeBno){
+		console.log("freeBno:"+freeBno)
+		$.ajax({
+			type : 'GET', 
+			url : "<c:url value="/freelike/status"/>/"+ freeBno, // freeBno 값을 경로에 포함시킵니다.
+			success : function(data) {
+				
+				if(data.isLiked){
+					 $("#like-button img").attr("src", "<c:url value='/images/heart_full.png'/>");
+				}else {
+	                $("#like-button img").attr("src", "<c:url value='/images/heart.png'/>");
+	            }
+				 $("#like-button span").text(data.likeCnt);
+			},
+			error : function(err) {
+				
+				console.error("좋아요 상태 파악에 실패하였습니다.", err);
+			}
+		});	
+	}
+	
+    // 좋아요 버튼 클릭
+    $("#like-button").click(function(){
+    	$.ajax({
+    		type: 'post',
+    		url: "<c:url value="/freelike/toggle"/>/"+freeBno,
+    		success: function(data){
+    			if(data.isLiked){
+					 $("#like-button img").attr("src", "<c:url value='/images/heart_full.png'/>");
+					 
+				} else {
+	                $("#like-button img").attr("src", "<c:url value='/images/heart.png'/>");
+	            }
+    			
+    			 $("#like-button span").text(data.likeCnt);
+    		},
+    		error: function(err) {
+                console.error("좋아요버튼 오류입니다.", err);
+            }
+    		
+    	});
+    	
+    });
+	
+	</script>
 
-	<!-- hide nav -->
-	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
-	<!-- / hide nav -->
-
-	<!-- portfolio script -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
 	<!-- 댓글기능 관련 스크립트  -->
 	<script>
 		const url = new URL(window.location.href);
@@ -261,11 +370,9 @@
 		//댓글 조회
 		let showList = function(freeBno, pageNum) {
 			$.ajax({
-				type : 'GET',
-				url : '/GRGR1/freecomment/list/' + freeBno + "?pageNum="+ pageNum, // infoBno 값을 경로에 포함시킵니다.
-				headers : {
-					'Accept' : 'application/json'
-				},
+				type : 'GET', 
+				url : "<c:url value="/freecomment/list"/>/"+ freeBno, // freeBno 값을 경로에 포함시킵니다.
+				data: {"pageNum":pageNum},
 				success : function(data) {
 					
 					if(data.freeCommentList.length===0){
@@ -277,13 +384,14 @@
 						return;
 					}
 					
-					
 					loginUno = ${sessionScope.loginUno};
 					loginUserStatus = ${sessionScope.loginUserStatus};
 					console.log("loginUno :" + loginUno);
-			            resetReplyForm();
-			            renderComments(data.freeCommentList);
-			            renderPagination(data.commentPager);
+					console.log("loginUserStatus :" + loginUserStatus);
+					
+			        resetReplyForm();
+			        renderComments(data.freeCommentList);
+			        renderPagination(data.commentPager);
 			        
 				},
 				error : function(err) {
@@ -311,7 +419,7 @@
 		    html += '" data-freeBno="' + comment.freeBno + '">';
 			if (comment.freeCommentBlindstate === 3) { // 댓글이 삭제
 				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">삭제된 댓글입니다.</p>';
-			} else if (comment.freeCommentBlindstate == 2) { //게시자가 숨겼다면
+			} else if (comment.freeCommentBlindstate == 2) { //관리자가 숨겼다면
 				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">관리자에의해 비공개된 댓글입니다.</p>';
 			} else { // 정상적으로 보이는 게시물
 				
@@ -328,10 +436,11 @@
 				
 					if (comment.uno === loginUno) {
 						//html += '<a href="#x" class="comment-modify"> <i class="far fa-comments fs-15 mr-5"></i>변경</a>';
-						html += '<a href="#x" class="comment-remove"> <i class="far fa-comments fs-15 mr-5"></i>삭제</a>';
+						html += '<a href="#x" class="comment-remove"> <i class="fas fa-times text-danger mr-5"></i>삭제</a>';
 					}
+					console.log("삭제 loginUno"+ loginUno);
 					if (loginUserStatus === 1) {
-						html += '<a href="#x" class="comment-hide"> <i class="far fa-comments fs-15 mr-5"></i>숨김</a>';
+						html += '<a href="#x" class="comment-hide"> <i class="fas fa-times text-danger mr-5"></i>숨김</a>';
 					}
 					html += '</span>';
 					html += '</p>';
@@ -345,7 +454,7 @@
 					html += '<p class="mb-0 comment-style" style="padding: 0px 30px 10px 100px;">ㄴ'	+ comment.freeCommentContent;
 					html += '<span id="comment-select" style="float: right;">';				
 					if (comment.uno === loginUno) {
-						//html += '<a href="#x" class="comment-modify"> <i class="far fa-comments fs-15 mr-5"></i>변경</a>';
+						//html += '<a href="#x" class="cwomment-modify"> <i class="far fa-comments fs-15 mr-5"></i>변경</a>';
 						html += '<a href="#x" class="comment-remove"> <i class="far fa-comments fs-15 mr-5"></i>삭제</a>';
 					}
 					if (loginUserStatus === 1) {
@@ -415,16 +524,18 @@
 		}
 		
 		function resetReplyForm() {
-		    //$("#comment-reply").hide(); // 대댓글 폼을 숨깁니다.
-		    $("#comment-reply").appendTo("#my-section"); // 대댓글 폼을 원래 위치로 되돌립니다.
+		    //$("#comment-reply").hide(); // 대댓글 폼을 숨김
+		    $("#comment-reply").appendTo("#my-section"); // 대댓글 폼을 원래 위치로
 		    $("#comment-reply").val("");
 		}
 		
 		
+		//페이지 로드시 실행될 것들
 		$(document).ready(function() {
 
 			$("#comment-reply").hide(); //대댓글 폼을 일단 숨김
-		    showList(freeBno, pageNum);
+			checkLikedStatus(freeBno); //좋아요 여부 표시
+		    showList(freeBno, pageNum); //댓글 list 출력
 		    
 
 		<!-- 대댓글 폼 --> */
@@ -444,15 +555,17 @@
 		    const commentGroup = $("#comment-reply").data('group');
 		    const replyContent = $("#comment-reply input[name='freeCommentContent']").val();
 
+		    /* "/GRGR/freecomment/write?freeBno=" + freeBno, */
 		    $.ajax({
 		        type: "POST",
-		        url: "<c:url value="/freecomment/write/"/>/" + freeBno,
+		        url: "<c:url value="/freecomment/write"/>/"+freeBno,
 		        headers: {
 		            'Content-Type': 'application/json'
 		        },
 		        data: JSON.stringify({
-		        	freeCommentGroup: commentGroup,
-		        	freeCommentContent: replyContent
+		        	"freeBno" : freeBno,
+		            "freeCommentGroup": commentGroup,
+		            "freeCommentContent": replyContent
 		        }),   
 		        success: function(response) {
 		            showList(freeBno, pageNum);
@@ -479,13 +592,13 @@
 		        console.log('freeCommentNo :' + freeCommentNo);
 
 		        $.ajax({
-		            type: 'PUT',
-		            url: '/GRGR1/freecomment/remove/' + freeCommentNo,
+		            type: 'PUT', 
+		            url: "<c:url value="/freecomment/remove"/>/" + freeCommentNo,
 		            dataType: 'text',
 		            success: function() {
 		                const commentLi = $('li[data-cno="' + freeCommentNo + '"]');
 		                commentLi.find('p.mb-0').text("작성자에 의해 삭제된 댓글입니다.");
-		                commentLi.find('.comment-info').remove();
+		                commentLi.find('.comment-free').remove();
 		                commentLi.find('.comment-modify, .comment-remove').remove();
 		                showList(freeBno, pageNum);
 		            },
@@ -502,12 +615,12 @@
 
 		        $.ajax({
 		            type: 'PUT',
-		            url: '/GRGR1/freecomment/hide/' + freeCommentNo,
+		            url: "<c:url value="/freecomment/hide"/>/" + freeCommentNo,
 		            dataType: 'text',
 		            success: function() {
 		                const commentLi = $('li[data-cno="' + freeCommentNo + '"]');
 		                commentLi.find('p.mb-0').text("Blind 되었습니다.");
-		                commentLi.find('.comment-info').remove();
+		                commentLi.find('.comment-free').remove();
 		                commentLi.find('.comment-hide').remove();
 		                showList(freeBno, pageNum);
 		            },
@@ -526,7 +639,7 @@
 		            $('#reply').focus();
 		            return;
 		        }
-
+				/* '/GRGR/freecomment/write?freeBno=' + freeBno */
 		        $.ajax({
 		            type: 'POST',
 		            url: "<c:url value="/freecomment/write"/>/"+freeBno,
@@ -534,8 +647,8 @@
 		                'Content-Type': 'application/json'
 		            },
 		            data: JSON.stringify({
-		            	freeBno: freeBno,
-		            	freeCommentContent: replyContent,
+		                freeBno: freeBno,
+		                freeCommentContent: replyContent,
 		            }),
 		            success: function(data) {
 		              //  alert(data);
@@ -548,41 +661,13 @@
 		            }
 		        });
 		    });
+		    
+
 
 		});
+		
+		
+		
 	</script>
-
-	<script>
-		$(document).ready(function() {
-			if (Modernizr.touch) {
-				// show the close overlay button
-				$('.close-overlay').removeClass('hidden');
-				// handle the adding of hover class when clicked
-				$('.img').click(function(e) {
-					if (!$(this).hasClass('hover')) {
-						$(this).addClass('hover');
-					}
-				});
-				// handle the closing of the overlay
-				$('.close-overlay').click(function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					if ($(this).closest('.img').hasClass('hover')) {
-						$(this).closest('.img').removeClass('hover');
-					}
-				});
-			} else {
-				// handle the mouseenter functionality
-				$('.img').mouseenter(function() {
-					$(this).addClass('hover');
-				})
-				// handle the mouseleave functionality
-				.mouseleave(function() { // 추가된 부분
-					$(this).removeClass('hover');
-				}); // 추가된 부분
-			}
-		});
-	</script>
-	<!-- / portfolio script -->
 </body>
 </html>

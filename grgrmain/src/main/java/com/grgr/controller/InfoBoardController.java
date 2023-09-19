@@ -62,15 +62,9 @@ public class InfoBoardController {
 		Integer loginUno = (Integer)session.getAttribute("loginUno");
 		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
 		Map<String, Object> infoBoardWithFiles = infoBoardService.getInfoBoard(loginUno, infoBno);
-		Integer prevInfoBno = infoBoardService.prevInfoBno(searchCondition, infoBno, loginUserStatus);
-		Integer nextInfoBno = infoBoardService.nextInfoBno(searchCondition, infoBno, loginUserStatus);
+		Map<String, Object> nextAndPrev = infoBoardService.prevAndNextInfoBno(searchCondition, infoBno, loginUserStatus);
 		model.addAllAttributes(infoBoardWithFiles);
-		model.addAttribute("nextInfoBno", nextInfoBno);
-		model.addAttribute("prevInfoBno", prevInfoBno);
-		model.addAttribute("isLastPost", nextInfoBno == null);
-		model.addAttribute("isFirstPost", prevInfoBno == null);
-		model.addAttribute("searchCondition", searchCondition); // 검색 조건 추가
-
+		model.addAllAttributes(nextAndPrev);
 		return "board/info_board";
 	}
 
