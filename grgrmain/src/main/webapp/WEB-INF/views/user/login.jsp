@@ -127,9 +127,8 @@
 									<a class="socialLogin"> <img class="w-30 h-auto"
 										src="<c:url value="/images/naver_login.png"/>" art="네이버 로그인"
 										onclick="location.href='<c:url value="/oauth/naver"/>';">
-										<img alt="네이버로그인"
+										<img alt="네이버로그인" class="w-30 h-auto"
 										src="<c:url value="/images/kakaoBtn.png"/>"
-										width="200"
 										onclick="location.href='<c:url value="/oauth/kakao"/>';">
 									</a> <a href="#x" class="btn btn-sm btn-outline-twitter mt-5">
 										<span class="fab fa-twitter mr-5"></span> <span>Twitterㅇ</span>
