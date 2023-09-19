@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
 import com.grgr.dto.MyLike;
+import com.grgr.dto.ReportAdmin;
 import com.grgr.dto.UserVO;
 
 public interface UserMapper {
@@ -61,6 +62,12 @@ public interface UserMapper {
 	
 	/* 관리자 - 회원 정보 수정*/
 	void updateUser(UserVO user);
+	
+	/* 관리자 - 신고 조회 */
+	List<ReportAdmin> getReportList(Map<String, Object> map);
+	
+	/* 전체 신고 수 */
+	int selectReportCount();
 	
 	/* 아이디 찾기*/
 	String findUserIdByNameAndEmail(@Param("name") String name, @Param("email") String email);
