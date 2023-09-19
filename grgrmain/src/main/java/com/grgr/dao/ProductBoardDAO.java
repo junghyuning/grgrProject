@@ -50,5 +50,5 @@ public interface ProductBoardDAO {
 	int insertProductFile(ProductFile productFile);
 
 	/* 사진 삭제 */
-	int deleteProductFiile(int productFileNo);
+	int deleteProductFile(int productFileNo);
 }
