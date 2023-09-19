@@ -39,7 +39,7 @@ public class GoogleLoginBean implements GoogleUrls {
 		session.setAttribute(SESSION_STATE, state);
 
 		// ScribeJava 에서 제공하는 인증 URL 생성 메서드
-		oAuth20Service = new ServiceBuilder(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL).state(state).scope(SCOPE)
+		oAuth20Service = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL).state(state).scope(SCOPE)
 				.build(GoogleLoginApi20.instance());
 
 		return oAuth20Service.getAuthorizationUrl();
@@ -55,7 +55,7 @@ public class GoogleLoginBean implements GoogleUrls {
 		if (!StringUtils.pathEquals(sessionState, state)) {
 			return null;
 		}
-		oAuth20Service = new ServiceBuilder(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL).state(state)
+		oAuth20Service = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL).state(state)
 				.build(GoogleLoginApi20.instance());
 
 		// scribe java에서 제공하는 AccessToken 획득기능
@@ -66,11 +66,11 @@ public class GoogleLoginBean implements GoogleUrls {
 	// 프로필 얻어오기 (프로필API 호출)
 	public UserVO getUserProfile(OAuth2AccessToken accessToken)
 			throws InterruptedException, ExecutionException, IOException, ParseException {
-		oAuth20Service = new ServiceBuilder(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL)
+		oAuth20Service = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL)
 				.build(GoogleLoginApi20.instance());
-		OAuthRequest request = new OAuthRequest(Verb.GET, GOOGLE_PROFILE_URL);
+		OAuthRequest request = new OAuthRequest(Verb.GET, GOOGLE_PROFILE_URL, oAuth20Service);
 		oAuth20Service.signRequest(accessToken, request);
-		Response response = oAuth20Service.execute(request);
+		Response response = request.send();
 		return parseJson(response.getBody());
 	}
 
