@@ -315,7 +315,7 @@
 		<dependency>
 			<groupId>com.github.scribejava</groupId>
 			<artifactId>scribejava-apis</artifactId>
-			<version>5.6.0</version>
+			<version>3.3.0</version>
 			<!--<scope>runtime</scope>-->
 		</dependency>
 
@@ -324,7 +324,7 @@
 		<dependency>
 			<groupId>com.github.scribejava</groupId>
 			<artifactId>scribejava-core</artifactId>
-			<version>5.6.0</version>
+			<version>3.3.0</version>
 		</dependency>
 
 
