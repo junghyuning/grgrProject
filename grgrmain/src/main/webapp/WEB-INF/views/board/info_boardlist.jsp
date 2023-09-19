@@ -168,7 +168,8 @@
 														style="display: block; text-align: right;">
 														<i class="fas fa-user mr-5"></i>${infoBoard.nickname} <span
 															class="m-x-10 text-muted">|</span> <i
-															class="far fa-calendar-alt mr-5"></i>${infoBoard.infoRegdate}
+															class="far fa-calendar-alt mr-5"></i>
+														<fmt:formatDate value="${infoBoard.infoRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
 														<span class="m-x-10 text-muted">|</span> <i
 															class="fas fa-tag mr-10"></i>
 														<c:choose>

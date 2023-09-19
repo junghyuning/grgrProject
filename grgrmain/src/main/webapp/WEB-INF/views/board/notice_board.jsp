@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,7 +101,8 @@
 
 						<i class="fas fa-user mr-5"></i>관리자 <span
 							class="mr-5 ml-5 text-muted">|</span> <i 
-							class="fas fa-calendar-alt mr-5"></i>${noticeBoard.noticeRegdate }
+							class="fas fa-calendar-alt mr-5"></i>
+							<fmt:formatDate value="${noticeBoard.noticeRegdate }" pattern="yyyy-MM-dd HH:mm:ss" />
 							<span class="mr-5 ml-5 text-muted">|</span>
 							<span>조회수</span>
 						<span class="mr-5 ml-5 text-muted" style="color: #6c757d!important;">${noticeBoard.noticeViewCnt}</span>

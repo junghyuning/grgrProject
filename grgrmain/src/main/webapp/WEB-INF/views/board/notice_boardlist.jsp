@@ -142,8 +142,9 @@
 													<i class="fas fa-user mr-5"></i>관리자
 													<span
 														class="m-x-10 text-muted">|</span>
-													<i class="far fa-calendar-alt mr-5"></i>${noticeBoard.noticeRegdate}<span
-														class="m-x-10 text-muted">|</span> <i
+													<i class="far fa-calendar-alt mr-5"></i>
+													<fmt:formatDate value="${noticeBoard.noticeRegdate }" pattern="yyyy-MM-dd HH:mm:ss" />
+													<span class="m-x-10 text-muted">|</span> <i
 														class="fas fa-tag mr-10"></i> 공지사항
 												</p>
 											</div>

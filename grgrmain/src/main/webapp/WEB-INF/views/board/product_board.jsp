@@ -157,9 +157,9 @@
 									id="addToCartBtn">
 									<i class="fas fa-shopping-cart mr-5"></i> <span>장바구니 담기</span>
 								</button>
-							</span> <a href="<c:url value="/cart/list" />"
-								class="btn btn-xs btn-primary pill"
-								style="float: right; font-size: 15px"><span>장바구니 이동</span></a>
+							</span> <a href="<c:url value="/" />"
+								class="btn btn-primary rounded"
+								style="float: right; font-size: 15px"><span>바로 구매</span></a>
 						</div>
 
 					</div>
@@ -407,7 +407,7 @@
 		    html += '" data-group="' + comment.productCommentGroup;
 		    html += '" data-productId="' + comment.productId + '">';
 			if (comment.productCommentBlindstate === 3) { // 댓글이 삭제
-				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">삭제된 리뷰입니다.</p>';
+				html += '<p class="mb-0 comment-style"  style="display: none;">삭제된 리뷰입니다.</p>';
 			} else if (comment.productCommentBlindstate == 2) { //게시자가 숨겼다면
 				html += '<p class="mb-0 comment-style" style="padding: 10px 30px 10px 50px; text-align:center">관리자에의해 비공개된 댓글입니다.</p>';
 			} else { // 정상적으로 보이는 게시물

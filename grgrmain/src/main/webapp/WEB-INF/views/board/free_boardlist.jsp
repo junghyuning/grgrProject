@@ -163,8 +163,9 @@
 													style="text-align: right">
 													<i class="fas fa-user mr-5"></i>${freeBoard.nickname} <span
 														class="m-x-10 text-muted">|</span> <i
-														class="far fa-calendar-alt mr-5"></i>${freeBoard.freeRegdate}<span
-														class="m-x-10 text-muted">|</span> <i
+														class="far fa-calendar-alt mr-5"></i>
+													<fmt:formatDate value="${freeBoard.freeRegdate }" pattern="yyyy-MM-dd HH:mm:ss" />
+													<span class="m-x-10 text-muted">|</span> <i
 														class="fas fa-tag mr-10"></i>
 												</p>
 											</div>

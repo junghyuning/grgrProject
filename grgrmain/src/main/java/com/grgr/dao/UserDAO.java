@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
+import com.grgr.dto.MyLike;
 import com.grgr.dto.UserVO;
 
 public interface UserDAO {
@@ -48,6 +49,13 @@ public interface UserDAO {
 
 	/* 전체 내가 쓴 댓글 수 */
 	int selectCommentCount(int uno);
+	
+	/* 나의 관심글 조회 */
+	List<MyLike> getLikeList(@Param("uno") int uno, @Param("startRow") int startRow,
+			@Param("endRow") int endRow);
+	
+	/* 관심게시글 수 */
+	int selectLikeCount(int uno);
 	
 	/*전체 회원 수*/
 	int selectUserCount();

@@ -94,6 +94,9 @@
 				<li id="keyword-button"><a
 					href="<c:url value='/mypage/myCommentList?uno=${param.uno}' />"
 					class="btn btn-outline-primary m-y-10 mr-10">내가 쓴 댓글</a></li>
+				<li id="keyword-button"><a
+					href="<c:url value='/mypage/myLikeList?uno=${param.uno}' />"
+					class="btn btn-outline-primary m-y-10 mr-10">관심게시글</a></li>	
 			</ul>
 
 			<div>

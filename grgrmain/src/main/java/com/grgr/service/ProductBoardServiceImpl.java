@@ -9,14 +9,19 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.grgr.dao.ProductBoardDAO;
+import com.grgr.dto.InfoBoard;
+import com.grgr.dto.InfoFile;
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductFile;
 import com.grgr.dto.ProductUserDTO;
+import com.grgr.exception.FileDeleteException;
 import com.grgr.exception.FileUploadFailException;
+import com.grgr.exception.PostUpdateException;
 import com.grgr.exception.WriteNullException;
 import com.grgr.util.Pager;
 import com.grgr.util.SearchCondition;
@@ -66,6 +71,7 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 
 	/* 특정 상품 조회 */
 	@Override
+	@Transactional
 	public Map<String, Object> getProductBoard(int productId) {
 
 		Map<String, Object> readMap = new HashMap<String, Object>();
@@ -100,6 +106,7 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 
 	/* 상품 등록 */
 	@Override
+	@Transactional
 	public int addProduct(ProductBoardVO productBoard, List<MultipartFile> files)
 			throws WriteNullException, FileUploadFailException, IOException {
 
@@ -109,48 +116,29 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 
 		productBoardDAO.insertProduct(productBoard);
 
-		String uploadDirectory = context.getServletContext().getRealPath("/resources/upload");
+		imgUpload(productBoard, files);
 
-		// 파일 업로드 필수 X
-		if (files != null && !files.isEmpty()) {
-			for (MultipartFile multipartfile : files) {
-				if (multipartfile.isEmpty()) {
-					continue; // 파일이 비어 있으면 다음 파일로 넘어감
-				}
-
-				if (!multipartfile.getContentType().startsWith("image/")) {
-					throw new FileUploadFailException("이미지 파일이 아닙니다");
-				}
-
-				String uploadFileName = UUID.randomUUID().toString() + "_" + multipartfile.getOriginalFilename();
-				System.out.println(uploadFileName);
-				File file = new File(uploadDirectory, uploadFileName);
-				System.out.println(file);
-
-				multipartfile.transferTo(file);
-
-				ProductFile productFile = new ProductFile();
-				productFile.setProductId(productBoard.getProductId());
-				productFile.setProductFileOrigin(multipartfile.getOriginalFilename());
-				productFile.setProductFileUpload(uploadFileName);
-
-				productBoardDAO.insertProductFile(productFile);
-
-			}
-		}
 		return productBoard.getProductId();
 	}
 
 	@Override
-	public void modifyProduct(ProductBoardVO productBoard) {
+	@Transactional
+	public void modifyProduct(ProductBoardVO productBoard, List<MultipartFile> files)
+			throws FileUploadFailException, IOException {
 		// TODO Auto-generated method stub
 		productBoardDAO.updateProduct(productBoard);
+
+		imgUpload(productBoard, files);
 	}
 
 	@Override
-	public void removeProduct(int productId, int uno) {
+	public void removeProduct(int productId, int uno) throws PostUpdateException {
 		// TODO Auto-generated method stub
-		productBoardDAO.deleteProduct(productId, uno);
+		int result = productBoardDAO.deleteProduct(productId, uno);
+
+		if (result < 1) {
+			throw new PostUpdateException("상품 삭제에 실패하였습니다");
+		}
 	}
 
 	@Override
@@ -197,4 +185,49 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 		return searchMap;
 	}
 
+	// 이미지 파일 삭제
+	@Override
+	@Transactional
+	public void removeProductFiles(List<Integer> deleteFileList) throws FileDeleteException {
+		// TODO Auto-generated method stub
+		for (Integer fileNo : deleteFileList) {
+			productBoardDAO.deleteProductFiile(fileNo);
+		}
+	}
+
+	// 파일 업로드 처리 메서드
+	private void imgUpload(ProductBoardVO productBoard, List<MultipartFile> files)
+			throws FileUploadFailException, IOException {
+
+		String uploadDirectory = context.getServletContext().getRealPath("/resources/upload");
+
+		// 파일을 하나도 업로드하지 않아도 되므로 null이 아닐시에만 업로드 작업
+		if (files != null && !files.isEmpty()) {
+			for (MultipartFile multipartfile : files) {
+				if (multipartfile.isEmpty()) {
+					continue; // 파일이 비어 있으면 다음 파일로 넘어감
+				}
+
+				if (!multipartfile.getContentType().startsWith("image/")) {
+					throw new FileUploadFailException("사진이 아닌 파일입니다.");
+				}
+
+				String uploadFileName = UUID.randomUUID().toString() + "_" + multipartfile.getOriginalFilename();
+				System.out.println(uploadFileName);
+				File file = new File(uploadDirectory, uploadFileName);
+				System.out.println(file);
+
+				multipartfile.transferTo(file);
+
+				// 파일 정보 객체 생성
+				ProductFile productFile = new ProductFile();
+				productFile.setProductId(productBoard.getProductId());
+				productFile.setProductFileOrigin(multipartfile.getOriginalFilename());
+				productFile.setProductFileUpload(uploadFileName);
+
+				productBoardDAO.insertProductFile(productFile);
+
+			}
+		}
+	}
 }
