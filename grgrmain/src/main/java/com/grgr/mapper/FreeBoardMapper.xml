@@ -13,23 +13,26 @@
 				<when test="searchType == 'T'.toString()">
 					free_title like '%'||#{searchKeyword}||'%'
 				</when>
-				<!-- <when test='searchType == "W"'>
+				 <when test='searchType == "W"'>
 					writer like '%'||#{searchKeyword}||'%'
-				</when> -->
+				</when> 
 			</choose>
 		</trim>
 	</sql>
+	
+	
 	<!-- 총게시글 수 -->
 	<select id="freeBoardCount" resultType="int">
-		SELECT COUNT(*) FROM FREE_BOARD where <include refid="search"/>
-		free_Loc='강남구' and free_blindstate=1 
+		SELECT COUNT(*) FROM FREE_BOARD 
+		WHERE <include refid="search"/>
+		FREE_BLINDSTATE=1 
 	</select>
 
 	<!--게시글 입력(삽입) -->
 	<insert id="insertFreeBoard">
 		<selectKey keyProperty="freeBno" resultType="int"
 			order="BEFORE">
-			SELECT free_seq.nextval FROM dual
+			SELECT FREE_SEQ.nextval FROM DUAL
 		</selectKey>
 		INSERT INTO FREE_BOARD
 		(FREE_BNO, UNO, FREE_TITLE,
@@ -40,11 +43,11 @@
 
 	<!-- 자신의 게시글 수정 -->
 	<update id="updateFreeBoard">
-		update free_board set
-		free_title=#{freeTitle},
-		free_content = #{freeContent}, free_update=sysdate,
-		free_update_uno=#{uno}
-		where free_bno=#{freeBno} and uno=#{uno}
+		UPDATE FREE_BOARD SET
+		FREE_TITLE=#{freeTitle},
+		FREE_CONTENT = #{freeContent}, free_update=sysdate,
+		FREE_UPDATE_UNO=#{uno}
+		WHERE FREE_BNO=#{freeBno} AND UNO=#{uno}
 	</update>
 
 	<!-- 자신의 게시글 삭제 -->
@@ -58,108 +61,112 @@
 
 	<!-- 관리자가 게시물 숨김 -->
 	<update id="blindFreeBoard">
-		update free_board set
-		free_blindstate = 2,
-		free_update=sysdate, free_update_uno = #{uno}
-		where
-		free_bno=#{freeBno} and free_blindstate = 1
+		UPDATE FREE_BOARD SET
+		FREE_BLINDSTATE = 2,
+		FREE_UPDATE=SYSDATE, FREE_UPDATE_UNO = #{uno}
+		WHERE
+		FREE_BNO=#{freeBno} AND FREE_BLINDSTATE = 1
 	</update>
 
 	<!-- n번 게시글 -->
 	<select id="selectFreeBoard" resultType="FreeBoard">
-		select FREE_BNO, UNO,
+		SELECT FREE_BNO, UNO,
 		 FREE_TITLE, FREE_CONTENT, FREE_LOC,
 		FREE_VIEW_CNT,
-		FREE_REPORT_NO,
+		FREE_REPORT_CNT,
 		FREE_BLINDSTATE, FREE_REGDATE, FREE_UPDATE,
-		FREE_UPDATE_UNO from free_board
-		where free_bno=#{freeBno}
+		FREE_UPDATE_UNO FROM FREE_BOARD
+		WHERE FREE_BNO=#{freeBno}
 	</select>
 
 
 	<!-- 이전 글 번호 찾기 -->
 	<select id="selectPrevFreeBno" resultType="int">
-		select max(FREE_BNO)
-		from free_board where <include refid="search"/> 
-		free_Loc='강남구' and free_bno &lt; #{freeBno} and free_blindstate = 1
+		SELECT MAX(FREE_BNO)
+		FROM FREE_BOARD WHERE <include refid="search"/> 
+		FREE_BNO &lt; #{freeBno} AND FREE_BLINDSTATE = 1
 	
 	</select> 
 
 	<!-- 다음 글 번호 찾기 -->
  	<select id="selectNextFreeBno" resultType="int">
-		select min(FREE_BNO)
-		from free_board where <include refid="search"/>
-		free_Loc='강남구' and free_bno &gt; #{freeBno} and free_blindstate = 1
+		SELECT MIN(FREE_BNO)
+		FROM FREE_BOARD WHERE <include refid="search"/>
+		FREE_BNO &gt; #{freeBno} AND FREE_BLINDSTATE = 1
 
 	</select> 
-
-
 
 	<!-- 게시글 목록 -->
 	<select id="selectFreeBoardList" resultType="FreeBoard">
 		SELECT * FROM (
 		SELECT ROWNUM NUM, FREE.* FROM (
-		SELECT FREE_BNO, UNO,
-		FREE_TITLE, FREE_CONTENT, FREE_LOC,
-		FREE_VIEW_CNT,	
-		FREE_REPORT_NO,
-		FREE_BLINDSTATE, FREE_REGDATE, FREE_UPDATE,
-		FREE_UPDATE_UNO
+		SELECT
+		F.FREE_BNO,
+		F.UNO,
+		F.FREE_TITLE, 
+		SUBSTR(F.FREE_CONTENT,1,40) AS FREE_CONTENT, 
+		F.FREE_VIEW_CNT,
+		F.FREE_REPORT_CNT,
+		F.FREE_BLINDSTATE, 
+		F.FREE_LOC,
+		F.FREE_REGDATE,
+		F.FREE_UPDATE,
+		F.FREE_UPDATE_UNO,
+		U.NICKNAME
 		FROM
-		FREE_BOARD 
-		WHERE <include refid="search"/>
-		FREE_LOC = #{freeLoc} AND FREE_BLINDSTATE = 1
-		ORDER BY FREE_BNO DESC
+		FREE_BOARD F
+		JOIN
+		USERINFO U on F.UNO = U.UNO
+		WHERE
+		<include refid="search" />
+		F.Free_BLINDSTATE = 1
+		ORDER BY F.FREE_BNO DESC
 		) FREE
 		)
 		WHERE NUM BETWEEN #{startRow} AND
 		#{endRow}
 	</select>
-	
-	<!-- <if test='keyword!=null and keyword != ""'><include refid="search"></include></if> -->
+
 
 
 	<!-- 좋아요 check => BNO가 하나만 존재해야 하므로 BOARDSEQ를 하나만 써야하지않을까? -->
 	<select id="likeCheck" parameterType="map" resultType="int">
 		select
-		count(*) from like where  bno = #{freeBno} and uno = #{uno}
+		count(*) from like where bno = #{freeBno} and uno = #{uno}
 	</select>
 
 
 	<!-- 조회수 증가 -->
 	<update id="increaseFreeViewCnt">
-		UPDATE info_board
-		SET free_view_cnt = free_view_cnt +
-		1
-		WHERE free_bno = #{freeBno}
+		UPDATE Free_board
+		SET FREE_VIEW_CNT = FREE_VIEW_CNT +	1
+		WHERE FREE_BNO = #{freeBno}
 	</update>
 
 
-	<!-- 신고수 증가 -->
-	<update id="increaseFreeReportNo">
-		UPDATE free_board
-		SET
-		free_report_no = free_report_no +
-		1
-		WHERE free_bno = #{freeBno}
-	</update>
 
 	<!-- 이미지파일 업로드 : INFO_FILE_UPDATE_UNO 는 로그인 기능 완성시 추가할 것 -->
 	<insert id="insertFreeFile">
-		insert into free_file (free_file_no, free_bno,
-		free_file_origin, free_file_upload)
-		values
-		(free_file_seq.nextval,#{freeBno}, #{freeFileOrigin},
+		INSERT INTO FREE_FILE (FREE_FILE_NO, FREE_BNO,
+		FREE_FILE_ORIGIN, FREE_FILE_UPLOAD)
+		VALUES
+		(FREE_FILE_SEQ.NEXTVAL,#{freeBno}, #{freeFileOrigin},
 		#{freeFileUpload})
 	</insert>
+
+
 	<!-- 이미지파일 검색 -->
 	<select id="selectFreeFile">
-		select free_file_no, free_bno, free_file_origin,
-		free_file_upload from free_file where free_bno = #{freeBno}
-		order by free_file_no
+		SELECT FREE_FILE_NO, FREE_BNO, FREE_FILE_ORIGIN,
+		FREE_FILE_UPLOAD FROM FREE_FILE WHERE FREE_BNO = #{freeBno}
+		ORDER BY FREE_FILE_NO
 	</select>
-
-
+	
+	<!-- 이미지파일 삭제 -->
+	<!-- 파일 no 정보를 받아와야함 -->
+	<delete id="deleteFreeFile">
+		DELETE FROM FREE_FILE WHERE FREE_FILE_NO = #{freeFileNo} 
+	</delete>
 
 </mapper>
        

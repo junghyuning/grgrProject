@@ -4,84 +4,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
-<!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
-</head>
+<title>끼리끼리 - 자유게시판</title>
 <style>
-.va-middle {
-	font-size: 20px;
-}
-
-.page-link {
-	font-size: 20px;
-}
-
-.mb-20 {
-	font-size: 2rem;
-	font-weight: 'bold';
-}
-
-.buttion-submit {
-	display: inline-block;
-}
-
 .titleAndError {
 	display: flex;
 	align-items: center; /* 세로 중앙 정렬 */
 	height: 100px;
 }
 </style>
+</head>
 <body>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<!-- 배너 -->
 	<c:set var="boardName" value="자유게시판" />
-	<header class="xl bg-img bg-fixed" style="background-image: url(/grgrmain/images/free2.jpg); background-size: cover;">
+	<header class="xl bg-img bg-fixed"
+		style="background-image: url(/grgrmain/images/free2.jpg); background-size: cover;">
 		<div class="container text-center">
 			<h1 class="page-title">Free</h1>
-			<p class="w-50 m-x-auto mb-30" style="color: white;"><c:out value="${boardName}" /></p>
+			<p class="w-50 m-x-auto mb-30" style="color: white;">
+				<c:out value="${boardName}" />
+			</p>
 		</div>
 		<!-- / container -->
-</header>
-
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
+	</header>
 
 	<div id="top"></div>
 	<!-- / top -->
-
 
 	<section class="lg bg-light-grey">
 		<div class="container">
@@ -95,13 +44,11 @@
 				<form action="write" method="post" enctype="multipart/form-data"
 					class="validation-inner" id="form-validation"
 					novalidate="novalidate">
-					<!-- <input type="hidden" name="uno" value="loginUno" /><input type="hidden" name="infoUpdateUno" value="loginUno" /><input type="hidden"
-						name="infoLoc" value="loginLoc" />  -->
-					<input type="hidden" name="uno" value="${sessionScope.loginUno}" /> <input type="hidden"
-						name="freeUpdateUno" value="${sessionScope.loginUno}" /> <input type="hidden"
-						name="freeLoc" value="강남구" />
+					<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
+					<input type="hidden" name="freeUpdateUno"
+						value="${sessionScope.loginUno}" /> <input type="hidden"
+						name="freeLoc" value="${loginLocation}" />
 					<div class="row">
-
 
 						<div class="col-md-12">
 							<div class="form-group">
@@ -131,7 +78,6 @@
 							</div>
 							<!-- 이미지 미리보기 영역 -->
 							<div id="imagePreviewContainer" class="mb-10"></div>
-
 						</div>
 
 
@@ -158,35 +104,15 @@
 	</section>
 	<!-- / pagination-center -->
 
-	<a href="#top" class="scroll-to-top is-hidden smooth-scroll"
+	<a href="#top" class="scroll-to-top is-hidden "
 		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
 
 	<!-- footer 영역 -->
-	<jsp:include page="/WEB-INF/views/tiles/footer.jsp"/>
+	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 
-	<!-- core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-	<!-- / core JavaScript -->
 
-	<!-- preloader -->
-	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
-	<!-- / preloader -->
-
-	<!-- hide nav -->
-	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
-	<!-- / hide nav -->
-
-	<!-- portfolio script -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
-	  var files;
+		var files;
 		document.getElementById('file-button').addEventListener(
 				'change',
 				function(event) {
@@ -223,75 +149,56 @@
 		$(document)
 				.ready(
 						function() {
-							
-							
+
 							function isImageFile(file) {
 								const validImageTypes = [ 'image/gif',
 										'image/jpeg', 'image/png', 'image/jpg' ]; // 원하는 이미지 타입에 따라 확장 가능
 								return file
 										&& validImageTypes.includes(file.type);
 							}
-							document
-									.querySelector('#write-submit')
-									.addEventListener(
-											'click',
-											function() {
+							$('#write-submit').click(function(){
 												var title = document
 														.getElementsByName('freeTitle')[0].value;
 												var content = document
 														.getElementsByName('freeContent')[0].value;
+												var contentErrorMessage = "";
+										        var imgErrorMessage = "";
 												if (title.trim() === ''
 														|| content.trim() === '') {
 													alert('제목과 내용을 모두 입력해주세요.');
-												} else if (files && files.length > 0
-														&& !Array
-																.from(files)
-																.every(
-																		isImageFile)) {
-													alert('유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.');
-												} else {
-													document.getElementById(
-															'form-validation')
-															.submit(); // 폼을 제출
-												}
+												} 
+												if (files && files.length > 0 && !Array.from(files).every(isImageFile)) {
+													imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
+												} 	        if (contentErrorMessage !== "") {
+										            console.log('title error not null');
+										            document.getElementById('content-error-message').textContent = contentErrorMessage;
+										            $('#content-error-message').show();
+										            console.log('title error show');
+										            setTimeout(function() {
+										                $('#content-error-message').fadeOut('slow');
+										            }, 5000);
+										        }
+
+										        if (imgErrorMessage !== '') {
+										            console.log('img error not null');
+										            document.getElementById('img-error-message').textContent = imgErrorMessage;
+										            $('#img-error-message').show();
+										            console.log('img error show');
+										            setTimeout(function() {
+										                $('#img-error-message').fadeOut('slow');
+										            }, 5000);
+										        }
+
+										        if (contentErrorMessage === "" && imgErrorMessage === "") {
+										            document.getElementById('form-validation').submit(); // 폼을 제출
+										        }
 											});
 
 							setTimeout(function() {
 								$('#error-message').fadeOut('slow');
 							}, 5000);
 
-							if (Modernizr.touch) {
-								// show the close overlay button
-								$('.close-overlay').removeClass('hidden');
-								// handle the adding of hover class when clicked
-								$('.img').click(function(e) {
-									if (!$(this).hasClass('hover')) {
-										$(this).addClass('hover');
-									}
-								});
-								// handle the closing of the overlay
-								$('.close-overlay').click(
-										function(e) {
-											e.preventDefault();
-											e.stopPropagation();
-											if ($(this).closest('.img')
-													.hasClass('hover')) {
-												$(this).closest('.img')
-														.removeClass('hover');
-											}
-										});
-							} else {
-								// handle the mouseenter functionality
-								$('.img').mouseenter(function() {
-									$(this).addClass('hover');
-								})
-								// handle the mouseleave functionality
-								.mouseleave(function() {
-									$(this).removeClass('hover');
-								});
-							}
 						});
 	</script>
-	<!-- / portfolio script -->
 </body>
 </html>

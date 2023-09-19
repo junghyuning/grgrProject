@@ -60,6 +60,7 @@
 			<beans:ref bean="adminAuthInterceptor" />
 		</interceptor>
 		<interceptor>
+			<mapping path="/freeboard/**" />
 			<mapping path="/infoboard/**" />
 			<mapping path="/inforeport/**" />
 			<mapping path="/productboard/**" />
@@ -67,6 +68,8 @@
 			<mapping path="/board/**" />
 			<mapping path="/mypage/**" />
 			<mapping path="/qnaboard/**" />
+			<mapping path="/qnaboard/**" />
+			<exclude-mapping path="/freeboard/list"/>
 			<beans:ref bean="loginAuthInterceptor" />
 		</interceptor>
 	</interceptors>

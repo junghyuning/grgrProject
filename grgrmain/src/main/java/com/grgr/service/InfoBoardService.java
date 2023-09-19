@@ -14,14 +14,14 @@ import com.grgr.exception.WriteNullException;
 import com.grgr.util.SearchCondition;
 
 public interface InfoBoardService {
-	//int getInfoCount(SearchCondition searchCondition);
 	int addInfoBoard(InfoBoard infoBoard, List<MultipartFile> files)throws WriteNullException, FileUploadFailException, IOException;
 	void modifyInfoBoard(InfoBoard infoBoard, List<MultipartFile> files) throws WriteNullException, FileUploadFailException, IOException;
 	void removeInfoBoard(int infoBno, int uno) throws PostUpdateException;
 	void hideInfoBoard(int infoBno, int loginUser, int loginUserStatus);
 	Map<String, Object> getInfoBoard(int loginUno, int infoBno);
-	Integer prevInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus );
-	Integer nextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus);
+	Map<String, Object> prevAndNextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus);
+//	Integer prevInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus );
+//	Integer nextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus);
 	Map<String, Object> getInfoBoardList(SearchCondition searchCondition, int loginUserStatus);
 	void removeInfoFiles(List<Integer> deleteFileList) throws FileDeleteException;
 	

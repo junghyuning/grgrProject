@@ -19,11 +19,8 @@ public interface InfoBoardMapper {
 	Integer selectPrevInfoBno(Map<String, Object> map);
 	Integer selectNextInfoBno(Map<String, Object> map);
 	List<InfoBoard> selectInfoBoardList(Map<String, Object> map);
-	
+//	파일처리
 	int insertInfoFile(InfoFile infoFile);
 	List<InfoFile> selectInfoFile(int infoBno);
-	
 	int deleteInfoFile(int infoFileNo);
-	
-	
 }

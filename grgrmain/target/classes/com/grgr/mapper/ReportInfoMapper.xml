@@ -16,8 +16,8 @@
 
 	<!-- 신고 게시글 카운트 증가 -->
 	<update id="increaseInfoBoardReportCnt">
-		update INFO_BOARD set INFO_REPORT_CNT = INFO_REPORT_CNT+1
-		where INFO_BNO=#{infoBno}
+		UPDATE INFO_BOARD SET INFO_REPORT_CNT = INFO_REPORT_CNT+1
+		WHERE INFO_BNO=#{infoBno}
 	</update>
 
 

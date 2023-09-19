@@ -198,16 +198,16 @@
                 );">
                 <div class="card-header bg-transparent b-0">
 						<p>
-							<i class="fas fa-map-marker-alt promo-icon mr-5 text-warning "></i>
-							<span class="secondary-font">${info.infoLoc}</span>
+							<i class="fas fa-tag mr-5 text-primary"></i> 
+							<span class="secondary-font">판매</span>
 						</p>
 					</div>
 					<!-- / card-header -->
                 
 					<div class="card-body pt-150 pb-20">
-						<a href="#x"
-							class="fs-20 fw-bold d-block text-black primary-hover secondary-font mt-10 mb-0">${sales.productTitle}</a>
-						<p class="card-text mt-10 mb-0">${sales.productContent}</p>
+					<a href="#x"
+							class="fs-20 fw-bold d-block text-black primary-hover secondary-font mt-10 mb-0 ">${sales.productTitle}</a>
+						<p class="card-text mt-10 mb-0 ">${sales.productContent}</p>
 					</div>
 					<!-- / card-body -->
 				</div>

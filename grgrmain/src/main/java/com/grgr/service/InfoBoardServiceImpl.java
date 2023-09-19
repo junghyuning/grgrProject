@@ -29,21 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 //수정일 - 수정내용
 //0908 - SearchCondition에 위치정보 추가 -> createMap 메서드 수정
 //0909 - 파일 업로드 관련 메서드 분리 및 수정시 에 파일 업로드기능 추가
+//0919 - next, previnfoBno 하나로 합치고 controller에서 처리하던 부분 가지고옴
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class InfoBoardServiceImpl implements InfoBoardService {
 	private final InfoBoardDAO infoBoardDAO;
 	private final WebApplicationContext context;
-	
-		
-
-//	@Override
-//	public int getInfoCount(SearchCondition searchCondition) {
-//		Map<String, Object> searchMap = createSearchMap(searchCondition);
-//		
-//		return infoBoardDAO.infoBoardCount(searchMap);
-//	}
 
 	@Override
 	@Transactional
@@ -147,22 +139,22 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	public Integer prevInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus) {
+	public Map<String, Object> prevAndNextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
 		searchMap.put("loginUserStatus", loginUserStatus);
 		searchMap.put("infoBno", infoBno);
+		Integer prevInfoBno = infoBoardDAO.selectPrevInfoBno(searchMap);
 		
-		return infoBoardDAO.selectPrevInfoBno(searchMap);
+		Integer nextInfoBno = infoBoardDAO.selectNextInfoBno(searchMap);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("nextInfoBno", nextInfoBno);
+		map.put("prevInfoBno", prevInfoBno);
+		map.put("isLastPost", nextInfoBno ==null );
+		map.put("isFirstPost", prevInfoBno==null);
+		map.put("searchCondition", searchCondition);
+		return map;
 	}
 
-	@Override
-	public Integer nextInfoBno(SearchCondition searchCondition, int infoBno, int loginUserStatus) {
-		Map<String, Object> searchMap = createSearchMap(searchCondition);
-		searchMap.put("loginUserStatus", loginUserStatus);
-		searchMap.put("infoBno", infoBno);
-		
-		return infoBoardDAO.selectNextInfoBno(searchMap);
-	}
 	
 	@Override
 	@Transactional
@@ -196,6 +188,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 	
 	//파일 업로드 처리 메서드
+	@Transactional
 	private void imgUpload(InfoBoard infoBoard, List<MultipartFile> files) throws FileUploadFailException, IOException {
 		
 		String uploadDirectory=context.getServletContext().getRealPath("/resources/upload");
@@ -226,7 +219,6 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 		        infoFile.setInfoBno(infoBoard.getInfoBno());
 		        infoFile.setInfoFileOrigin(multipartfile.getOriginalFilename());
 		        infoFile.setInfoFileUpload(uploadFileName);
-		        
 		        infoBoardDAO.insertInfoFile(infoFile);
 
 			}

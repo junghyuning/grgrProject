@@ -13,7 +13,6 @@ import com.grgr.mapper.FreeBoardMapper;
 import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
-
 public class FreeBoardDAOImpl implements FreeBoardDAO {
 	private final SqlSession sqlSession;
 
@@ -43,9 +42,9 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 	}
 
 	@Override
-	public int blindFreeBoard(int freeBno) {
+	public int blindFreeBoard(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(FreeBoardMapper.class).blindFreeBoard(freeBno);
+		return sqlSession.getMapper(FreeBoardMapper.class).blindFreeBoard(map);
 	}
 
 	@Override
@@ -54,11 +53,7 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 		return sqlSession.getMapper(FreeBoardMapper.class).increaseFreeViewCnt(freeBno);
 	}
 
-	@Override
-	public int increaseFreeReportNo(int freeBno) {
-		// TODO Auto-generated method stub
-		return sqlSession.getMapper(FreeBoardMapper.class).increaseFreeReportNo(freeBno);
-	}
+
 
 	@Override
 	public FreeBoard selectFreeBoard(int freeBno) {
@@ -94,6 +89,12 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 	public List<FreeFile> selectFreeFile(int freeBno) {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(FreeBoardMapper.class).selectFreeFile(freeBno);
+	}
+
+	@Override
+	public int deleteFreeFile(int freeFileNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(FreeBoardMapper.class).deleteFreeFile(freeFileNo);
 	}
 
 }

@@ -25,84 +25,67 @@ import com.grgr.exception.CommentRemoveException;
 import com.grgr.service.FreeCommentService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/freecomment")
 @RequiredArgsConstructor
 public class FreeCommentController {
 	private final FreeCommentService freeCommentService;
-	
-	
-	//��� ��ȸ (GET ���)
+
+	// 댓글 조회 (GET 사용)
 	@GetMapping("/list/{freeBno}")
-	public Map<String, Object> commentList(
-	    @PathVariable int freeBno,
-	    @RequestParam(defaultValue = "1") int pageNum,
-	    Integer loginUno, Integer loginUserStatus /*HttpSession session*/
-	)  {
-	    
-	    //int loginUno = (int) session.getAttribute("uno");
-		//int loginUserStatus = (int)session.getAttribute("loginUserStatus"); 
-	    loginUno = 2;
-	    loginUserStatus=1;
-	    
-	    Map<String, Object> resultMap = freeCommentService.getFreeCommentList(freeBno, pageNum);
-	    resultMap.put("loginUno", loginUno); // �α����� ������� uno ���� ��� �ʿ� ����
-	    resultMap.put("loginUserStatus", loginUserStatus);
-	    
-	    return resultMap;
-	}
-	
-	//��� ����(POST ���)
-	@PostMapping("/write/{freeBno}")
-	public ResponseEntity<String> freeCommentAdd(@RequestBody FreeComment freeComment, @PathVariable int freeBno, Integer loginUno, HttpSession session) throws CommentInsertException {
-		//int loginUno = (int)session.getAttribute("uno"); 
-		loginUno = 2; //�α��� ����� ���� �ּ����� ����
-		freeComment.setUno(loginUno);
-		freeComment.setFreeBno(freeBno);
-		freeCommentService.addFreeComment(freeComment);
-		
-		return new ResponseEntity<String>("WRT_OK",HttpStatus.OK);
+	public Map<String, Object> commentList(@PathVariable int freeBno, @RequestParam(defaultValue = "1") int pageNum) {
+		Map<String, Object> resultMap = freeCommentService.getFreeCommentList(freeBno, pageNum);
+
+		return resultMap;
 	}
 
-	//��� ����(PUT ���)
+	// 댓글 삽입(POST 사용)
+	@PostMapping("/write/{freeBno}")
+	public ResponseEntity<String> freeCommentAdd(@RequestBody FreeComment freeComment, @PathVariable int freeBno,
+			HttpSession session) throws CommentInsertException {
+		int loginUno = (int) session.getAttribute("loginUno");
+		freeComment.setUno(loginUno);
+		freeComment.setFreeBno(freeBno);
+		freeComment.setFreeCommentContent(HtmlUtils.htmlEscape(freeComment.getFreeCommentContent()));
+		freeCommentService.addFreeComment(freeComment);
+
+		return new ResponseEntity<String>("WRT_OK", HttpStatus.OK);
+	}
+
+	// 댓글 수정(PUT 사용)
 	@PatchMapping("/modify/{freeCommentNo}")
-	public ResponseEntity<String> freeCommentModify(@PathVariable int freeCommentNo, @RequestBody FreeComment freeComment, int uno, HttpSession session) 
-			throws CommentModifyException  {
-		//int uno = (int)session.getAttribute("uno"); 
-		uno = 2; //�α��� ����� ���� �ּ����� ����
-		freeComment.setUno(uno);
+	public ResponseEntity<String> freeCommentModify(@PathVariable int freeCommentNo,
+			@RequestBody FreeComment freeComment, HttpSession session) throws CommentModifyException {
+		int loginUno = (int) session.getAttribute("loginUno");
+		freeComment.setUno(loginUno);
 		freeComment.setFreeCommentContent(HtmlUtils.htmlEscape(freeComment.getFreeCommentContent()));
 		freeCommentService.modifyFreeComment(freeComment);
-		
-		return new ResponseEntity<String>("MOD_OK",HttpStatus.OK);
+		return new ResponseEntity<String>("MOD_OK", HttpStatus.OK);
 	}
-	
-	//��� ����(����)
+ 
+	// 댓글 삭제(본인)
 	@PutMapping("/remove/{freeCommentNo}")
-	public ResponseEntity<String> freeCommentRemove(@PathVariable int freeCommentNo, Integer loginUno, HttpSession session ) throws CommentRemoveException {
-		//int loginUno = (int)session.getAttribute("uno"); 
-		loginUno = 2; //�α��� ����� ���� �ּ����� ����
+	public ResponseEntity<String> freeCommentRemove(@PathVariable int freeCommentNo, HttpSession session)
+			throws CommentRemoveException {
+		int loginUno = (int) session.getAttribute("loginUno");
 		freeCommentService.removeFreeComment(freeCommentNo, loginUno);
-		
-		return new ResponseEntity<String>("DEL_OK",HttpStatus.OK);
-		
+
+		return new ResponseEntity<String>("DEL_OK", HttpStatus.OK);
+
 	}
-	
-	//��� ����
+
+	// 댓글 숨김
 	@PutMapping("/hide/{freeCommentNo}")
-	public ResponseEntity<String> freeCommentBlind(@PathVariable int freeCommentNo, Integer loginUno, Integer loginUserStatus, HttpSession session ) throws CommentBlindException {
-		//int loginUno = (int)session.getAttribute("loginUserStatus"); 
-		//int loginUserStatus = (int)session.getAttribute("loginUserStatus"); 
-		loginUno = 1;
-		loginUserStatus = 1; //�α��� ����� ���� �ּ����� ����
-		freeCommentService.hideFreeComment(loginUno,freeCommentNo, loginUserStatus);
-		
-		return new ResponseEntity<String>("DEL_OK",HttpStatus.OK);
+	public ResponseEntity<String> freeCommentBlind(@PathVariable int freeCommentNo, HttpSession session)
+			throws CommentBlindException {
+		int loginUno = (int) session.getAttribute("loginUno");
+		int loginUserStatus = (int) session.getAttribute("loginUserStatus");
+
+		freeCommentService.hideFreeComment(loginUno, freeCommentNo, loginUserStatus);
+
+		return new ResponseEntity<String>("DEL_OK", HttpStatus.OK);
 	}
-	
-	//�Ű�
-	
-	
-	
+
 }
