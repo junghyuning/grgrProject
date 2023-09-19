@@ -73,7 +73,7 @@
 	<!-- 배너 -->
 	<c:set var="boardName" value="판매게시판" />
 	<header class="xl bg-img bg-fixed"
-		style="background-image: url(/grgrmain/images/market.jpg); background-size: cover; height: 300px;">
+		style="background-image: url(${pageContext.request.contextPath}/images/market.jpg); background-size: cover; height: 300px;">
 		<div class="container text-center">
 			<h1 class="page-title">Market</h1>
 			<p class="w-50 m-x-auto mb-30" style="color: white;">판매게시판</p>
