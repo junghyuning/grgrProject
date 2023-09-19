@@ -8,7 +8,7 @@
 <!-- 배너 -->
 <c:set var="boardName" value="자유게시판" />
 <header class="xl bg-img bg-fixed"
-	style="background-image: url(/grgrmain/images/free2.jpg); background-size: cover;">
+	style="background-image: url(${pageContext.request.contextPath}/images/free2.jpg); background-size: cover;">
 	<div class="container text-center">
 		<h1 class="page-title">Free</h1>
 		<p class="w-50 m-x-auto mb-30" style="color: white;">

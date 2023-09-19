@@ -67,7 +67,7 @@
 	<!-- 배너 -->
 	<c:set var="boardName" value="장바구니" />
 	<header class="xl bg-img bg-fixed"
-		style="background-image: url(/grgrmain/images/information.jpg); background-size: cover;">
+		style="background-image: url(${pageContext.request.contextPath}/images/information.jpg); background-size: cover;">
 		<div class="container text-center">
 
 			<h1 class="page-title">
