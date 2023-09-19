@@ -304,55 +304,7 @@
 										}); // ajax 종료
 									});// function 종료
 
-							// 닉네임 중복검사
-							$('.nickName_input')
-									.on(
-											"propertychange change keyup paste input",
-											function() {
-
-												var nickName = $(
-														'.nickName_input')
-														.val(); // .nickName_input에 입력되는 값
-												var data = {
-													nickName : nickName
-												} // '컨트롤에 넘길 데이터 이름' : '데이터(.nickName_input에 입력되는 값)'
-
-												$
-														.ajax({
-															type : "post",
-															url : "/user/userNickNameChk",
-															data : data,
-															success : function(
-																	result) {
-																// 성공 여부
-																if (result != 'fail') {
-																	$(
-																			'.nickName_input_re_1')
-																			.css(
-																					"display",
-																					"inline-block");
-																	$(
-																			'.nickName_input_re_2')
-																			.css(
-																					"display",
-																					"none");
-																	nickNameCheck = true;
-																} else {
-																	$(
-																			'.nickName_input_re_2')
-																			.css(
-																					"display",
-																					"inline-block");
-																	$(
-																			'.nickName_input_re_1')
-																			.css(
-																					"display",
-																					"none");
-																	nickNameCheck = false;
-																}
-															} // success 종료
-														}); // ajax 종료
-											});// function 종료
+							
 
 							/* 인증번호 이메일 전송 */
 							$(".email_check_button")

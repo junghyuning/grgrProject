@@ -26,18 +26,16 @@
 		USER_NAME,
 		NICKNAME,
 		USER_PW,
-		PHONE,
 		EMAIL,
-		NAVER_ID
+		GOOGLE_ID
 		)
 		VALUES(
 		UNO_SEQ.NEXTVAL,
 		#{userName},
 		#{nickName},
 		#{userPw},
-		#{phone},
 		#{email},
-		#{naverId}
+		#{googleId}
 		)
 	</insert>
 	

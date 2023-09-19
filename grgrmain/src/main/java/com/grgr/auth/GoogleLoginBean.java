@@ -25,9 +25,10 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class GoogleLoginBean implements GoogleUrls {
 	private static final String CLIENT_ID = "843097710124-bjfh1r074vs540jiot9vnd1b0rabhu0h.apps.googleusercontent.com";
-	private static final String CLIENT_SECRET = "totvPNJ11j";
-	private static final String REDIRECT_URL = "http://localhost/oauth/google/callback";
+	private static final String CLIENT_SECRET = "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";
+	private static final String REDIRECT_URL = "http://localhost:80/oauth/google/callback";
 	private static final String SESSION_STATE = "googleState";
+	private static final String SCOPE="email profile";
 
 	private OAuth20Service oAuth20Service;
 
@@ -38,7 +39,7 @@ public class GoogleLoginBean implements GoogleUrls {
 		session.setAttribute(SESSION_STATE, state);
 
 		// ScribeJava 에서 제공하는 인증 URL 생성 메서드
-		oAuth20Service = new ServiceBuilder(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL).state(state)
+		oAuth20Service = new ServiceBuilder(CLIENT_ID).apiSecret(CLIENT_SECRET).callback(REDIRECT_URL).state(state).scope(SCOPE)
 				.build(GoogleLoginApi20.instance());
 
 		return oAuth20Service.getAuthorizationUrl();
@@ -50,7 +51,7 @@ public class GoogleLoginBean implements GoogleUrls {
 
 		String sessionState = (String) session.getAttribute(SESSION_STATE);
 
-		// 로그인 요청을 한 사용자와 토큰을 발급받는 사용자가 다른 경우
+		//로그인 요청을 한 사용자와 토큰을 발급받는 사용자가 다른 경우
 		if (!StringUtils.pathEquals(sessionState, state)) {
 			return null;
 		}
@@ -86,13 +87,12 @@ public class GoogleLoginBean implements GoogleUrls {
 		JSONObject jsonObject = (JSONObject) object;
 
 		// JSON 객체 -> 파싱
-		JSONObject responseObject = (JSONObject) jsonObject.get("response");
-
-		userVO.setUserName((String) responseObject.get("name"));
+		userVO.setUserName((String) jsonObject.get("name"));
 		//pw는 not null 조건이 걸려있으므로 랜덤값 생성하여 저장
 		userVO.setUserPw(UUID.randomUUID().toString()); 
-		userVO.setEmail((String) responseObject.get("email"));
-		userVO.setGoogleId((String) responseObject.get("sub"));
+		userVO.setEmail((String) jsonObject.get("email"));
+		userVO.setGoogleId((String) jsonObject.get("id"));
+		userVO.setNickName((String) jsonObject.get("name"));
 	
 		return userVO;
 	}
