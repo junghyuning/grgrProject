@@ -8,8 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.grgr.dto.UserVO;
@@ -42,24 +45,24 @@ public class KaKaoLoginController {
 		return "redirect:" + kakaoAuthUrl;
 	}
 
-	//네이버 로그인 성공시 Callback URL 페이지를 처리하기 위한 요청 처리 메소드
-		@RequestMapping("/kakao/callback")
-		public String login(@RequestParam String code, @RequestParam String state
-				, HttpSession session) throws IOException, ParseException {
-			OAuth2AccessToken accessToken=kakaoLoginBean.getAccessToken(session, code, state);
-			
-			// 2. access Token 이용하여 사용자 프로필 정보 받아오기
-			UserVO profile=kakaoLoginBean.getUserProfile(accessToken);
-			System.out.println("apiResult = " + profile);			
+	// 네이버 로그인 성공시 Callback URL 페이지를 처리하기 위한 요청 처리 메소드
+	@RequestMapping("/kakao/callback")
+	public String login(@RequestParam String code, @RequestParam String state, HttpSession session, Model model)
+			throws IOException, ParseException {
+		OAuth2AccessToken accessToken = kakaoLoginBean.getAccessToken(session, code, state);
 
-		log.info("profile : "+profile);
+		// 2. access Token 이용하여 사용자 프로필 정보 받아오기
+		UserVO profile = kakaoLoginBean.getUserProfile(accessToken);
+		System.out.println("apiResult = " + profile);
+
+		log.info("profile : " + profile);
 		// 3. DB에 해당 유저가 존재하는지 check (kakaoID 컬럼 추가) & userinfoDB에 삽입 or update
-		if( userService.loginKakaoUser(profile) == false) {
+		if (userService.loginKakaoUser(profile) == false) {
 			log.warn("카카오 로그인 및 회원가입 실패");
 			return "redirect:/user/login";
 		}
-		
-		//4.세션에 로그인 정보 저장 - 정상적으로 작동했다면 KakaoId 가 존재할 것임..
+
+		// 4.세션에 로그인 정보 저장 - 정상적으로 작동했다면 KakaoId 가 존재할 것임..
 		UserVO user = userService.getKakaoLoginUser(profile.getKakaoId());
 		session.setAttribute("loginId", user.getUserId());
 		session.setAttribute("loginNickname", user.getNickName());
@@ -68,7 +71,27 @@ public class KaKaoLoginController {
 		session.setAttribute("loginActive", user.getActive());
 		session.setAttribute("loginUserStatus", user.getUserStatus());
 		session.setAttribute("loginLastLogin", user.getLastLogin());
+
+		if (user.getNickName() == null || user.getNickName() == "") {
+			Integer loginUno = (Integer) session.getAttribute("loginUno");
+			model.addAttribute("user", userService.userProfile(loginUno));
+			// user.getPhone 값이 null인 경우, updateinfo.jsp 페이지로 이동
+			return "/user/updateInfo";
+		} else {
+			
+			return "redirect:/main";
+		}
+
+	}
+
+	@PostMapping("/updateKakaoInfo")
+	public String updateKakaoInfoPost(UserVO userVO, HttpSession session) {
+
+		userService.updateKakaoUser(userVO);
+		session.setAttribute("user", userService.userProfile(userVO.getUno()));
 		
-		return "redirect:/main";			
+
+		return "redirect:/main";
+
 	}
 }
