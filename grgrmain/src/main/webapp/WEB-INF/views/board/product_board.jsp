@@ -710,7 +710,7 @@
             }
             // AJAX 요청
             $.ajax({
-                url: '/cart/add',
+                url: "<c:url value="/cart/add"/>",
                 type: 'POST',
                 data: {
                     productId: productId,

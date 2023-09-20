@@ -12,7 +12,7 @@
 
 <!-- 배너 - testimonial slider -->
 <div id="testimonial-slider"
-	class="owl-carousel owl-theme carousel-controls main-banner">
+	class="owl-carousel owl-theme carousel-controls main-banner" >
 	<div class="card bg-transparent b-0 ">
 		<img class="m-x-auto mb-30 "
 			src="${pageContext.request.contextPath}/images/vanner1.jpg" alt="">
@@ -93,31 +93,44 @@
 	</section>
 </div>
 <!-- 자유게시판 게시글 출력 -->
-<section class="lg" style="padding-top: 0px;">
+<section class="big bg-white">
+	<div class="section-title-area text-center relative z-index-1 mb-50">
+		<h3 class="section-title">자유게시판</h3>
+	</div>
+	<!-- / section-title-area -->
 	<div class="container">
-		<div class="section-title-area text-center relative mb-70">
-			<h3 class="section-title" style="text-align: center;">자유게시판</h3>
-		</div>
-		<!-- / portfolio -->
-		<ul class="row">
-			<c:forEach var="free" items="${newFreeList }">
-				<li class="col-md-4">
-					<div class="card-body">
-						<a href="<c:url value="/freeboard/list"/>">
-							<div class="card-body text-center">
-								<img class="mb-30 w-90"
-									src="${pageContext.request.contextPath}/images/vanner1.jpg"
-									alt="끼리끼리 favicon">
-								<h6 class="card-title fw-bold mb-10 text-black">${free.freeTitle }</h6>
-								<p class="card-text mb-30">${free.freeContent }</p>
-
-							</div>
-						</a>
+		<!-- posts carousel -->
+		<div class="posts-carousel owl-carousel owl-theme">
+			<c:forEach var="free" items="${newFreeList}">
+				<div class="card bg-img"
+					style="background-image: url(
+                    <c:choose>
+                        <c:when test="${free.freeFileUpload == null}">
+                            <c:url value='/images/vanner1.jpg'/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:url value='/upload/${free.freeFileUpload}'/>
+                        </c:otherwise>
+                    </c:choose>
+                );">
+					<div class="card-header bg-transparent b-0">
+						<p>
+							<i class="fas fa-map-marker-alt promo-icon mr-5 text-warning "></i>
+							<span class="secondary-font">${free.freeLoc}</span> 
+						</p>
 					</div>
-				</li>
+					<!-- / card-header -->
+					<div class="card-body pt-150 pb-20">
+						<a href="#x"
+							class="fs-20 fw-bold d-block text-black primary-hover secondary-font mt-10 mb-0">${free.freeTitle}</a>
+						<p class="card-text mt-10 mb-0">${free.freeContent}</p>
+					</div>
+					<!-- / card-body -->
+				</div>
+				<!-- / card -->
 			</c:forEach>
-		</ul>
-		<!-- / row -->
+		</div>
+		<!-- / posts-carousel -->
 	</div>
 	<!-- / container -->
 </section>
