@@ -44,9 +44,9 @@ public class InfoBoardController {
 		searchCondition.setLoginLocation(extractLoginLocation(session));
 		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
 		log.info("loginUserStatus : " + loginUserStatus);
-		Map<String, Object> result = infoBoardService.getInfoBoardList(searchCondition,loginUserStatus);
+		Map<String, Object> result = infoBoardService.getInfoBoardList(searchCondition, loginUserStatus);
 		log.info("GET INFOBOARDLIST 메서드 수행 완료");
-		
+
 		model.addAttribute("infoBoardList", result.get("infoBoardList"));
 		model.addAttribute("pager", result.get("pager"));
 		model.addAttribute("fileList", result.get("fileList"));
@@ -59,10 +59,11 @@ public class InfoBoardController {
 			Model model) {
 
 		searchCondition.setLoginLocation(extractLoginLocation(session));
-		Integer loginUno = (Integer)session.getAttribute("loginUno");
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
 		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
 		Map<String, Object> infoBoardWithFiles = infoBoardService.getInfoBoard(loginUno, infoBno);
-		Map<String, Object> nextAndPrev = infoBoardService.prevAndNextInfoBno(searchCondition, infoBno, loginUserStatus);
+		Map<String, Object> nextAndPrev = infoBoardService.prevAndNextInfoBno(searchCondition, infoBno,
+				loginUserStatus);
 		model.addAllAttributes(infoBoardWithFiles);
 		model.addAllAttributes(nextAndPrev);
 		return "board/info_board";
@@ -140,12 +141,15 @@ public class InfoBoardController {
 		return redirectUri;
 
 	}
+
 	// 세션의 위치정보에서 <구>에 대한 정보만 추출하는 메서드
 	private String extractLoginLocation(HttpSession session) {
-		String loginLocation = (String) session.getAttribute("loginLocation");
-		if (loginLocation != null && !loginLocation.trim().isEmpty()) {
-			return loginLocation.split(",")[1].trim();
+		if ((Integer)session.getAttribute("loginUserStatus") != 1) {
+			String loginLocation = (String) session.getAttribute("loginLocation");
+			if (loginLocation != null && !loginLocation.trim().isEmpty()) {
+				return loginLocation.split(",")[1].trim();
 
+			}
 		}
 		return null;
 	}

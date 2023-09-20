@@ -65,7 +65,6 @@
 			</div>
 
 			<!-- 검색입력창 -->
-
 			<!-- 글쓰기버튼 -->
 			<a
 				href="<c:url value='/freeboard/write${pager.searchCondition.getQueryString()}'/>"

@@ -137,10 +137,12 @@ public class FreeBoardController {
 	}
 	// 세션의 위치정보에서 <구>에 대한 정보만 추출하는 메서드
 	private String extractLoginLocation(HttpSession session) {
-		String loginLocation = (String) session.getAttribute("loginLocation");
-		if (loginLocation != null && !loginLocation.trim().isEmpty()) {
-			return loginLocation.split(",")[1].trim();
+		if ((Integer)session.getAttribute("loginUserStatus") != 1) {
+			String loginLocation = (String) session.getAttribute("loginLocation");
+			if (loginLocation != null && !loginLocation.trim().isEmpty()) {
+				return loginLocation.split(",")[1].trim();
 
+			}
 		}
 		return null;
 	}
