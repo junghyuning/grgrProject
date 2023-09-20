@@ -170,6 +170,37 @@
 						</a></li>
 					</ul>
 				</c:if>
+
 				<!-- / navbar-collapse -->
 			</nav>
 		</div>
+
+		<script>
+			function updateLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var latitude = position.coords.latitude;
+					var longitude = position.coords.longitude;
+
+					$.ajax({
+						type : "POST",
+						url : "${pageeContext.request.contextPath}/user/getAddress",
+						data : {
+							latitude : latitude,
+							longitude : longitude
+						},
+						success : function(response) {
+							alert("위치 정보가 업데이트 되었습니다.");
+						},
+						error : function(error) {
+							alert(error.status )
+							alert("위치 정보 업데이트에 실패 했습니다.");
+						}
+					});
+				});
+			} else {
+				alert("Geolocation is not supported by this browser.");
+			}
+		}
+</script>
+

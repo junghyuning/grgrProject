@@ -11,7 +11,7 @@
 		 NICKNAME, 
 		 PHONE, 
 		 EMAIL, 
-		 NAVER_ID,
+		 GOOGLE_ID,
 		 LAST_LOGIN,
 		 USER_UPDATE,
 		 USER_UPDATE_UNO
@@ -23,6 +23,7 @@
 	<insert id="insertSnsUser">
 		INSERT INTO USERINFO (
 		UNO,
+		USER_ID,
 		USER_NAME,
 		NICKNAME,
 		USER_PW,
@@ -31,6 +32,7 @@
 		)
 		VALUES(
 		UNO_SEQ.NEXTVAL,
+		#{googleId},
 		#{userName},
 		#{nickName},
 		#{userPw},
@@ -46,7 +48,7 @@
 		LAST_LOGIN=SYSDATE, 
 		USER_UPDATE = SYSDATE, 
 		USER_UPDATE_UNO=#{uno},
-		NAVER_ID = CASE WHEN GOOGLE_ID IS NULL THEN #{googleId} ELSE GOOGLE_ID END
+		GOOGLE_ID = CASE WHEN GOOGLE_ID IS NULL THEN #{googleId} ELSE GOOGLE_ID END
 		WHERE EMAIL=#{email}
 	</update>
 	

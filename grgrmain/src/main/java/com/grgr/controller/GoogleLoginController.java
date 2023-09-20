@@ -47,7 +47,7 @@ public class GoogleLoginController {
 			return "redirect:/user/login";
 		}
 
-		// 4.세션에 로그인 정보 저장 - 정상적으로 작동했다면 googleId 가 존재할 것임..
+		// 4.세션에 로그인 정보 저장 
 		UserVO user = userService.getGoogleLoginUser(profile.getGoogleId());
 		session.setAttribute("loginId", user.getUserId());
 		session.setAttribute("loginNickname", user.getNickName());
@@ -55,6 +55,7 @@ public class GoogleLoginController {
 		session.setAttribute("loginActive", user.getActive());
 		session.setAttribute("loginUserStatus", user.getUserStatus());
 		session.setAttribute("loginLastLogin", user.getLastLogin());
+		session.setAttribute("loginLocation", user.getUserLoc());
 
 		return "redirect:/main";
 

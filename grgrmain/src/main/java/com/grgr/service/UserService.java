@@ -41,6 +41,9 @@ public interface UserService {
 
 	/* 관리자 - 회원보기 */
 	Map<String, Object> getAllUsers(int pageNum);
+	
+	/* 관리자 - 신고 조회 */
+	Map<String, Object> getReportList(int pageNum);
 
 	/* 관리자 - 회원 정보 수정 */
 	void updateUser(UserVO user);

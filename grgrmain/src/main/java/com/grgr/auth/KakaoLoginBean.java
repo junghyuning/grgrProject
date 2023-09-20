@@ -18,6 +18,9 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.grgr.dto.UserVO;
 
 @Component
@@ -47,20 +50,24 @@ public class KakaoLoginBean {
 
 	/* 카카오로 Callback 처리 및 AccessToken 획득 Method */
 	public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException {
-
+			
 		/* Callback으로 전달받은 세선검증용 난수값과 세션에 저장되어있는 값이 일치하는지 확인 */
-		String sessionState = getSession(session);
-		if (!StringUtils.pathEquals(sessionState, state)) {
-			return null;
-		}
+        String sessionState = getSession(session);
+        if(StringUtils.pathEquals(sessionState, state)){
 
-		OAuth20Service oauthService = new ServiceBuilder().apiKey(KAKAO_CLIENT_ID).apiSecret(KAKAO_CLIENT_SECRET)
-				.callback(KAKAO_REDIRECT_URI).state(state).build(KakaoLoginApi.instance());
+            OAuth20Service oauthService = new ServiceBuilder()
+                    .apiKey(KAKAO_CLIENT_ID)
+                    .apiSecret(KAKAO_CLIENT_SECRET)
+                    .callback(KAKAO_REDIRECT_URI)
+                    .state(state)
+                    .build(KakaoLoginApi.instance());
 
-		/* Scribe에서 제공하는 AccessToken 획득 기능으로 카카오로 Access Token을 획득 */
-		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-		return accessToken;
-	}
+            /* Scribe에서 제공하는 AccessToken 획득 기능으로 네아로 Access Token을 획득 */
+            OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
+            return accessToken;
+        }
+        return null;
+    }
 
 	/* 세션 유효성 검증을 위한 난수 생성기 */
 	private String generateRandomString() {
@@ -77,42 +84,40 @@ public class KakaoLoginBean {
 		return (String) session.getAttribute(SESSION_STATE);
 	}
 
-	/* Access Token을 이용하여 카카오 사용자 프로필 API를 호출 */
-	public UserVO getUserProfile(OAuth2AccessToken oauthToken)
-			throws InterruptedException, ExecutionException, IOException, ParseException {
+	/* 프로필 얻어오기 (프로필API 호출) */
+	 public UserVO getUserProfile(OAuth2AccessToken oauthToken) throws IOException, ParseException{
 
-		OAuth20Service oauthService = new ServiceBuilder().apiKey(KAKAO_CLIENT_ID).apiSecret(KAKAO_CLIENT_SECRET)
-				.callback(KAKAO_REDIRECT_URI).build(KakaoLoginApi.instance());
+	        OAuth20Service oauthService =new ServiceBuilder()
+	                .apiKey(KAKAO_CLIENT_ID)
+	                .apiSecret(KAKAO_CLIENT_SECRET)
+	                .callback(KAKAO_REDIRECT_URI).build(KakaoLoginApi.instance());
 
-		OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
-		oauthService.signRequest(oauthToken, request);
-		Response response = request.send();
+	        OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
+	        oauthService.signRequest(oauthToken, request);
+	        Response response = request.send();
 
-		return parseJson(response.getBody());
-	}
+	        // 응답 데이터 확인
+	        String responseBody = response.getBody();
+	        System.out.println("Kakao API Response: " + responseBody);
+	        
+	        JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(responseBody);
 
-	// 파싱 및 테이블에 저장
-	private UserVO parseJson(String profileReponse) throws ParseException {
-		System.out.println("==============================================" + profileReponse
-				+ "===============================================");
-		UserVO userVO = new UserVO();
-
-		// JSON문자열 -> 객체로변환
-		JSONParser parser = new JSONParser();
-		Object object = parser.parse(profileReponse);
-		// object 객체로 파싱된 json문자열을 다시 JSON 객체로 저장
-		JSONObject jsonObject = (JSONObject) object;
-
-		// JSON 객체 -> 파싱
-		JSONObject responseObject = (JSONObject) jsonObject.get("response");
-
-		userVO.setUserName((String) responseObject.get("name"));
-		// pw는 not null 조건이 걸려있으므로 랜덤값 생성하여 저장
-		userVO.setUserPw(UUID.randomUUID().toString());
-		userVO.setEmail((String) responseObject.get("email"));
-		userVO.setNickName((String) responseObject.get("nickname"));
-
-		return userVO;
-	}
-
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();  
+            
+            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            
+            UserVO userVO = new UserVO();
+            userVO.setUserPw(UUID.randomUUID().toString());
+            userVO.setEmail(email);
+            userVO.setNickName(nickname);
+            userVO.setUserName(nickname);
+            userVO.setKakaoId(email);
+            userVO.setUserId(email);
+         
+            System.out.println(userVO);
+            return userVO;
+	    }
 }

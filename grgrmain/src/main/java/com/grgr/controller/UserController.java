@@ -283,7 +283,6 @@ public class UserController {
 		String loginId = (String) session.getAttribute("loginId");
 		String combinedAddress = userService.getAddressFromCoordinates(loginId, latitude, longitude);
 		session.setAttribute("loginLocation", combinedAddress);
-
 		return combinedAddress;
 	}
 

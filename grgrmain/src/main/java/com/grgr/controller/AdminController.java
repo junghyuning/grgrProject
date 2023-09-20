@@ -55,5 +55,13 @@ public class AdminController {
     }
     
     /* 관리자 - 신고 게시글 조회*/
-
+    
+    @GetMapping("/report_list")
+    public String reportListGet(@RequestParam(defaultValue = "1") int pageNum, Model model) {
+        Map<String, Object> map = userService.getReportList(pageNum);
+        model.addAttribute("pager", map.get("pager"));
+		model.addAttribute("reportList", map.get("reportList"));
+		
+        return "admin/report_list"; 
+    }
 }
