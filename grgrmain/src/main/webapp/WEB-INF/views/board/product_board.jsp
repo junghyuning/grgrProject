@@ -151,8 +151,7 @@
 									id="addToCartBtn">
 									<i class="fas fa-shopping-cart mr-5"></i> <span>장바구니 담기</span>
 								</button>
-							</span> <a href="<c:url value="/" />"
-								class="btn btn-primary rounded"
+							</span> <a href="<c:url value="/" />" class="btn btn-primary rounded"
 								style="float: right; font-size: 15px"><span>바로 구매</span></a>
 						</div>
 
@@ -226,12 +225,27 @@
 										<tr>
 											<td>
 												<div class="list-media img-lg">
+
+													<!-- / replyForm - 댓글 제출 폼 -->
 													<div class="list-item"></div>
 													<!-- / media-img -->
 													<div class="info">
 														<ul id="comments-list"
 															style="border-bottom: solid 1px #97989d; padding-left: 0px">
 														</ul>
+														<!-- 댓글폼 넣어볼곳 -->
+														<!-- 댓글 제출 폼 -->
+														<div id="reply-form">
+															<form id="replyForm">
+
+																<textarea id="reply" class="form-control border-faded"
+																	rows="15" placeholder="리뷰를 입력하세요"></textarea>
+																<button type="button" id="submit-reply"
+																	class="btn btn-primary-gradient w-100 mt-15">
+																	<span>리뷰 등록</span>
+																</button>
+															</form>
+														</div>
 														<nav aria-label="pagination-center">
 															<ul class="pagination justify-content-center">
 															</ul>
@@ -262,24 +276,7 @@
 		<!-- / card -->
 
 		<!-------------------------------------------댓글영역 ----------------------------------------------->
-
-		<i class="far fa-comments fs-20 text-warning d-block mb-15"
-			style="border-top: 1px solid #97989d; padding-top: 15px">리뷰 작성하기</i>
-
-		<!-- 댓글 출력 -->
-
-		<!-- 댓글 제출 폼 -->
-		<div id="reply-form">
-			<form id="replyForm">
-				<textarea id="reply" class="form-control border-faded" rows="15"
-					placeholder="리뷰를 입력하세요"></textarea>
-				<button type="button" id="submit-reply"
-					class="btn btn-primary-gradient w-100 mt-15">
-					<span>리뷰 등록</span>
-				</button>
-			</form>
-		</div>
-		<!-- / replyForm - 댓글 제출 폼 -->
+ 
 		<!-- 대댓글 폼 : 대댓 버튼 누를시 댓글아래로 이동하여 style -> block-->
 		<div id="comment-reply" data-group=""
 			style="display: none; width: 95%; display: flex; justify-content: flex-end; align-items: center; margin: 10px;">
