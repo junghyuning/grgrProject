@@ -33,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final UserDAO userDAO;
-	private final JavaMailSender mailSender;
 	private final OAuthNaverDAO naverDAO;
 	private final OAuthKakaoDAO kakaoDAO;
 	private final OAuthGoogleDAO googleDAO;
