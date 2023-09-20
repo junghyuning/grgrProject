@@ -2,8 +2,6 @@ package com.grgr.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.Pattern;
-
 import lombok.Data;
 
 @Data
@@ -12,8 +10,6 @@ public class UserVO {
 	private String userName;
 	private String nickName;
 	private String userPw;
-
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,15}$", message = "아이디를 형식에 맞게 입력해 주세요.")
 	private String userId;
 	private String phone;
 	private String email;
