@@ -5,6 +5,8 @@ import java.sql.Date;
 import lombok.Data;
 
 /*
+0920 - 안소연_결제 관련 정보를 저장하기 위한 클래스 생성
+
 CREATE TABLE PAYMENT(IMP_UID VARCHAR2(100) PRIMARY KEY, 
     UNO NUMBER,
     CONSTRAINT PAYMENT_UNO_FK FOREIGN KEY(UNO) REFERENCES USERINFO(UNO),
@@ -20,7 +22,7 @@ UNO                    NUMBER        - 유저번호
 MERCHARNT_UID          VARCHAR2(100) - 주문번호
 AMOUNT                 NUMBER        - 결제금액
 PAY_DATE               DATE          - 결제일
-STATUS                 VARCHAR2(50)  - 결제상태
+PAY_STATUS                 VARCHAR2(50)  - 결제상태
 */
 
 @Data
