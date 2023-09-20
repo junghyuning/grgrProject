@@ -61,6 +61,13 @@ public class UserProfileController {
 		Integer loginUno = (Integer) session.getAttribute("loginUno");
 		model.addAttribute("user", userService.userProfile(loginUno));
 		model.addAttribute("loginUno", loginUno);
+		
+		Integer userStatus = (Integer) session.getAttribute("loginUserStatus");
+		if (userStatus == 4) {
+	        // userStatus가 4라면 강제로 mypage/userProfile로 이동
+	        return "redirect:/mypage/userProfile";
+	    }
+		
 		return "mypage/updateUserProfile";
 	}
 
