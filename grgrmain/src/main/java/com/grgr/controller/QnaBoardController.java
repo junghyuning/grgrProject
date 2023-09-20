@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 //0914 - 안소연_사진 업로드 추가/세션추가
 //				비밀글 추가
+//0920 - 안소연_관리자가 비밀글 조회 가능하도록 수정
 
 @Controller
 @RequestMapping("/qnaboard")
@@ -40,11 +41,11 @@ public class QnaBoardController {
 	public String qnaBoardList(SearchCondition searchCondition, HttpSession session, Model model) {
 		log.info("@@@@@QnaBoardController() 클래스의 qnaBoardList() 메소드 호출");
 		searchCondition.setLoginLocation(extractLoginLocation(session));
-		Map<String, Object> result = qnaBoardService.getQnaBoardList(searchCondition, session);
-		log.info("######session = {}", session);
 
+		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
 		Integer uno = (Integer) session.getAttribute("loginUno");
-		log.info("######uno = {}", uno);
+		Map<String, Object> result = qnaBoardService.getQnaBoardList(searchCondition, session, loginUserStatus);
+
 		model.addAttribute("qnaBoardList", result.get("qnaBoardList"));
 		model.addAttribute("pager", result.get("pager"));
 		model.addAttribute("fileList", result.get("fileList"));

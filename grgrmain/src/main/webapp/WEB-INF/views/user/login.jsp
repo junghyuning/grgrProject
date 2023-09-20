@@ -39,7 +39,15 @@
 	rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/css/login-register.css"
 	rel="stylesheet">
+<style>
+.socialLogin img:hover {
+    cursor: pointer;
+    filter: brightness(1.45); 
+    transition: filter 0.3s ease-in-out; 
+}
 
+
+</style>
 </head>
 
 <body>
@@ -123,20 +131,17 @@
 								</form>
 								<!-- / login-form -->
 								<div class="pt-60 text-center">
-									<p style="margin-bottom: 4px;">간편 로그인</p>
-									<a class="socialLogin"> <img class="w-30 h-auto"
-										src="<c:url value="/images/naver_login.png"/>" art="네이버 로그인"
-										onclick="location.href='<c:url value="/oauth/naver"/>';">
-										<img alt="네이버로그인" class="w-30 h-auto"
-										src="<c:url value="/images/kakaoBtn.png"/>"
-										onclick="location.href='<c:url value="/oauth/kakao"/>';">
-									</a> <a href="#x" class="btn btn-sm btn-outline-twitter mt-5">
-										<span class="fab fa-twitter mr-5"></span> <span>Twitterㅇ</span>
-									</a> <a href="<c:url value="/oauth/google"/>"
-										class="btn btn-sm btn-outline-warning mt-5"> <span
-										class="fab fa-google mr-5"></span> <span>Google</span>
-									</a>
-								</div>
+    <p style="margin-bottom: 4px;">간편 로그인</p>
+    <a class="socialLogin">
+        <img class="socialIcon" src="<c:url value="/images/naver_login.png"/>" alt="네이버 로그인"
+             onclick="location.href='<c:url value="/oauth/naver"/>';">
+        <img class="socialIcon" src="<c:url value="/images/kakaoBtn.png"/>"
+             alt="카카오 로그인" onclick="location.href='<c:url value="/oauth/kakao"/>';">
+        <img class="socialIcon" src="${pageContext.request.contextPath}/images/google_OAuth_btn.png"
+             alt="구글 로그인" onclick="location.href='<c:url value="/oauth/google"/>';">
+    </a>
+</div>
+
 							</div>
 						</div>
 					</div>

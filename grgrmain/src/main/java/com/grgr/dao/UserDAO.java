@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
 import com.grgr.dto.MyLike;
+import com.grgr.dto.ReportAdmin;
 import com.grgr.dto.UserVO;
 
 public interface UserDAO {
@@ -74,4 +75,10 @@ public interface UserDAO {
 	 
 	 /* 유저 위치 정보 업데이트*/
 	 void getAddressFromCoordinate(String  loginId, String address);
+	 
+	 /* 관리자 - 신고 조회 */
+	 List<ReportAdmin> getReportList(Map<String, Object> map);
+		
+	 /* 전체 신고 수 */
+	 int selectReportCount();
 }
