@@ -33,7 +33,8 @@
 		PHONE,
 		EMAIL,
 		NAVER_ID,
-		USER_UPDATE_UNO
+		USER_UPDATE_UNO,
+		USER_STATUS
 		)
 		VALUES(
 		#{uno},
@@ -43,7 +44,8 @@
 		#{phone},
 		#{email},
 		#{naverId},
-		#{uno}
+		#{uno},
+		4
 		)
 	</insert>
 

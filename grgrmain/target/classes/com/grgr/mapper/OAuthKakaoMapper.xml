@@ -33,7 +33,8 @@
 		USER_PW,
 		EMAIL,
 		KAKAO_ID,
-		USER_UPDATE_UNO
+		USER_UPDATE_UNO,
+		USER_STATUS
 		)
 		VALUES (
 		#{uno},
@@ -43,7 +44,8 @@
 		#{userPw},
 		#{email},
 		#{kakaoId},
-		#{uno}
+		#{uno},
+		4
 		)
 	</insert>
 
