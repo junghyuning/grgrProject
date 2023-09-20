@@ -55,6 +55,7 @@ public class GoogleLoginController {
 		session.setAttribute("loginActive", user.getActive());
 		session.setAttribute("loginUserStatus", user.getUserStatus());
 		session.setAttribute("loginLastLogin", user.getLastLogin());
+		session.setAttribute("loginLocation", user.getUserLoc());
 
 		return "redirect:/main";
 

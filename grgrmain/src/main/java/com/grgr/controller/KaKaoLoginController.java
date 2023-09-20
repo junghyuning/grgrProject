@@ -48,29 +48,27 @@ public class KaKaoLoginController {
 				, HttpSession session) throws IOException, ParseException {
 			OAuth2AccessToken accessToken=kakaoLoginBean.getAccessToken(session, code, state);
 			
-			String apiResult=kakaoLoginBean.getUserProfile(accessToken);
-			System.out.println("apiResult = " + apiResult);
-			
-			return "redirect:/main";
-		}
+			// 2. access Token 이용하여 사용자 프로필 정보 받아오기
+			UserVO profile=kakaoLoginBean.getUserProfile(accessToken);
+			System.out.println("apiResult = " + profile);			
 
-		// 2. access Token 이용하여 사용자 프로필 정보 받아오기
-//		UserVO profile = kakaoLoginBean.getUserProfile(accessToken);
-//
-//		log.info("profile : "+profile);
+		log.info("profile : "+profile);
 		// 3. DB에 해당 유저가 존재하는지 check (kakaoID 컬럼 추가) & userinfoDB에 삽입 or update
-//		if( userService.loginKakaoUser(profile) == false) {
-//			log.warn("카카오 로그인 및 회원가입 실패");
-//			return "redirect:/user/login";
-//		}
-//		
-//		//4.세션에 로그인 정보 저장 - 정상적으로 작동했다면 KakaoId 가 존재할 것임..
-//		UserVO user = userService.getKakaoLoginUser(profile.getKakaoId());
-//		session.setAttribute("loginId", user.getUserId());
-//		session.setAttribute("loginUno", user.getUno());
-//		session.setAttribute("loginActive", user.getActive());
-//		session.setAttribute("loginUserStatus", user.getUserStatus());
-//		session.setAttribute("loginLastLogin", user.getLastLogin());
-//		
-//		return "redirect:/main";			
+		if( userService.loginKakaoUser(profile) == false) {
+			log.warn("카카오 로그인 및 회원가입 실패");
+			return "redirect:/user/login";
+		}
+		
+		//4.세션에 로그인 정보 저장 - 정상적으로 작동했다면 KakaoId 가 존재할 것임..
+		UserVO user = userService.getKakaoLoginUser(profile.getKakaoId());
+		session.setAttribute("loginId", user.getUserId());
+		session.setAttribute("loginNickname", user.getNickName());
+		session.setAttribute("loginLocation", user.getUserLoc());
+		session.setAttribute("loginUno", user.getUno());
+		session.setAttribute("loginActive", user.getActive());
+		session.setAttribute("loginUserStatus", user.getUserStatus());
+		session.setAttribute("loginLastLogin", user.getLastLogin());
+		
+		return "redirect:/main";			
 	}
+}

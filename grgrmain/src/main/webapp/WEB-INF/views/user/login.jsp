@@ -26,7 +26,7 @@
 <link href="${pageContext.request.contextPath}/assets/css/animate.css"
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet">
+	rel="stylesheet"> 
 <!-- Fonts -->
 <link
 	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"

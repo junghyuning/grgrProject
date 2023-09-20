@@ -21,26 +21,26 @@
 
 	<!-- 기존회원이 아닌 sns로 회원가입하는 회원일 경우 -->
 	<insert id="insertSnsUser">
-		<selectKey keyProperty="uno" resultType="int"
-			order="BEFORE">
-			SELECT UNO_SEQ.NEXTVAL FROM dual
+		<selectKey keyProperty="uno" resultType="int" order="BEFORE">
+			SELECT
+			UNO_SEQ.NEXTVAL FROM dual
 		</selectKey>
 		INSERT INTO USERINFO (
 		UNO,
+		USER_ID,
 		USER_NAME,
 		NICKNAME,
 		USER_PW,
-		PHONE,
 		EMAIL,
 		KAKAO_ID,
 		USER_UPDATE_UNO
 		)
-		VALUES(
+		VALUES (
 		#{uno},
-		#{userName},
+		#{userId},
+		#{nickName},
 		#{nickName},
 		#{userPw},
-		#{phone},
 		#{email},
 		#{kakaoId},
 		#{uno}
@@ -50,11 +50,12 @@
 	<!-- 기존회원이면서 sns 로그인을 수행한 결과 로그인시에 회원정보 UPDATE -->
 	<update id="updateSnsUser">
 		UPDATE USERINFO SET
-		PHONE=#{phone},
 		LAST_LOGIN=SYSDATE,
-		USER_UPDATE = SYSDATE,
+		USER_UPDATE =
+		SYSDATE,
 		USER_UPDATE_UNO=#{uno},
-		KAKAO_ID = CASE WHEN KAKAO_ID IS NULL THEN #{kakaoId} ELSE KAKAO_ID
+		KAKAO_ID = CASE WHEN KAKAO_ID IS NULL
+		THEN #{kakaoId} ELSE KAKAO_ID
 		END
 		WHERE EMAIL=#{email}
 	</update>
