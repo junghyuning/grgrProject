@@ -23,7 +23,6 @@
 	<insert id="insertSnsUser">
 		INSERT INTO USERINFO (
 		UNO,
-		USER_ID,
 		USER_NAME,
 		NICKNAME,
 		USER_PW,
@@ -32,7 +31,6 @@
 		)
 		VALUES(
 		UNO_SEQ.NEXTVAL,
-		#{googleId},
 		#{userName},
 		#{nickName},
 		#{userPw},

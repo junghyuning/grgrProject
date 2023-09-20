@@ -27,7 +27,6 @@
 		</selectKey>
 		INSERT INTO USERINFO (
 		UNO,
-		USER_ID,
 		USER_NAME,
 		NICKNAME,
 		USER_PW,
@@ -38,7 +37,6 @@
 		)
 		VALUES(
 		#{uno},
-		#{naverId},
 		#{userName},
 		#{nickName},
 		#{userPw},
