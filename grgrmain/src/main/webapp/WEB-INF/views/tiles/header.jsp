@@ -47,10 +47,11 @@
 
 <style type="text/css">
 .custom-text {
-    font-size: 16px;
-    color: #333333;
-    margin-bottom: 15px;
+	font-size: 16px;
+	color: #333333;
+	margin-bottom: 15px;
 }
+
 .update-location-button {
 	background-color: #ffffff;
 	color: #0074cc;
@@ -60,6 +61,7 @@
 	cursor: pointer;
 	font-size: 16px;
 }
+
 .card.bg-img {
 	background-color: rgba(0, 0, 0, 0.4); /* 이는 검은색 40% 투명도를 추가합니다 */
 	background-blend-mode: overlay;
@@ -69,46 +71,55 @@
 	text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
 		1px 1px 0 #ffffff;
 }
-.main-banner{
+
+.main-banner {
 	weight: auto;
 	height: 500px;
 	overflow: hidden;
 }
-.loc{
-	weight: 50px;
-	height: 50px;
+
+.loc {
+	display: flex;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+}
+
+.navbar-button{ 
+	 gap: 10px;
 }
 </style>
 </head>
 <body style="background-color: white">
-	<header class="xxl bg-img "
-		style="background-color: #E2E6FC; padding-bottom: 0px; padding-top: 125px;">
-		<nav
-			class="navbar navbar-expand-lg navbar-light absolute top-0 left-0 right-0">
+		<div style="background-color: #E2E6FC;">
+			<nav
+				class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 ">
 				<a href="<c:url value='/main' />" class="navbar col-lg-1"> <img
+					class=" ml-10 mt-5 w-50"
 					src="${pageContext.request.contextPath}/images/grgr_logo.png"
 					alt="메인로고">
 				</a>
 
-				<div class="collapse navbar-collapse" id="navbar-toggle1">
-					<ul class="navbar-nav ml-30">
-						<li class="nav-item"><a 
-							href="<c:url value="/info/matzib"/>"><img class="loc" alt="맛집정보" src="<c:url value="/images/restaurant.png"/>"/></a></li>
-						<li class="nav-item"><a  href="<c:url value="/info/medical"/>"><img class="loc" alt="병원정보" src="<c:url value="/images/hospital.png"/>"/></a>
+				<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
+					<ul class="navbar-nav ml-50 ">
+						<li class="nav-item mr-30 loc"><a
+							href="<c:url value="/info/matzib"/>"><img class="mb-10"
+								alt="맛집정보" src="<c:url value="/images/restaurant.png"/>" />맛집</a></li>
+						<li class="nav-item loc"><a
+							href="<c:url value="/info/medical"/>"><img class="mb-10"
+								alt="병원정보" src="<c:url value="/images/hospital.png"/>" />병원</a>
 						</li>
 					</ul>
 					<!-- / navbar-nav -->
 				</div>
-				
+
 				<!-- / input-group -->
 				<c:if test="${loginUno==null}">
-					<ul class="navbar-button p-0 m-0 ml-80">
+					<ul class="navbar-button p-30 m-0 d-flex">
 						<li class="nav-item"><a href="<c:url value="/user/login"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i> <span>로그인</span>
 						</a></li>
-					</ul>
-					<ul class="navbar-button p-0 m-0 ml-80">
 						<li class="nav-item"><a
 							href="<c:url value="/user/register"/>"
 							class="btn btn-sm btn-primary pill"> <i
@@ -118,12 +129,11 @@
 				</c:if>
 				<c:if test="${loginUno!=null && loginUserStatus!=1 }">
 
-					<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
-						<ul class="navbar-nav ml-30">
-							<li class="nav-item"><a class="nav-link"
-								style="width: 150px;">"${loginNickname }"&nbsp;님의 위치는 "${loginLocation}" 입니다.
-							</a></li>
-							<li class="nav-item ml-30"><a class="nav-link" href="">
+					<div class="collapse navbar-collapse col-lg-3 m-0 d-flex" id="navbar-toggle1">
+						<ul class="navbar-nav ml-30 align-items-center">
+							<li class="nav-item">"${loginNickname }"님의 위치는<br>
+									"${loginLocation}" 입니다.</li>
+							<li class="nav-item ml-30"><a class="nav-link" >
 									<button class="update-location-button"
 										onclick="updateLocation()">Update Location</button>
 							</a></li>
@@ -131,20 +141,16 @@
 						<!-- / navbar-nav -->
 					</div>
 
-					<ul class="navbar-button p-0 m-0 ml-80">
+					<ul class="navbar-button p-0 m-0 ml-80 m-0 d-flex">
 						<li class="nav-item"><a
 							href="<c:url value="/mypage/userProfile"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>마이페이지</span>
 						</a></li>
-					</ul>
-					<ul class="navbar-button p-0 m-0 ml-80">
 						<li class="nav-item"><a href="<c:url value="/cart/list"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>장바구니</span>
 						</a></li>
-					</ul>
-					<ul class="navbar-button p-0 m-0 ml-80">
 						<li class="nav-item"><a href="<c:url value="/user/logout"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>로그아웃</span>
@@ -155,21 +161,15 @@
 
 					<span>관리자님, 환영합니다.</span>
 
-					<ul class="navbar-button p-0 m-0 ml-80">
-						<li class="nav-item"><a
-							href="<c:url value="/admin/user-list"/>"
-							class="btn btn-sm btn-primary pill"> <i
-								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>관리자
-									페이지</span>
-						</a></li>
-					</ul>
-					<ul class="navbar-button p-0 m-0 ml-80">
+					<ul class="navbar-button p-0 m-0 ml-80 m-0 d-flex">
+						<li class="nav-item"><a	href="<c:url value="/admin/user-list"/>" class="btn btn-sm btn-primary pill"> 
+						<i class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>관리자페이지</span></a></li>
 						<li class="nav-item"><a href="<c:url value="/user/logout"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>로그아웃</span>
 						</a></li>
 					</ul>
 				</c:if>
-			<!-- / navbar-collapse -->
-		</nav>
-	</header>
+				<!-- / navbar-collapse -->
+			</nav>
+		</div>

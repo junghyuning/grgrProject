@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.grgr.dto.FreeBoard;
+import com.grgr.dto.MainFree;
 import com.grgr.dto.MainInfo;
 import com.grgr.dto.MainProduct;
 import com.grgr.dto.ProductBoardVO;
@@ -25,7 +26,7 @@ public class MainPageDAOImpl implements MainPageDAO{
 	}
 
 	@Override
-	public List<FreeBoard> selectNewFree() {
+	public List<MainFree> selectNewFree() {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(MainPageMapper.class).selectNewFree();
 	}

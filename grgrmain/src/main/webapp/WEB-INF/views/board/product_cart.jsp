@@ -215,7 +215,7 @@ function deleteCart(productCartNo) {
     if (confirm("정말로 삭제하시겠습니까?")) {
         $.ajax({
             type: "POST",
-            url: "/cart/delete",
+            url: "<c:url value="/cart/delete"/>",
             data: {
                 productCartNo: productCartNo
             },
@@ -249,7 +249,7 @@ function deleteCart(productCartNo) {
 	    }
 	    $.ajax({
 	        type: "POST",
-	        url: "/cart/update",
+	        url: "<c:url value="/cart/update"/>",
 	        data: {
 	            productCartNo: productCartNo,
 	            productCount: newQuantity

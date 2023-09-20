@@ -2,15 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grgr.mapper.MainPageMapper">
 	<!-- 자유게시판 -->
-	<select id="selectNewFree" resultType="FreeBoard">
+	<select id="selectNewFree" resultType="MainFree">
 		SELECT * FROM (
 		SELECT
-		FREE_BNO, FREE_TITLE, SUBSTR(FREE_CONTENT,1,40) AS FREE_CONTENT
-		FROM
-		FREE_BOARD
-		WHERE FREE_BLINDSTATE=1 ORDER BY FREE_BNO DESC)
-		WHERE ROWNUM
-		&lt;= 6
+		FB.FREE_BNO,
+		FB.FREE_TITLE,
+		SUBSTR(FB.FREE_CONTENT, 1, 40) AS FREE_CONTENT,
+		FB.FREE_LOC,
+		F.FREE_FILE_UPLOAD,
+		ROW_NUMBER() OVER (PARTITION BY FB.FREE_BNO ORDER BY FB.FREE_BNO DESC) AS rn
+		FROM (
+		SELECT * FROM( 
+		SELECT
+		FREE_BNO,
+		FREE_TITLE,
+		FREE_CONTENT,
+		FREE_REGDATE,
+		FREE_LOC
+		FROM FREE_BOARD
+		WHERE FREE_BLINDSTATE = 1 ORDER BY FREE_BNO DESC
+		)
+		where ROWNUM &lt;=6
+		)FB
+		LEFT JOIN FREE_FILE F ON FB.FREE_BNO = F.FREE_BNO
+		)
+		WHERE rn = 1
+		ORDER BY FREE_BNO DESC
 	</select>
 
 	<!-- 정보공유 게시판 : 최신글 6개를 뽑아서 파일테이블과 left join 하여 그중 중복 bno 제거 -->
