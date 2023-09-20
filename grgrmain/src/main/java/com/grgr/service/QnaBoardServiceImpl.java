@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 //0914 - 안소연_사진 업로드 추가
 //		addQnaBoard, modifyQnaBoard : 비밀글&공개글 상태 추가
+//0920 - 안소연_관리자가 비밀글 조회 가능하도록 수정(loginUserStatus 추가)
 
 @Service
 @RequiredArgsConstructor
@@ -131,8 +132,10 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
 	//게시글 List 출력(0914_비밀글 추가)
 	@Override
-	public Map<String, Object> getQnaBoardList(SearchCondition searchCondition, HttpSession session) {
+	public Map<String, Object> getQnaBoardList(SearchCondition searchCondition, HttpSession session, int loginUserStatus) {
 		Map<String, Object> searchMap = createSearchMap(searchCondition);
+		searchMap.put("loginUserStatus", loginUserStatus);
+		
 		int totalBoard = qnaBoardDAO.qnaBoardCount(searchMap);
 		Pager pager = new Pager(totalBoard, searchCondition);
 		// 페이징 계산
@@ -153,7 +156,6 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 				fileList.add("placeholder-square.jpg");
 			}
 		}
-
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("qnaBoardList", qnaBoardList);

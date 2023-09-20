@@ -133,16 +133,20 @@
 												<c:set var="i" value="${i+1 }" />
 											</div>
 											<!-- / column -->
-											<div class="col-lg-10 text-left tablet-lg-center">
 
+											<!-- 비밀글/공개글 -->
+											<div class="col-lg-10 text-left tablet-lg-center">
 												<c:choose>
 													<c:when test="${qnaBoard.qnaBlindstate == '4'}">
 														<c:choose>
 															<c:when
-																test="${loginUno != null && loginUno == qnaBoard.uno}">
+																test="${loginUno != null && loginUno == qnaBoard.uno || userinfo.userStatus == 1}">
 																<!-- 현재 로그인한 사용자와 글 작성자의 uno가 일치하는 경우 -->
-																<p class="mb-20">${qnaBoard.qnaTitle}</p>
-																<p class="lead mb-20">${qnaBoard.qnaContent}&nbsp;&nbsp;...</p>
+																<a
+																	href="<c:url value='/qnaboard/read${pager.searchCondition.getQueryString()}&qnaBno=${qnaBoard.qnaBno}'/>">
+																	<p class="mb-20">${qnaBoard.qnaTitle}</p>
+																	<p class="lead mb-20">${qnaBoard.qnaContent}&nbsp;&nbsp;...</p>
+																</a>
 															</c:when>
 															<c:otherwise>
 																<!-- 일치하지 않는 경우 -->
@@ -153,19 +157,21 @@
 													</c:when>
 													<c:otherwise>
 														<!-- blindstate가 4가 아닌 경우 (비밀글이 아닌 경우) -->
-														<p id="clickable-paragraph" class="mb-20">${qnaBoard.qnaTitle}</p>
-														<p class="lead mb-20">${qnaBoard.qnaContent}&nbsp;&nbsp;...</p>
+														<a
+															href="<c:url value='/qnaboard/read${pager.searchCondition.getQueryString()}&qnaBno=${qnaBoard.qnaBno}'/>">
+															<p id="clickable-paragraph" class="mb-20">${qnaBoard.qnaTitle}</p>
+															<p class="lead mb-20">${qnaBoard.qnaContent}&nbsp;&nbsp;...</p>
+														</a>
 													</c:otherwise>
 												</c:choose>
 
-
-
-												<div class="secret">
-													<p class="d-inline-block va-middle "
+												<!-- 비밀글 아이콘 표시 (아이콘은 비밀글인 경우에만 표시) -->
+												<div class="secret"
+													style="display: ${qnaBoard.qnaBlindstate == '4' ? 'block' : 'none'};">
+													<p class="d-inline-block va-middle"
 														style="margin-bottom: 0">
-														<span class="text-sm text-info">공개여부 : </span> <span
-															class="blindstate"
-															data-blindstate="${qnaBoard.qnaBlindstate}">${qnaBoard.qnaBlindstate}</span>
+														<span class="fas fa-unlock"></span> <span
+															class="blindstate" style="display: none;">${qnaBoard.qnaBlindstate}</span>
 													</p>
 												</div>
 
@@ -173,43 +179,27 @@
 												<div class="viewCnt">
 													<p class="d-inline-block va-middle "
 														style="margin-bottom: 0">
-														<span class="text-sm text-info">조회수 : </span> <span
-															class="timer va-middle" id="count-inline-three"
-															data-to="1155" data-speed="3000">${qnaBoard.qnaViewCnt }</span>
+														<span class="text-sm text-info">조회수 : ${qnaBoard.qnaViewCnt }</span>
 													</p>
 												</div>
 
-
-												<div class="move">
-													<c:choose>
-														<c:when test="${qnaBoard.qnaBlindstate == '4'}">
-															<c:choose>
-																<c:when
-																	test="${loginUno != null && loginUno == qnaBoard.uno}">
-																	<a id="myLink"
-																		href="<c:url value='/qnaboard/read${pager.searchCondition.getQueryString()}&qnaBno=${qnaBoard.qnaBno}'/>">
-																		게시글로 이동 </a>
-																</c:when>
-																<c:otherwise>
-
-																</c:otherwise>
-															</c:choose>
-														</c:when>
-														<c:otherwise>
-															<!-- blindstate가 4가 아닌 경우 (비밀글이 아닌 경우) -->
-															<a id="myLink"
-																href="<c:url value='/qnaboard/read${pager.searchCondition.getQueryString()}&qnaBno=${qnaBoard.qnaBno}'/>">
-																게시글로 이동 </a>
-														</c:otherwise>
-													</c:choose>
-												</div>
+												<!-- 
+												<div class="secret">
+													<p class="d-inline-block va-middle "
+														style="margin-bottom: 0">
+														<span class="fas fa-unlock"></span> <span
+															class="blindstate" style="display: none;">${qnaBoard.qnaBlindstate}</span>
+													</p>
+												</div> -->
 
 												<!-- 닉네임, 등록일, 키워드 -->
 												<p class="fs-16 post-meta-small mb-0"
 													style="display: block; text-align: right;">
 													<i class="fas fa-user mr-5"></i>${qnaBoard.nickname} <span
 														class="m-x-10 text-muted">|</span> <i
-														class="far fa-calendar-alt mr-5"></i><fmt:formatDate value="${qnaBoard.qnaRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
+														class="far fa-calendar-alt mr-5"></i>
+													<fmt:formatDate value="${qnaBoard.qnaRegdate}"
+														pattern="yyyy-MM-dd HH:mm:ss" />
 													<span class="m-x-10 text-muted">|</span> <i
 														class="fas fa-tag mr-10"></i>
 													<c:choose>
