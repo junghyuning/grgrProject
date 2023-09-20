@@ -39,6 +39,12 @@
 	rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/css/login-register.css"
 	rel="stylesheet">
+<style>
+.phone_input_re {
+	color: red;
+	display: none;
+}
+</style>
 </head>
 
 <body>
@@ -88,7 +94,9 @@
 											class="form-control" name="phone" id="phone"
 											placeholder="&#xf2bd; 연락처를 입력하세요"
 											style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
-										<span class="final_phone_ck">전화번호를 입력해주세요.</span>
+										<span class="phone_input_re">형식에 맞는 전화번호를
+											입력해주세요.(010-xxxx-xxxx)</span> <span class="final_phone_ck">전화번호를
+											입력해주세요.</span>
 									</div>
 
 									<!-- 서브밋 버튼 수정 -->
@@ -144,12 +152,24 @@
 	<script>
     // 페이지 이동 form(리스트 페이지 이동, 조회 페이지 이동)
     let mForm = $("#updateForm"); // 페이지 데이터 수정 form
-    
+    let phoneFormCheck = false;
+
     // 수정 하기 버튼 클릭 이벤트
     $("#updateButton").on("click", function(e) {
         // 닉네임 입력 필드 값 가져오기
         let nickNameInput = $("#nickName").val();
         let phoneInput = $("#phone").val();
+     // 전화번호 형식 검사
+       
+            var userPhone = $('.phone').val();
+            // 전화번호 정규식을 검사하여 메시지를 설정
+            if (/^010-[0-9]{4}-[0-9]{4}$/.test(userPhone)) {
+                $('.phone_input_re').css('display', 'none');
+                phoneFormCheck = true;
+            } else {
+                $('.phone_input_re').css('display', 'block');
+                phoneFormCheck = false;
+            }
 
         // 닉네임이 비어있는 경우 알림 메시지 표시
         if (nickNameInput === "") {
@@ -167,12 +187,14 @@
             $(".final_phone_ck").css("display", "none"); // 알림 메시지 감춤
         }
 
-        // 모든 입력 값이 비어 있지 않은 경우 폼 제출
-        if (nickNameInput !== "" && phoneInput !== "") {
+        // 모든 입력 값이 비어 있지 않고 전화번호 형식도 올바른 경우 폼 제출
+        if (nickNameInput !== "" && phoneInput !== "" && phoneFormCheck == true) {
             mForm.submit();
         }
     });
+
 </script>
+
 	<!-- end of custom script -->
 
 	<!-- end of custom script -->
