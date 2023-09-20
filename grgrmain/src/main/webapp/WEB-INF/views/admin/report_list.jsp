@@ -88,13 +88,22 @@
 						</tr>
 					</thead>
 					
-					<c:set var="i" value="0" />
-					<c:forEach var="report" items="${reportList}">
+					
+					<c:forEach var="reportList" items="${reportList}">
 						<tr>
-							<td width="10" align="center">${report.boardType }</td>
-							<td width="120" align="left">${report.title }</td>
-							<td width="10" align="center">${report.id }</td>
-							<td width="180" align="left">${report.reportReason }</td>
+							<td width="10" align="center">${reportList.boardType }</td>
+							<td width="120" align="left">
+           						<c:choose>
+									<c:when test="${reportList.boardType == 'QNA'}">
+					                    <a href="<c:url value='/qnaboard/read?qnaBno=${reportList.bno}'/>">${reportList.title }</a>
+					                </c:when>
+					                <c:when test="${reportList.boardType == 'INFO'}">
+					                    <a href="<c:url value='/infoboard/read?infoBno=${reportList.bno}'/>">${reportList.title }</a>
+						            </c:when>
+						    	</c:choose>
+        					</td>
+							<td width="10" align="center">${reportList.id }</td>
+							<td width="180" align="left">${reportList.reportReason }</td>
 						</tr>
 					</c:forEach>
 				</table>					
