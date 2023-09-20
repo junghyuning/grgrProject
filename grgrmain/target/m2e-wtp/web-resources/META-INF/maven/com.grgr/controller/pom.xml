@@ -13,7 +13,7 @@
 	<!-- 메이블 저장소(Maven Repository) : 라이브러리 파일이 저장된 인터넷상의 저장소 -->
 	<!-- => https://mvnrepository.com 사이트 참조 -->
 	<!-- 메이븐을 사용하여 현재 프로젝트를 배포하기 위해 배포파일을 생성할 정보를 제공하기 위한 엘리먼트 -->
-	<modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion> 
 	<groupId>com.grgr</groupId>
 	<artifactId>controller</artifactId>
 	<name>LoginRegister</name>

@@ -45,7 +45,10 @@
     filter: brightness(1.45); 
     transition: filter 0.3s ease-in-out; 
 }
-
+.socialIcon {
+    width: 100px; /* 원하는 너비 설정 */
+    height: 60px; /* 높이를 자동으로 조정하도록 설정 */
+}
 
 </style>
 </head>
@@ -137,7 +140,7 @@
              onclick="location.href='<c:url value="/oauth/naver"/>';">
         <img class="socialIcon" src="<c:url value="/images/kakaoBtn.png"/>"
              alt="카카오 로그인" onclick="location.href='<c:url value="/oauth/kakao"/>';">
-        <img class="socialIcon" src="${pageContext.request.contextPath}/images/google_OAuth_btn.png"
+        <img class="socialIcon" src="<c:url value="/images/google_OAuth_btn.png"/>"
              alt="구글 로그인" onclick="location.href='<c:url value="/oauth/google"/>';">
     </a>
 </div>
