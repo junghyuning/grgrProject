@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 작성자 : 이건혁 
-수정일 - 수정내용 
-0919 - sns 로그인 기능을 위한 매퍼 작성 (중복체크 / 가입 / 로그인시 업데이트)-->
+<!-- 작성자 : 김정현 수정일 - 수정내용 0916 - sns 로그인 기능을 위한 매퍼 작성 (중복체크 / 가입 / 로그인시 업데이트) -->
 
 <mapper namespace="com.grgr.mapper.OAuthKakaoMapper">
 
 	<!-- sns로그인을 시도하는 사용자가 기존에 존재하는 회원인지 확인 -->
 	<select id="selectByEmail" resultType="UserVO">
 		SELECT UNO,
-		 USER_NAME,
-		 NICKNAME, 
-		 EMAIL, 
-		 KAKAO_ID,
-		 LAST_LOGIN,
-		 USER_UPDATE,
-		 USER_UPDATE_UNO
-		 FROM USERINFO 
-		 WHERE EMAIL = #{email}
+		USER_NAME,
+		NICKNAME,
+		PHONE,
+		EMAIL,
+		KAKAO_ID,
+		LAST_LOGIN,
+		USER_UPDATE,
+		USER_UPDATE_UNO
+		FROM USERINFO
+		WHERE EMAIL = #{email}
 	</select>
 
 	<!-- 기존회원이 아닌 sns로 회원가입하는 회원일 경우 -->
@@ -31,32 +30,35 @@
 		USER_NAME,
 		NICKNAME,
 		USER_PW,
+		PHONE,
 		EMAIL,
 		KAKAO_ID,
 		USER_UPDATE_UNO
 		)
 		VALUES(
-		UNO_SEQ.NEXTVAL,
 		#{uno},
 		#{userName},
 		#{nickName},
 		#{userPw},
+		#{phone},
 		#{email},
 		#{kakaoId},
 		#{uno}
 		)
 	</insert>
-	
+
 	<!-- 기존회원이면서 sns 로그인을 수행한 결과 로그인시에 회원정보 UPDATE -->
 	<update id="updateSnsUser">
-		UPDATE USERINFO SET  
-		LAST_LOGIN=SYSDATE, 
-		USER_UPDATE = SYSDATE, 
+		UPDATE USERINFO SET
+		PHONE=#{phone},
+		LAST_LOGIN=SYSDATE,
+		USER_UPDATE = SYSDATE,
 		USER_UPDATE_UNO=#{uno},
-		KAKAO_ID = CASE WHEN KAKAO_ID IS NULL THEN #{kakaoId} ELSE KAKAO_ID END
+		KAKAO_ID = CASE WHEN KAKAO_ID IS NULL THEN #{kakaoId} ELSE KAKAO_ID
+		END
 		WHERE EMAIL=#{email}
 	</update>
-	
+
 	<!-- KakaoId를 통해 회원정보 조회 -->
 	<select id="selectByKakaoId">
 		SELECT UNO,

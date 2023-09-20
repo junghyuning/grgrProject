@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.grgr.dto.MyBoardWriteDTO;
 import com.grgr.dto.MyCommentDTO;
 import com.grgr.dto.MyLike;
+import com.grgr.dto.ReportAdmin;
 import com.grgr.dto.UserVO;
 import com.grgr.mapper.UserMapper;
 
@@ -149,6 +150,16 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public int selectLikeCount(int uno) {
 		return sqlSession.getMapper(UserMapper.class).selectLikeCount(uno);
+	}
+
+	@Override
+	public List<ReportAdmin> getReportList(Map<String, Object> map) {
+		return sqlSession.getMapper(UserMapper.class).getReportList(map);
+	}
+
+	@Override
+	public int selectReportCount() {
+		return sqlSession.getMapper(UserMapper.class).selectReportCount();
 	}
 	
 }
