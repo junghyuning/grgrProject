@@ -162,13 +162,13 @@
 					<!-- project : 게시글 list 출력 -->
 					<div class="container" style="clear: both">
 						<div class="row justify-content-center">
-							<div class="col-lg-8 col-xl-9 tablet-lg-top-30 page-content">
+							<div class="col-lg-8 col-xl-12 tablet-lg-top-30 page-content">
 								<div class="row">
 									<c:set var="i" value="0" />
 									<c:forEach var="productBoardList" items="${productBoardList}">
 										<div class="col-sm-6 col-xl-3">
 											<div class="card">
-												<div class="card-body text-center p-y-30">
+												<div class="full-height-cards card-body text-center p-y-30" style="">
 													<img
 														src="${pageContext.request.contextPath}/upload/${fileList[i]}"
 														alt="Thumbnail" class="mb-30 rounded raised-sm">

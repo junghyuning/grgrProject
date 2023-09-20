@@ -79,33 +79,34 @@
 }
 
 .loc {
-	display: flex;
+/* 	display: flex;
 	text-align: center;
-	width: 60px;
+ */	width: 60px;
 	height: 60px;
 }
 
-.navbar-button{ 
-	 gap: 10px;
+.nav-item{
+	display:flex;
+	item-align: center;
 }
 </style>
 </head>
 <body style="background-color: white">
 		<div style="background-color: #E2E6FC;">
 			<nav
-				class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 ">
-				<a href="<c:url value='/main' />" class="navbar col-lg-1"> <img
+				class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 d-flex justify-content-between">
+				<a href="<c:url value='/main' />" class="navbar"> <img
 					class=" ml-10 mt-5 w-50"
 					src="${pageContext.request.contextPath}/images/grgr_logo.png"
 					alt="메인로고">
 				</a>
 
-				<div class="collapse navbar-collapse col-lg-3" id="navbar-toggle1">
-					<ul class="navbar-nav ml-50 ">
-						<li class="nav-item mr-30 loc"><a
+				<div class="collapse navbar-collapse" id="navbar-toggle1">
+					<ul class="nav-item d-flex justify-content-between">
+						<li class="nav-item loc d-flex align-items-center "><a
 							href="<c:url value="/info/matzib"/>"><img class="mb-10"
 								alt="맛집정보" src="<c:url value="/images/restaurant.png"/>" />맛집</a></li>
-						<li class="nav-item loc"><a
+						<li class="nav-item loc d-flex align-items-center"><a
 							href="<c:url value="/info/medical"/>"><img class="mb-10"
 								alt="병원정보" src="<c:url value="/images/hospital.png"/>" />병원</a>
 						</li>
@@ -115,7 +116,7 @@
 
 				<!-- / input-group -->
 				<c:if test="${loginUno==null}">
-					<ul class="navbar-button p-30 m-0 d-flex">
+					<ul class="navbar-button p-30 m-0 d-flex justify-content-between">
 						<li class="nav-item"><a href="<c:url value="/user/login"/>"
 							class="btn btn-sm btn-primary pill"> <i
 								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i> <span>로그인</span>
@@ -129,8 +130,8 @@
 				</c:if>
 				<c:if test="${loginUno!=null && loginUserStatus!=1 }">
 
-					<div class="collapse navbar-collapse col-lg-3 m-0 d-flex" id="navbar-toggle1">
-						<ul class="navbar-nav ml-30 align-items-center">
+					<div class="collapse navbar-collapse m-0 d-flex justify-content-between" id="navbar-toggle1">
+						<ul class="navbar-nav align-items-center">
 							<li class="nav-item">"${loginNickname }"님의 위치는<br>
 									"${loginLocation}" 입니다.</li>
 							<li class="nav-item ml-30"><a class="nav-link" >
@@ -141,7 +142,7 @@
 						<!-- / navbar-nav -->
 					</div>
 
-					<ul class="navbar-button p-0 m-0 ml-80 m-0 d-flex">
+					<ul class="navbar-button p-0 m-0 m-0 d-flex justify-content-between">
 						<li class="nav-item"><a
 							href="<c:url value="/mypage/userProfile"/>"
 							class="btn btn-sm btn-primary pill"> <i
@@ -161,7 +162,7 @@
 
 					<span>관리자님, 환영합니다.</span>
 
-					<ul class="navbar-button p-0 m-0 ml-80 m-0 d-flex">
+					<ul class="navbar-button p-0 m-0 m-0 d-flex justify-content-between">
 						<li class="nav-item"><a	href="<c:url value="/admin/user-list"/>" class="btn btn-sm btn-primary pill"> 
 						<i class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>관리자페이지</span></a></li>
 						<li class="nav-item"><a href="<c:url value="/user/logout"/>"

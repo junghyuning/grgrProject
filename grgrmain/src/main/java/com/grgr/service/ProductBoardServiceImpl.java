@@ -43,7 +43,6 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 		int totalBoard = productBoardCount(searchCondition);
 
 		Pager pager = new Pager(totalBoard, searchCondition);
-
 		// 페이징 계산
 		searchMap.put("startRow", pager.getStartRow());
 		searchMap.put("endRow", pager.getEndRow());
