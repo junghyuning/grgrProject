@@ -328,4 +328,9 @@ public class UserServiceImpl implements UserService {
 
 		return resultMap;
 	}
+
+	@Override
+	public int updateKakaoUser(UserVO userVO) {
+		return kakaoDAO.updateKakaoUser(userVO);
+	}
 }
