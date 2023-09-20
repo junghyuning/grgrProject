@@ -40,7 +40,6 @@ public class QnaBoardController {
 	@RequestMapping("/list")
 	public String qnaBoardList(SearchCondition searchCondition, HttpSession session, Model model) {
 		log.info("@@@@@QnaBoardController() 클래스의 qnaBoardList() 메소드 호출");
-		searchCondition.setLoginLocation(extractLoginLocation(session));
 
 		Integer loginUserStatus = (Integer) session.getAttribute("loginUserStatus");
 		Integer uno = (Integer) session.getAttribute("loginUno");
@@ -58,7 +57,6 @@ public class QnaBoardController {
 	public String qnaBoardRead(@RequestParam int qnaBno, SearchCondition searchCondition, HttpSession session, Model model) {
 		log.info("QnaBoardController() 클래스의 qnaBoardRead() 메소드 호출");
 
-		searchCondition.setLoginLocation(extractLoginLocation(session));
 		Integer loginUno = (Integer) session.getAttribute("loginUno");
 		Map<String, Object> readMap = qnaBoardService.getQnaBoard(loginUno, qnaBno);
 		Integer prevQnaBno = qnaBoardService.prevQnaBno(searchCondition, qnaBno);
@@ -150,12 +148,4 @@ public class QnaBoardController {
 		return redirectUri;
 	}
 
-	private String extractLoginLocation(HttpSession session) {
-		String loginLocation = (String) session.getAttribute("loginLocation");
-		if (loginLocation != null && !loginLocation.trim().isEmpty()) {
-			return loginLocation.split(",")[1].trim();
-
-		}
-		return null;
-	}
 }
