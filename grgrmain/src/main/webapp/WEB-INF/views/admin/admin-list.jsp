@@ -87,6 +87,11 @@ table.table-xl th,
   table.table-xl tbody tr {
     margin-bottom: 10px;
     }
+    
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
   
 </style>
 </head>
