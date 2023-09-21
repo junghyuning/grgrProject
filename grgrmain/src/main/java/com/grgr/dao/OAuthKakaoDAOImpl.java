@@ -39,4 +39,10 @@ public class OAuthKakaoDAOImpl implements OAuthKakaoDAO {
 		return session.getMapper(OAuthKakaoMapper.class).selectByKakaoId(kakaoId);
 	}
 
+	@Override
+	public int updateKakaoUser(UserVO userVO) {
+		// TODO Auto-generated method stub
+		return session.getMapper(OAuthKakaoMapper.class).updateKakaoUser(userVO);
+	}
+
 }

@@ -71,4 +71,6 @@ public interface UserService {
 	boolean loginGoogleUser(UserVO profile);
 
 	UserVO getGoogleLoginUser(String naverId);
+	
+	int updateKakaoUser(UserVO userVO);
 }

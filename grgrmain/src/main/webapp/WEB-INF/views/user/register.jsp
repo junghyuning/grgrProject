@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,6 +40,28 @@
 	rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/css/login-register.css"
 	rel="stylesheet">
+
+<style type="text/css">
+.id_input_re_3 {
+	color: red;
+	display: none;
+}
+
+.name_input_re {
+	color: red;
+	display: none;
+}
+
+.pw_input_re {
+	color: red;
+	display: none;
+}
+
+.phone_input_re {
+	color: red;
+	display: none;
+}
+</style>
 </head>
 
 <body>
@@ -88,6 +111,7 @@
 										<input type="text" class="form-control user_input"
 											name="userName" placeholder="&#xf2bd; Username" required=""
 											style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
+											<span class="name_input_re">형식에 맞는 이름을 입력해주세요.(한글2~5자)</span>
 										<span class="final_name_ck">이름을 입력해주세요.</span>
 									</div>
 								</div>
@@ -97,8 +121,8 @@
 									<input type="text" class="form-control id_input" name="userId"
 										placeholder="&#xf2bd; ID" required=""
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
-									<span class="id_input_re_1">사용 가능한 아이디입니다.</span> <span
-										class="id_input_re_2">이미 사용중인 아이디 입니다.</span> <span
+									<span class="id_input_re_2">이미 사용중인 아이디 입니다.</span> <span
+										class="id_input_re_3">형식에 맞는 아이디를 입력해주세요.(알파벳 소대문 6~15자)</span><span
 										class="final_id_ck">아이디를 입력해주세요.</span>
 								</div>
 
@@ -110,6 +134,8 @@
 										class="form-control pw_input" name="userPw"
 										placeholder="&#xf11c; Password"
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
+										<span
+										class="pw_input_re">형식에 맞는 비밀번호를 입력해주세요.<br>(영문 숫자 특수기호 조합 8자리 이상)</span>
 									<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
 								</div>
 								<!-- / form-group -->
@@ -137,6 +163,8 @@
 									<input type="text" class="form-control phone_input"
 										name="phone" placeholder="&#xf2bd; Phone" required=""
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
+										<span
+										class="phone_input_re">형식에 맞는 전화번호를 입력해주세요.(010-xxxx-xxxx)</span>
 									<span class="final_phone_ck">연락처를 입력해주세요.</span>
 								</div>
 
@@ -243,11 +271,16 @@
 
 		/* 유효성 검사 통과유무 변수 */
 		var idCheck = false; // 아이디
+		var idFormCheck = false; // 아이디형식 확인
+		var idSameCheck = false; // 아이디 중복 검사
+		var nameFormCheck = false; // 이름 형식 검사
+		var pwFormCheck = false; // 비번 형식 검사
 		var pwCheck = false; // 비번
 		var pwckCheck = false; // 비번 확인
 		var pwckcorCheck = false; // 비번 확인 일치 확인
 		var nickNameCheck = false; // 닉네임
 		var phoneCheck = false; // 전화번호
+		var phoneFormCheck = false; // 전화번호
 		var nameCheck = false; // 이름
 		var emailCheck = false; // 이메일
 		var emailnumCheck = false; // 이메일 인증번호 확인
@@ -266,43 +299,119 @@
 																".final_id_ck, .final_pw_ck, .final_pwck_ck, .final_nickName_ck, .final_name_ck, .final_email_ck, .final_email_check_ck, .final_phone_ck")
 														.css("display", "none");
 											});
+							//이름 형식검사
+							$('.user_input')
+									.on(
+											"propertychange change keyup paste input",
+											function() {
+
+												var userName = $('.user_input')
+														.val(); 
+												// 이름의 정규식을 검사하여 메시지를 설정
+												if (/^[가-힣]{2,5}$/
+														.test(userName)) {
+													$('.name_input_re').css(
+															'display', 'none');
+													nameFormCheck = true;
+												} else {
+													$('.name_input_re').css(
+															'display', 'block');
+													nameFormCheck = false;
+												}
+											});
+							
+							//비밀번호 형식검사
+							$('.pw_input')
+									.on(
+											"propertychange change keyup paste input",
+											function() {
+
+												var userPw = $('.pw_input')
+														.val(); 
+												// 비번 정규식을 검사하여 메시지를 설정
+												if (/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
+														.test(userPw)) {
+													$('.pw_input_re').css(
+															'display', 'none');
+													pwFormCheck = true;
+												} else {
+													$('.pw_input_re').css(
+															'display', 'block');
+													pwFormCheck = false;
+												}
+											});
+							
+							//전화번호 형식검사
+							$('.phone_input')
+									.on(
+											"propertychange change keyup paste input",
+											function() {
+
+												var userPw = $('.phone_input')
+														.val(); 
+												// 전화번호 정규식을 검사하여 메시지를 설정
+												if (/^010-[0-9]{4}-[0-9]{4}$/
+														.test(userPw)) {
+													$('.phone_input_re').css(
+															'display', 'none');
+													phoneFormCheck = true;
+												} else {
+													$('.phone_input_re').css(
+															'display', 'block');
+													phoneFormCheck = false;
+												}
+											});
 
 							//아이디 중복검사
-							$('.id_input').on(
-									"propertychange change keyup paste input",
-									function() {
+							$('.id_input')
+									.on(
+											"propertychange change keyup paste input",
+											function() {
 
-										var userId = $('.id_input').val(); // .id_input에 입력되는 값
-										var data = {
-											userId : userId
-										} // '컨트롤에 넘길 데이터 이름' : '데이터(.id_input에 입력되는 값)'
+												var userId = $('.id_input')
+														.val(); // .id_input에 입력되는 값
+												var data = {
+													userId : userId
+												} // '컨트롤에 넘길 데이터 이름' : '데이터(.id_input에 입력되는 값)'
 
-										$.ajax({
-											type : "post",
-											url : "/user/userIdChk",
-											data : data,
-											success : function(result) {
-												// 성공 여부
-												if (result != 'fail') {
-													$('.id_input_re_1').css(
-															"display",
-															"inline-block");
-													$('.id_input_re_2').css(
-															"display", "none");
-													idCheck = true;
+												// 아이디의 정규식을 검사하여 메시지를 설정
+												if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,15}$/
+														.test(userId)) {
+													$('.id_input_re_3').css(
+															'display', 'none');
+													idFormCheck = true;
 												} else {
-													$('.id_input_re_2').css(
-															"display",
-															"inline-block");
-													$('.id_input_re_1').css(
-															"display", "none");
-													idCheck = false;
+													$('.id_input_re_3').css(
+															'display', 'block');
+													idFormCheck = false;
 												}
-											} // success 종료
-										}); // ajax 종료
-									});// function 종료
 
-							
+												$
+														.ajax({
+															type : "post",
+															url : "/user/userIdChk",
+															data : data,
+															success : function(
+																	result) {
+																// 성공 여부
+																if (result != 'fail') {
+																	$(
+																			'.id_input_re_2')
+																			.css(
+																					"display",
+																					"none");
+																	var idSameCheck = true;
+																} else {
+																	$(
+																			'.id_input_re_2')
+																			.css(
+																					"display",
+																					"inline-block");
+																	var idSameCheck = false;
+																}
+															} // success 종료
+														}); // ajax 종료
+											});// function 종료
 
 							/* 인증번호 이메일 전송 */
 							$(".email_check_button")
@@ -450,7 +559,7 @@
 											pwckCheck = true;
 										}
 
-										/* 닉네임 유효성 검사 */ 
+										/* 닉네임 유효성 검사 */
 										if (nickName == "") {
 											$('.final_nickName_ck').css(
 													'display', 'block');
@@ -513,9 +622,10 @@
 										}
 
 										/* 최종 유효성 검사 */
-										if (idCheck && pwCheck && pwckCheck
-												&& pwckcorCheck
-												&& nickNameCheck && phoneCheck
+										if (idCheck && idFormCheck && nameFormCheck
+												 && pwCheck && pwFormCheck
+												&& pwckCheck && pwckcorCheck
+												&& nickNameCheck && phoneCheck && phoneFormCheck
 												&& nameCheck && emailCheck
 												&& emailnumCheck) {
 

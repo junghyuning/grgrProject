@@ -27,7 +27,8 @@
 		NICKNAME,
 		USER_PW,
 		EMAIL,
-		GOOGLE_ID
+		GOOGLE_ID,
+		USER_STATUS
 		)
 		VALUES(
 		UNO_SEQ.NEXTVAL,
@@ -35,7 +36,8 @@
 		#{nickName},
 		#{userPw},
 		#{email},
-		#{googleId}
+		#{googleId},
+		4
 		)
 	</insert>
 	

@@ -7,4 +7,5 @@ public interface OAuthKakaoMapper {
 	int insertSnsUser(UserVO userVO);
 	int updateSnsUser(UserVO userVO);
 	UserVO selectByKakaoId(String kakaoId);
+	int updateKakaoUser(UserVO userVO);
 }

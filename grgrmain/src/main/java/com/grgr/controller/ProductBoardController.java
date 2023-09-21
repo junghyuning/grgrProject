@@ -39,6 +39,7 @@ public class ProductBoardController {
 	@RequestMapping("/list")
 	public String productBoardListGet(SearchCondition searchCondition, Model model) {
 		System.out.println("목록 진입");
+		searchCondition.setPageSize(12);
 		Map<String, Object> result = productBoardService.getProductBoardList(searchCondition);
 		model.addAttribute("productBoardList", result.get("productBoardList"));
 		model.addAttribute("pager", result.get("pager"));
