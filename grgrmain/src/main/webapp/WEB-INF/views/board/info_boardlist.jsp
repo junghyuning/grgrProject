@@ -63,21 +63,21 @@
 						class="btn btn-outline-primary m-y-10 mr-10">
 							${loginUserStatus == 1 ? '관리자' : pager.searchCondition.loginLocation}
 					</a></li>
-					<li id="keyword-button"><a
+					<li><a
 						href="<c:url value="/infoboard/list?keyword=food"/>"
-						class="btn btn-outline-primary m-y-10 mr-10">맛집후기</a></li>
-					<li id="keyword-button"><a
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="food">맛집후기</a></li>
+					<li><a
 						href="<c:url value="/infoboard/list?keyword=market"/>"
-						class="btn btn-outline-primary m-y-10 mr-10">동네후기</a></li>
-					<li id="keyword-button"><a
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="market">동네후기</a></li>
+					<li><a
 						href="<c:url value="/infoboard/list?keyword=living"/>"
-						class="btn btn-outline-primary m-y-10 mr-10">생활정보</a></li>
-					<li id="keyword-button"><a
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="living">생활정보</a></li>
+					<li><a
 						href="<c:url value="/infoboard/list?keyword=crew"/>"
-						class="btn btn-outline-primary m-y-10 mr-10">모임 / 구인</a></li>
-					<li id="keyword-button"><a
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="crew">모임 / 구인</a></li>
+					<li><a
 						href="<c:url value="/infoboard/list?keyword=event"/>"
-						class="btn btn-outline-primary m-y-10 mr-10">이벤트</a></li>
+						class="btn btn-outline-primary m-y-10 mr-10" data-keyword="event">이벤트</a></li>
 				</ul>
 
 
@@ -271,16 +271,18 @@
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
-		$(document).ready(
-				function() {
+		$(document).ready(function() {
 					var keywordInput = $('input[name="searchKeyword"]');
+				  
+
+					
 					$('#search-button').click(
 							function() {
 								// 선택한 검색 유형과 키워드를 가져옵니다.
 								var searchType = $('#select').val();
 								var searchKeyword = keywordInput.val();
 								var pageNum = $('input[name="pageNum"]').val();
-
+								
 								if (searchKeyword === '') {
 									keywordInput.val('검색어를 입력하지 않으셨습니다.'); // 값을 직접 변경
 									keywordInput.css('color', 'red'); // 텍스트 색상 변경
@@ -305,34 +307,9 @@
 							keywordInput.css('color', 'black'); // 일반 텍스트 색상으로 되돌림
 						}
 					});
+					
+					
 
-					if (Modernizr.touch) {
-						// show the close overlay button
-						$('.close-overlay').removeClass('hidden');
-						// handle the adding of hover class when clicked
-						$('.img').click(function(e) {
-							if (!$(this).hasClass('hover')) {
-								$(this).addClass('hover');
-							}
-						});
-						// handle the closing of the overlay
-						$('.close-overlay').click(function(e) {
-							e.preventDefault();
-							e.stopPropagation();
-							if ($(this).closest('.img').hasClass('hover')) {
-								$(this).closest('.img').removeClass('hover');
-							}
-						});
-					} else {
-						// handle the mouseenter functionality
-						$('.img').mouseenter(function() {
-							$(this).addClass('hover');
-						})
-						// handle the mouseleave functionality
-						.mouseleave(function() {
-							$(this).removeClass('hover');
-						});
-					}
 				});
 	</script>
 	<!-- / portfolio script -->
