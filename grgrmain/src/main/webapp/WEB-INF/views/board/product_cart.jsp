@@ -37,6 +37,8 @@
 	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
 	rel="stylesheet" type="text/css" />
 </head>
+
+
 <style>
 .page-link {
 	font-size: 20px;
@@ -59,6 +61,10 @@
 .viewCnt {
 	text-align: right;
 	margin-bottom: 0;
+}
+
+.btn-spacing {
+	margin-right: 20px; /* 원하는 여백 크기로 설정 */
 }
 </style>
 <body>
@@ -153,8 +159,14 @@
 
 						
 
-
 					</ul>
+					<a href="<c:url value="/" />" class="btn btn-primary rounded"
+						style="font-size: 15px; float: right;"><span>전체 구매</span></a> <a
+						href="<c:url value="/" />"
+						class="btn btn-primary rounded btn-spacing"
+						style="font-size: 15px; float: right;"><span>선택 항목 구매</span></a>
+
+
 				</div>
 
 			</main>

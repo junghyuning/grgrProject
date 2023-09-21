@@ -132,7 +132,7 @@
 
 					<div class="collapse navbar-collapse m-0 d-flex justify-content-between" id="navbar-toggle1">
 						<ul class="navbar-nav align-items-center">
-							<li class="nav-item">"${loginNickname }"님의 위치는<br>
+							<li class="nav-item" style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight: 20px bold;" >"${loginNickname }"님의 위치는<br>
 									"${loginLocation}" 입니다.</li>
 							<li class="nav-item ml-30"><a class="nav-link" >
 									<button class="update-location-button"
@@ -176,31 +176,4 @@
 			</nav>
 		</div>
 
-		<script>
-			function updateLocation() {
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(function(position) {
-					var latitude = position.coords.latitude;
-					var longitude = position.coords.longitude;
 
-					$.ajax({
-						type : "POST",
-						url : "${pageeContext.request.contextPath}/user/getAddress",
-						data : {
-							latitude : latitude,
-							longitude : longitude
-						},
-						success : function(response) {
-							alert("위치 정보가 업데이트 되었습니다.");
-						},
-						error : function(error) {
-							alert(error.status )
-							alert("위치 정보 업데이트에 실패 했습니다.");
-						}
-					});
-				});
-			} else {
-				alert("Geolocation is not supported by this browser.");
-			}
-		}
-</script>

@@ -130,5 +130,13 @@ public class UserProfileController {
 		model.addAttribute("pager", map.get("pager"));
 		model.addAttribute("likeList", map.get("likeList"));
 	}
+	
+	/* 휴면계정 안내 및 활성화 */
+	@GetMapping("/activateUser")
+	public String activateUser() {
+		return "/mypage/activateUser";
+	}
+	
+	
 
 }
