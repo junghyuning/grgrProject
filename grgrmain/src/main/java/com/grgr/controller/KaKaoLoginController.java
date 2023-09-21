@@ -72,7 +72,7 @@ public class KaKaoLoginController {
 		session.setAttribute("loginUserStatus", user.getUserStatus());
 		session.setAttribute("loginLastLogin", user.getLastLogin());
 
-		if (user.getPhone() == null || user.getPhone()=="") {
+		if (user.getNickName() == null) {
 			Integer loginUno = (Integer) session.getAttribute("loginUno");
 			model.addAttribute("user", userService.userProfile(loginUno));
 			// user.getPhone 값이 null인 경우, updateinfo.jsp 페이지로 이동

@@ -150,50 +150,57 @@
 
 	<!-- form validation -->
 	<script>
-    // 페이지 이동 form(리스트 페이지 이동, 조회 페이지 이동)
-    let mForm = $("#updateForm"); // 페이지 데이터 수정 form
-    let phoneFormCheck = false;
+	// 페이지 이동 form(리스트 페이지 이동, 조회 페이지 이동)
+	let mForm = $("#updateForm"); // 페이지 데이터 수정 form
+	let phoneFormCheck = false;
+	let nickNameNullCheck = false;
+	let phoneNullCheck = false;
 
-    // 수정 하기 버튼 클릭 이벤트
-    $("#updateButton").on("click", function(e) {
-        // 닉네임 입력 필드 값 가져오기
-        let nickNameInput = $("#nickName").val();
-        let phoneInput = $("#phone").val();
-     // 전화번호 형식 검사
-       
-            var userPhone = $('.phone').val();
-            // 전화번호 정규식을 검사하여 메시지를 설정
-            if (/^010-[0-9]{4}-[0-9]{4}$/.test(userPhone)) {
-                $('.phone_input_re').css('display', 'none');
-                phoneFormCheck = true;
-            } else {
-                $('.phone_input_re').css('display', 'block');
-                phoneFormCheck = false;
-            }
+	// 수정 하기 버튼 클릭 이벤트
+	$("#updateButton").on("click", function(e) {
+		// 닉네임 입력 필드 값 가져오기
+		let nickNameInput = $("#nickName").val();
+		let phoneInput = $("#phone").val();
+		// 전화번호 형식 검사
 
-        // 닉네임이 비어있는 경우 알림 메시지 표시
-        if (nickNameInput === "") {
-            e.preventDefault(); // 기본 동작 방지
-            $(".final_nickName_ck").css("display", "block"); // 알림 메시지 표시
-        } else {
-            $(".final_nickName_ck").css("display", "none"); // 알림 메시지 감춤
-        }
+		var userPhone = $("#phone").val();
+		// 전화번호 정규식을 검사하여 메시지를 설정
+		if (/^010-[0-9]{4}-[0-9]{4}$/.test(userPhone)) {
+			$('.phone_input_re').css('display', 'none');
+			phoneFormCheck = true;
+		} else {
+			e.preventDefault();
+			$('.phone_input_re').css('display', 'block');
+			phoneFormCheck = false;
+		}
 
-        // 전화번호가 비어있는 경우 알림 메시지 표시
-        if (phoneInput === "") {
-            e.preventDefault(); // 기본 동작 방지
-            $(".final_phone_ck").css("display", "block"); // 알림 메시지 표시
-        } else {
-            $(".final_phone_ck").css("display", "none"); // 알림 메시지 감춤
-        }
+		// 닉네임이 비어있는 경우 알림 메시지 표시
+		if (nickNameInput === "") {
+			e.preventDefault(); // 기본 동작 방지
+			$(".final_nickName_ck").css("display", "block"); // 알림 메시지 표시
+			nickNameNullCheck = false;
+		} else {
+			$(".final_nickName_ck").css("display", "none"); // 알림 메시지 감춤
+			nickNameNullCheck = true;
+		}
 
-        // 모든 입력 값이 비어 있지 않고 전화번호 형식도 올바른 경우 폼 제출
-        if (nickNameInput !== "" && phoneInput !== "" && phoneFormCheck == true) {
-            mForm.submit();
-        }
-    });
+		// 전화번호가 비어있는 경우 알림 메시지 표시
+		if (phoneInput === "") {
+			e.preventDefault(); // 기본 동작 방지
+			$(".final_phone_ck").css("display", "block"); // 알림 메시지 표시
+			phoneNullCheck = false;
+		} else {
+			$(".final_phone_ck").css("display", "none"); // 알림 메시지 감춤
+			phoneNullCheck = true;
+		}
 
+		// 모든 입력 값이 비어 있지 않고 전화번호 형식도 올바른 경우 폼 제출
+		if (nickNameNullCheck && phoneNullCheck && phoneFormCheck) {
+			mForm.submit();
+		}
+	});
 </script>
+
 
 	<!-- end of custom script -->
 
