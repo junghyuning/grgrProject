@@ -92,7 +92,7 @@
 						<!-- project : 게시글 list 출력 -->
 						<c:set var="totalPrice" value="0" />
 
-<c:forEach items="${cartList}" var="cartItem">
+<c:forEach items="${cartList}" var="cartItem" varStatus="status">
     <li class="col-md-12 col-lg-0 project"
         id="project_${cartItem.productCartNo}">
         <div class="promo-box mx-auto"
@@ -100,9 +100,11 @@
             <div class="cta p-0">
                 <div class="row align-items-center">
                     <div class="col-lg-1 text-center">
-                        <input type="checkbox" name="selectedItems"
-                            class="form-check-input" value="${cartItem.productCartNo}"
-                            onclick="calculateTotalPrice()">
+                        <input type="checkbox" name="selectedItems" class="form-check-input" 
+               value="${cartItem.productCartNo}" 
+               data-productPrice="${cartItem.productPrice}"
+               data-productCount="${cartItem.productCount}"
+               onclick="calculateTotalPrice()">
                     </div>
                     <div class="col-lg-2 text-center">
                         <!-- 가운데 정렬을 위해 text-center 클래스 추가 -->
@@ -147,9 +149,6 @@
 </c:forEach>
 
 <!-- 총 가격을 표시하는 부분 -->
-<div id="totalPrice">
-    총 가격: 0 원
-</div>
 
 
 						
@@ -161,6 +160,10 @@
 			</main>
 		</div>
 	</div>
+	<hr>
+<div id="totalPrice">
+    총 가격: 0 원
+</div>
 	<!-- / pagination-center -->
 
 	<a href="#top" class="scroll-to-top is-visible smooth-scroll"
@@ -281,24 +284,26 @@ function deleteCart(productCartNo) {
 	}
 </script>
 	<script>
-    // 체크박스 클릭 시 호출되는 함수
-    function calculateTotalPrice() {
-        let totalPrice = 0;
-        const checkboxes = document.getElementsByName("selectedItems");
+	// 체크박스 클릭 시 호출되는 함수
+	function calculateTotalPrice() {
+	    let totalPrice = 0;
+	    const checkboxes = document.getElementsByName("selectedItems");
 
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                const cartItem = ${cartList[i]}; // 해당 체크박스와 연관된 상품 정보
-                totalPrice += cartItem.productPrice * cartItem.productCount;
-            }
-        }
+	    for (let i = 0; i < checkboxes.length; i++) {
+	        if (checkboxes[i].checked) {
+	            const productPrice = parseFloat(checkboxes[i].getAttribute("data-productPrice"));
+	            const productCount = parseFloat(checkboxes[i].getAttribute("data-productCount"));
+	            totalPrice += productPrice * productCount;
+	        }
+	    }
 
-        // 업데이트된 합계 금액을 화면에 표시
-        document.getElementById("totalPrice").textContent = "총 가격: " + totalPrice.toFixed(2) + " 원";
-    }
+	    // 업데이트된 합계 금액을 화면에 표시
+	    document.getElementById("totalPrice").textContent = "총 가격: " + totalPrice.toFixed(2) + " 원";
+	}
 
-    // 페이지 로드 시 합계 금액 초기화
-    calculateTotalPrice();
 </script>
+
+
+
 </body>
 </html>
