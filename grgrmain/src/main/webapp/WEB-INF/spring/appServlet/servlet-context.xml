@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -40,14 +41,35 @@
 
 	<!-- Intercepter 클래스를 Spring Bean으로 등록 -->
 	<beans:bean
-		class="com.grgr.interceptor.AdminAuthInterceptor"
-		id="adminAuthInterceptor" />
-	<beans:bean
 		class="com.grgr.interceptor.LoginAuthInterceptor"
 		id="loginAuthInterceptor" />
+	<beans:bean
+		class="com.grgr.interceptor.AdminAuthInterceptor"
+		id="adminAuthInterceptor" />
+<!-- 	<beans:bean
+		class="com.grgr.interceptor.DeActiveAuthInterceptor"
+		id="deActiveAuthInterceptor" /> -->
 
-	<!-- 관리자 인터셉터 -->
+	<!-- 로그인 인터셉터 -->
 	<interceptors>
+		<interceptor>
+			<mapping path="/freeboard/**" />
+			<mapping path="/freereport/**" />
+			<mapping path="/freecomment/**" />
+			<mapping path="/freelike/**" />
+			<mapping path="/infoboard/**" />
+			<mapping path="/inforeport/**" />
+			<mapping path="/infocomment/**" />
+			<mapping path="/infolike/**" />
+			<mapping path="/productboard/**" />
+			<mapping path="/noticeboard/write" />
+			<mapping path="/board/**" />
+			<mapping path="/mypage/**" />
+			<mapping path="/qnaboard/**" />
+			<mapping path="/qnaboard/**" />
+			<exclude-mapping path="/freeboard/list"/>
+			<beans:ref bean="loginAuthInterceptor" />
+		</interceptor>
 		<interceptor>
 			<mapping path="*/hide/**" />
 			<mapping path="/notice/*" />
@@ -59,21 +81,21 @@
 			<mapping path="/noticeboard/remove" />
 			<beans:ref bean="adminAuthInterceptor" />
 		</interceptor>
-		<interceptor>
+<!-- 		<interceptor>
+		
+			<mapping path="/user/login" />
 			<mapping path="/freeboard/**" />
+			<mapping path="/freereport/**" />
+			<mapping path="/freecomment/**" />
+			<mapping path="/freelike/**" />
 			<mapping path="/infoboard/**" />
 			<mapping path="/inforeport/**" />
-			<mapping path="/productboard/**" />
-			<mapping path="/noticeboard/write" />
-			<mapping path="/board/**" />
-			<mapping path="/mypage/**" />
-			<mapping path="/qnaboard/**" />
-			<mapping path="/qnaboard/**" />
-			<exclude-mapping path="/freeboard/list"/>
-			<beans:ref bean="loginAuthInterceptor" />
-		</interceptor>
+			<mapping path="/infocomment/**" />
+			<mapping path="/infolike/**" />
+			<beans:ref bean="deActiveAuthInterceptor"/>
+		</interceptor> -->
 	</interceptors>
-	<!-- 로그인 인터셉터 -->
+	<!-- 관리자 인터셉터 -->
 
 	<context:component-scan
 		base-package="com.grgr.mapper" />
@@ -138,5 +160,9 @@
 	<!-- 로그인관련 api key 저장 properties -->
 	<context:property-placeholder location="classpath:/apiKeys.properties" />
 
+
+	<beans:bean class="com.grgr.service.StopAccountScheduler" id="stopAccountScheduler"/>
+	<task:annotation-driven/>
+	
 </beans:beans>
 

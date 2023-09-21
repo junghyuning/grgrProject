@@ -328,4 +328,8 @@ public class UserServiceImpl implements UserService {
 
 		return resultMap;
 	}
+	
+	/* 휴면계정 해제 */
+	
+
 }
