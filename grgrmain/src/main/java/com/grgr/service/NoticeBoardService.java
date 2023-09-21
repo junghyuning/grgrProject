@@ -17,5 +17,5 @@ public interface NoticeBoardService {
 	Integer prevNoticeBno(SearchCondition searchCondition, int noticeBno);
 	Integer nextNoticeBno(SearchCondition searchCondition, int noticeBno);
 	Map<String, Object> getNoticeBoardList(SearchCondition searchCondition);
-	
+	NoticeBoard getLatestNotice();
 }

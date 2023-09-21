@@ -34,6 +34,7 @@ public class NoticeBoardController {
 		model.addAttribute("pager", result.get("pager"));
 		return "board/notice_boardlist";
 	}
+	
 
 	// 선택 게시글 조회
 	@GetMapping("/read")
@@ -54,6 +55,14 @@ public class NoticeBoardController {
 			e.printStackTrace();
 		}
 		return "board/notice_board";
+	}
+	
+	@GetMapping("/latestNotice")
+	public String latestNotice(@RequestParam int noticeBno, Model model) {
+		NoticeBoard latestNotice = noticeBoardService.getLatestNotice();
+		model.addAttribute("latestNoticeNo",latestNotice.getNoticeBno());
+		
+		return "board/notice_board";	
 	}
 
 	// 글쓰기 페이지 요청
