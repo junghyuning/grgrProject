@@ -29,21 +29,21 @@
 		UNO,
 		USER_ID,
 		USER_NAME,
-		NICKNAME,
 		USER_PW,
 		EMAIL,
 		KAKAO_ID,
-		USER_UPDATE_UNO
+		USER_UPDATE_UNO,
+		USER_STATUS
 		)
 		VALUES (
 		#{uno},
 		#{userId},
 		#{nickName},
-		#{nickName},
 		#{userPw},
 		#{email},
 		#{kakaoId},
-		#{uno}
+		#{uno},
+		4
 		)
 	</insert>
 
@@ -73,6 +73,17 @@
 		FROM USERINFO
 		WHERE KAKAO_ID = #{kakaoId}
 	</select>
+	
+	<!-- 첫 로그인시 닉네임과 전화번호 설정 -->
+	<update id="updateKakaoUser">
+		UPDATE USERINFO SET
+		NICKNAME = #{nickName},
+		PHONE = #{phone},
+		USER_UPDATE =
+		SYSDATE,
+		USER_UPDATE_UNO=#{uno}
+		WHERE KAKAO_ID=#{kakaoId}
+	</update>
 
 
 </mapper>

@@ -93,6 +93,11 @@
 	display: none;
 }
 
+.id_input_re_3 {
+	color: red;
+	display: none;
+}
+
 /* 중복닉네임 존재하지 않는경우 */
 .nickName_input_re_1 {
 	color: green;

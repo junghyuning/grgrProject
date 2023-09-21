@@ -328,8 +328,13 @@ public class UserServiceImpl implements UserService {
 
 		return resultMap;
 	}
+
+		@Override
+	public int updateKakaoUser(UserVO userVO) {
+		return kakaoDAO.updateKakaoUser(userVO);
+	}
 	
-	/* 휴면계정 해제 */
-	
+		
+		/* 휴면계정 해제 */
 
 }
