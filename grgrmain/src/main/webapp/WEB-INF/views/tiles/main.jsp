@@ -139,6 +139,7 @@
 <section class="big bg-white">
 	<div class="section-title-area text-center relative z-index-1 mb-50">
 		<h3 class="section-title">정보공유게시판</h3>
+		 
 	</div>
 	<!-- / section-title-area -->
 	<div class="container">

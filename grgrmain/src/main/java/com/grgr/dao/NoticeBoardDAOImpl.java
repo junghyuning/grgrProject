@@ -60,5 +60,11 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 	public List<NoticeBoard> selectNoticeBoardList(Map<String, Object> map) {
 		return sqlSession.getMapper(NoticeBoardMapper.class).selectNoticeBoardList(map);
 	}
+
+	// 최신 공지글 조회
+	@Override
+    public NoticeBoard selectLatestNotice() {
+        return sqlSession.getMapper(NoticeBoardMapper.class).selectLatestNotice();
+    }
 	
 }
