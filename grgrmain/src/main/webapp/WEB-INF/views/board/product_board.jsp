@@ -68,12 +68,17 @@
 .comment {
 	border-top: 1px solid #97989d;
 }
+
+.product-space {
+	overflow-wrap: break-word; /* 단어 단위로 개행 */
+}
 </style>
 </head>
 
 <body>
 	<!-- 헤더 -->
-	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
+	<jsp:include
+		page="${pageContext.request.contextPath}/WEB-INF/views/tiles/header.jsp" />
 	<!-- 배너 -->
 	<c:set var="boardName" value="판매게시판" />
 	<header class="xl bg-img bg-fixed"
@@ -129,14 +134,14 @@
 				<!-- / column -->
 
 				<div class="col-lg-6 sidebar">
-					<h3 class="mb-5">
+					<h3 class="mb-5 product-space">
 						<c:out value="${productBoard.productTitle}" />
 					</h3>
-					<p class="fs-20 mb-15">
+					<p class="fs-20 mb-15 product-space">
 						₩
 						<c:out value="${productBoard.productPrice}" />
 					</p>
-					<p class="lead m-y-40">
+					<p class="lead m-y-40 product-space">
 						<c:out value="${productBoard.productContent}" />
 					</p>
 
@@ -276,7 +281,7 @@
 		<!-- / card -->
 
 		<!-------------------------------------------댓글영역 ----------------------------------------------->
- 
+
 		<!-- 대댓글 폼 : 대댓 버튼 누를시 댓글아래로 이동하여 style -> block-->
 		<div id="comment-reply" data-group=""
 			style="display: none; width: 95%; display: flex; justify-content: flex-end; align-items: center; margin: 10px;">
