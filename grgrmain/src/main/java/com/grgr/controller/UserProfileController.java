@@ -133,7 +133,10 @@ public class UserProfileController {
 	
 	/* 휴면계정 안내 및 활성화 */
 	@GetMapping("/activateUser")
-	public String activateUser() {
+	public String activateUser(HttpSession session) {
+		if((Integer)session.getAttribute("loginActive")!=2) {
+			return "/404";
+		}
 		return "/mypage/activateUser";
 	}
 	

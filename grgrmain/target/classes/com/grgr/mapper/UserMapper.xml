@@ -569,17 +569,17 @@
 	</select>
 
 	<!-- 휴면계정 전환 -->
-	<!-- <update id="updateUserDisactivate"> UPDATE USERINFO SET (ACTIVE = 2) 
-		WHERE MONTHS_BETWEEN(SYSDATE, LAST_LOGIN) >= 3 AND ACTIVE = 1 </update> -->
-	<update id="updateUserDisactivate">
+	 <update id="updateUserDisactivate"> UPDATE USERINFO SET (ACTIVE = 2) 
+		WHERE MONTHS_BETWEEN(SYSDATE, LAST_LOGIN) >= 3 AND ACTIVE = 1 </update> 
+	<!-- <update id="updateUserDisactivate">
 		UPDATE USERINFO
 		SET ACTIVE = 2
 		WHERE TRUNC(SYSDATE) - TRUNC(LAST_LOGIN) >= 3 AND ACTIVE = 1
-	</update>
+	</update> -->
 
 	<!-- 휴면계정 해제 -->
 	<update id="updateUserActivate">
-		UPDATE USERINFO SET (ACTIVE = 1) WHERE UNO = #{uno} AND EMAIL = ${email}
+		UPDATE USERINFO SET ACTIVE = 1 WHERE UNO = #{uno} AND EMAIL = #{email}
 		AND ACTIVE = 2
 	</update>
 

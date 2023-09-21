@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			result = naverDAO.insertSnsUser(profile);
 		} else {
-			//이미 같은 이메일의 사용자가 존재하는 경우
+			// 이미 같은 이메일의 사용자가 존재하는 경우
 			profile.setUno(user.getUno());
 			result = naverDAO.updateSnsUser(profile);
 		}
@@ -268,7 +268,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return kakaoDAO.selectByKakaoId(kakakoId);
 	}
-	
+
 	/* 관심게시글 조회 */
 	@Override
 	public Map<String, Object> getLikeList(int uno, int pageNum) {
@@ -307,7 +307,7 @@ public class UserServiceImpl implements UserService {
 	public UserVO getGoogleLoginUser(String googleId) {
 		return googleDAO.selectByGoogleId(googleId);
 	}
-	
+
 	/* 신고 조회 */
 	@Override
 	public Map<String, Object> getReportList(int pageNum) {
@@ -321,7 +321,7 @@ public class UserServiceImpl implements UserService {
 		pageMap.put("startRow", adminPager.getStartRow());
 		pageMap.put("endRow", adminPager.getEndRow());
 		List<ReportAdmin> reportList = userDAO.getReportList(pageMap);
-		
+
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("pager", adminPager);
 		resultMap.put("reportList", reportList);
@@ -329,12 +329,22 @@ public class UserServiceImpl implements UserService {
 		return resultMap;
 	}
 
-		@Override
+	@Override
 	public int updateKakaoUser(UserVO userVO) {
 		return kakaoDAO.updateKakaoUser(userVO);
 	}
-	
+
+	/* 휴면계정 해제 */
+	@Override
+	public int activateUser(int loginUno, String email) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("uno", loginUno);
+		map.put("email", email);
 		
-		/* 휴면계정 해제 */
+		
+		
+		return userDAO.updateUserActivate(map);
+	}
 
 }
