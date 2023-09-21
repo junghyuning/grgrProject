@@ -71,11 +71,3 @@
 
 </body>
 </html>
-
-
-
-
-
-	
-</body>
-</html>
