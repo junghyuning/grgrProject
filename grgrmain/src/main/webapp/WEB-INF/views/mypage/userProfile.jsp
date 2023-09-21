@@ -58,25 +58,21 @@
 	<div id="top"></div>
 	<!-- / top -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
-	<header class="xxl pb-30 bg-img bg-fixed">
-
-		<!-- / navbar-toggler -->
-		<!-- / dropdown -->
-
-		<!-- / navbar -->
-		<div class="container relative z-index-1">
-			<h1 class="page-title text-left mb-15">
-				<c:out value="${user.nickName}" />
-				님의 페이지
-			</h1>
-			<nav class="breadcrumb relative z-index-1 pt-10 pl-5">
-				<a class="breadcrumb-item"
-					href="${pageContext.request.contextPath}/main">Home</a> <span
-					class="breadcrumb-item active">마이 페이지</span>
-			</nav>
-		</div>
-		<!-- / container -->
-	</header>
+	<div class="container d-flex justify-content-center">
+		<header class="l pb-3 bg-img bg-fixed">
+    <div class="container relative z-index-1">
+        <h1 class="page-title text-left mb-1">
+            <!-- mb-1로 마진을 더 작게 조절하여 높이를 줄임 -->
+            1 님의 페이지
+        </h1>
+        <nav class="breadcrumb relative z-index-1 pt-1 pl-5">
+            <!-- pt-1로 패딩을 조절하여 높이를 줄임 -->
+            <a class="breadcrumb-item" href="/main">Home</a>
+            <span class="breadcrumb-item active">마이 페이지</span>
+        </nav>
+    </div>
+</header>
+	</div>
 
 	<section class="lg pb-60 page-section">
 		<div class="container">

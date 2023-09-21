@@ -45,6 +45,11 @@
     filter: brightness(1.45); 
     transition: filter 0.3s ease-in-out; 
 }
+.socialIcon {
+    width: auto; /* 원하는 너비의 백분율로 설정 */
+    height: 30;
+}
+
 
 
 </style>
@@ -132,7 +137,7 @@
 								<!-- / login-form -->
 								<div class="pt-60 text-center">
     <p style="margin-bottom: 4px;">간편 로그인</p>
-    <a class="socialLogin">
+    <a class="socialLogin socialIcon">
         <img class="socialIcon" src="<c:url value="/images/naver_login.png"/>" alt="네이버 로그인"
              onclick="location.href='<c:url value="/oauth/naver"/>';">
         <img class="socialIcon" src="<c:url value="/images/kakaoBtn.png"/>"
