@@ -57,6 +57,9 @@ public class NaverLoginController {
 		session.setAttribute("loginLastLogin", user.getLastLogin());
 		session.setAttribute("loginLocation", user.getUserLoc());
 		
+		if(user.getActive() == 2) {
+			return "redirect:/mypage/activateUser";
+		}
 		return "redirect:/main";			
 		
 	}

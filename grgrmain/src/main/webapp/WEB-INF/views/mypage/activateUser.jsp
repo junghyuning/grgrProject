@@ -136,6 +136,8 @@
 				        "email": email
 				},
 				success : function (data) {
+						console.log(data)
+				
 					if(data == "denied"){
 						document.getElementById('activateUserHeader').classList.replace('text-success', 'text-danger');
 						document.getElementById('activateUserHeader').innerHTML = '<i class="fas fa-unlock"></i>&nbsp;계정 활성화 실패';
@@ -144,13 +146,14 @@
 						$(".default-modal").modal('show');
 						$("#inputEmail").val('');
 					} else {
+						console.log(data)
 						document.getElementById('activateUserHeader').classList.replace('text-danger', 'text-success');
 						document.getElementById('activateUserHeader').innerHTML = '<i class="fas fa-lock"></i>&nbsp;계정 활성화 완료';
-						document.getElementById('activateUserBody').innerHTML = '<p>이메일이 일치하여 계정을 활성화 하였습니다.</p>';
+						document.getElementById('activateUserBody').innerHTML = '<p>이메일이 일치하여 계정을 활성화 하였습니다.<br>다시 로그인 해주세요</p>';
 						document.getElementById('activateUserFooterBtn').classList.replace('btn-danger','btn-info');
 						$(".default-modal").modal('show');
 						$("#activateUserFooterBtn").click(function() {
-							window.location.href = '<c:url value="/main"/>';
+							window.location.href = '<c:url value="/user/logout"/>';
 						});
 						
 					}
