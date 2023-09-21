@@ -16,13 +16,13 @@ public class DeActiveAuthInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		Integer loginActive = (Integer)session.getAttribute("loginActive"); 
 		//휴면상태의 사용자의 경우
-		if(loginActive == 2) {
-			
-			response.sendRedirect(request.getContextPath()+"/mypage/activateUser");
-			return false;
+		if(loginActive != 2) {
+			return true;
 		}
 		
-		return true;
+		
+		response.sendRedirect(request.getContextPath()+"/mypage/activateUser");
+		return false;
 	}
 
 }
