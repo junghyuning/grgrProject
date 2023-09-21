@@ -162,6 +162,20 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.getMapper(UserMapper.class).selectReportCount();
 	}
 	
+	/* 휴면계정으로 전환 */
+	@Override
+	public int updateUserDisactivate() {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(UserMapper.class).updateUserDisactivate();
+	}
+	
+	/* 활동계정으로 전환 */
+	@Override
+	public int updateUserActivate(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(UserMapper.class).updateUserActivate(map);
+	}
+	
 }
 	
 

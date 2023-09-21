@@ -77,4 +77,10 @@ public interface UserMapper {
     
     /* 사용자 접속 위치 정보 업데이트*/
     void getAddressFromCoordinate(@Param("loginId") String loginId, @Param("address") String address);
+    
+    /* 휴면계정으로 전환 */
+    int updateUserDisactivate();
+    
+    /* 활동계정으로 전환 */
+    int updateUserActivate(Map<String, Object> map);
 }

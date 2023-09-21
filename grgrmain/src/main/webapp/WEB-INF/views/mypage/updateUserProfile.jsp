@@ -80,7 +80,7 @@
 											</h2>
 										</div>
 
-										<form id="updateForm" action="/mypage/updateUserProfile"
+										<form id="updateForm" action="<c:url value="/mypage/updateUserProfile"/>"
 											method="post">
 											<div class="widget text-left p-y-15">
 												<h6 class="widget-title mb-25">나의 정보</h6>
