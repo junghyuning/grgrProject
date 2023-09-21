@@ -75,4 +75,6 @@ public interface UserService {
 
 	int updateKakaoUser(UserVO userVO);
 
+	/* 휴면계정 활성화 */
+	int activateUser(int loginUno, String email);
 }

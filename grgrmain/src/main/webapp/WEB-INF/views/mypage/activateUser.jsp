@@ -24,7 +24,7 @@
 		class="d-flex justify-content-center align-items-center vh-100">
 		<div
 			class="d-flex flex-column justify-content-center align-items-center vh-100">
-			<div class="container relative mb-100">
+			<div class="container relative mb-50 mt-50">
 				<h1 class="page-title text-center">휴면 계정 활성화</h1>
 			</div>
 
@@ -47,15 +47,16 @@
 											class="secondary-font fs-18">회원가입시 등록한 이메일을 입력해주세요</span>
 									</p>
 									<div class="d-block mt-30">
+										<span id="email-error-message" class="text-danger mb-10"
+											style="display: none;"></span>
 										<div class="input-group input-w-overlap-btn">
-											<input type="text" class="form-control pill"
+											<input id ="inputEmail" type="text" class="form-control pill"
 												placeholder="&#xf0e0; Email"
-												style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400;" />
+												style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400;"/>
 											<span class="input-group-btn">
 												<button
 													id = "chkEmailAccount"
 													class="btn btn-sm btn-primary lh-0 overlapping-btn big-btn pill text-danger lead"
-													data-bs-toggle="modal" data-bs-target=".default-modal"
 													type="button">
 													<i class="fas fa-envelope-open mr-5 text-danger regular"></i>
 													이메일 확인
@@ -83,19 +84,18 @@
 		<div class="modal-dialog modal-dialog-centered text-center">
 			<div class="modal-content ">
 				<div class="modal-header justify-content-center">
-					<!-- 계정활성화 성공여부 - 타이틀 -->
-					<h6 class="modal-title text-success">
-						<i class="fas fa-unlock"></i>&nbsp;계정 활성화!
+					<h6 id ="activateUserHeader" class="modal-title text-success">
+					<!-- 계정활성화 성공여부 - 타이틀 -->						
 					</h6>
 				</div>
 				<!-- / modal-header -->
-				<div class="modal-body">
+				<div id ="activateUserBody" class="modal-body">
 					<!-- 계정활성화 성공여부 - 문장 -->
-					<p>이메일이 일치하여 계정을 활성화 하였습니다.</p>
+					
 				</div>
 				<!-- / modal-body -->
-				<div class="modal-footer justify-content-center">
-					<button type="button" class="btn btn-sm btn-info"
+				<div id ="activateUserFooter" class="modal-footer justify-content-center">
+					<button type="button" id ="activateUserFooterBtn" class="btn btn-sm btn-info"
 						data-bs-dismiss="modal">확인</button>
 				</div>
 				<!-- / modal-footer -->
@@ -108,6 +108,59 @@
 
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 	<script>
+		let loginUno = ${loginUno};
+		$("#chkEmailAccount").click(function(){
+		let email = $("#inputEmail").val().trim();
+		let emailErrorMessage;
+		console.log("email"+email);
+		console.log("emailErrorMessage"+emailErrorMessage);
+		if(email == ''){
+			console.log("email"+email);
+			emailErrorMessage = "email을 입력해 주세요";
+		}
+		if(emailErrorMessage != null && emailErrorMessage!=''){
+			document.getElementById('email-error-message').textContent = emailErrorMessage;
+            $('#email-error-message').show();
+			emailErrorMessage = "email을 입력해 주세요";
+            console.log('email error show');
+            setTimeout(function() {
+                $('#email-error-message').fadeOut('slow');
+            }, 5000);
+            return;
+		}
+		console.log(email);
+			$.ajax({
+				type: 'post',
+				url: "<c:url value="/mypage/activateUser"/>/"+loginUno,
+				data:{
+				        "email": email
+				},
+				success : function (data) {
+					if(data == "denied"){
+						document.getElementById('activateUserHeader').classList.replace('text-success', 'text-danger');
+						document.getElementById('activateUserHeader').innerHTML = '<i class="fas fa-unlock"></i>&nbsp;계정 활성화 실패';
+						document.getElementById('activateUserBody').innerHTML = '<p>이메일이 일치하지않아 계정을 활성화 하지못했습니다.</p>';
+						document.getElementById('activateUserFooterBtn').classList.replace('btn-info','btn-danger');
+						$(".default-modal").modal('show');
+						$("#inputEmail").val('');
+					} else {
+						document.getElementById('activateUserHeader').classList.replace('text-danger', 'text-success');
+						document.getElementById('activateUserHeader').innerHTML = '<i class="fas fa-lock"></i>&nbsp;계정 활성화 완료';
+						document.getElementById('activateUserBody').innerHTML = '<p>이메일이 일치하여 계정을 활성화 하였습니다.</p>';
+						document.getElementById('activateUserFooterBtn').classList.replace('btn-danger','btn-info');
+						$(".default-modal").modal('show');
+						$("#activateUserFooterBtn").click(function() {
+							window.location.href = '<c:url value="/main"/>';
+						});
+						
+					}
+				},
+				error : function(xhr){
+					alert(xhr.responseText);
+				}
+			});
+			
+		});
 		
 	</script>
 
