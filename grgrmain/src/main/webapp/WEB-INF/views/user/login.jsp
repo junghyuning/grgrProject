@@ -26,7 +26,7 @@
 <link href="${pageContext.request.contextPath}/assets/css/animate.css"
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet"> 
+	rel="stylesheet">
 <!-- Fonts -->
 <link
 	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
@@ -41,12 +41,15 @@
 	rel="stylesheet">
 <style>
 .socialLogin img:hover {
-    cursor: pointer;
-    filter: brightness(1.45); 
-    transition: filter 0.3s ease-in-out; 
+	cursor: pointer;
+	filter: brightness(1.45);
+	transition: filter 0.3s ease-in-out;
 }
 
-
+.socialIcon {
+	width: auto; /* 원하는 너비의 백분율로 설정 */
+	height: 30;
+}
 </style>
 </head>
 
@@ -131,16 +134,19 @@
 								</form>
 								<!-- / login-form -->
 								<div class="pt-60 text-center">
-    <p style="margin-bottom: 4px;">간편 로그인</p>
-    <a class="socialLogin">
-        <img class="socialIcon" src="<c:url value="/images/naver_login.png"/>" alt="네이버 로그인"
-             onclick="location.href='<c:url value="/oauth/naver"/>';">
-        <img class="socialIcon" src="<c:url value="/images/kakaoBtn.png"/>"
-             alt="카카오 로그인" onclick="location.href='<c:url value="/oauth/kakao"/>';">
-        <img class="socialIcon" src="${pageContext.request.contextPath}/images/google_OAuth_btn.png"
-             alt="구글 로그인" onclick="location.href='<c:url value="/oauth/google"/>';">
-    </a>
-</div>
+									<p style="margin-bottom: 4px;">간편 로그인</p>
+									<a class="socialLogin socialIcon"> <img class="socialIcon"
+										src="<c:url value="${pageContext.request.contextPath}/images/naver_login.png"/>" alt="네이버 로그인"
+										onclick="location.href='<c:url value="/oauth/naver"/>';">
+										<img class="socialIcon"
+										src="<c:url value="${pageContext.request.contextPath}/images/kakaoBtn.png"/>" alt="카카오 로그인"
+										onclick="location.href='<c:url value="/oauth/kakao"/>';">
+										<img class="socialIcon"
+										src="${pageContext.request.contextPath}/images/google_OAuth_btn.png"
+										alt="구글 로그인"
+										onclick="location.href='<c:url value="/oauth/google"/>';">
+									</a>
+								</div>
 
 							</div>
 						</div>
