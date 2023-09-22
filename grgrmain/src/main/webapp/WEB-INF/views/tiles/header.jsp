@@ -212,7 +212,7 @@
 						<li class="nav-item"
 							style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"${loginNickname }"님의
 							위치는<br> "${loginLocation}" 입니다.
->>>>>>> branch 'main' of https://github.com/SxnnyJ/grgrProject.git
+
 						</li>
 						<li class="nav-item ml-30"><a class="nav-link">
 								<button class="update-location-button"
