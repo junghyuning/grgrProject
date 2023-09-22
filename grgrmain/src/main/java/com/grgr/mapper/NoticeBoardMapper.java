@@ -17,5 +17,6 @@ public interface NoticeBoardMapper {
 	Integer selectPrevNoticeBno(Map<String, Object> map);
 	Integer selectNextNoticeBno(Map<String, Object> map);
 	List<NoticeBoard> selectNoticeBoardList(Map<String, Object> map);
+	NoticeBoard selectLatestNotice();
 	
 }

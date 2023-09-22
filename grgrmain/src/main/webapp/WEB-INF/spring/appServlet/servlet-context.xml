@@ -46,6 +46,9 @@
 	<beans:bean
 		class="com.grgr.interceptor.AdminAuthInterceptor"
 		id="adminAuthInterceptor" />
+	<beans:bean
+		class="com.grgr.interceptor.DeActiveAuthInterceptor"
+		id="deActiveAuthInterceptor" />
 
 	<!-- 로그인 인터셉터 -->
 	<interceptors>
@@ -79,8 +82,7 @@
 			<beans:ref bean="adminAuthInterceptor" />
 		</interceptor>
 		<interceptor>
-		
-			<mapping path="/user/login" />
+			<mapping path="/mypage/**"/>
 			<mapping path="/freeboard/**" />
 			<mapping path="/freereport/**" />
 			<mapping path="/freecomment/**" />
@@ -89,6 +91,7 @@
 			<mapping path="/inforeport/**" />
 			<mapping path="/infocomment/**" />
 			<mapping path="/infolike/**" />
+			<exclude-mapping path="/mypage/activateUser/**"/>
 			<beans:ref bean="deActiveAuthInterceptor"/>
 		</interceptor>
 	</interceptors>

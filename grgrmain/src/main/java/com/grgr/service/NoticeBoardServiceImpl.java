@@ -118,4 +118,10 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 		}
 		return searchMap;
 	}
+
+	@Override
+	// 최신 공지글 조회
+    public NoticeBoard getLatestNotice() {
+        return noticeBoardDAO.selectLatestNotice();
+    }
 }
