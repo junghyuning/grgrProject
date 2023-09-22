@@ -200,8 +200,8 @@
 														<a
 															href="<c:url value='/productboard/get${pager.searchCondition.getQueryString()}&productId=${productBoardList.productId}'/>"
 															class="btn btn-sm btn-outline-primary mt-15"> <i
-															class="fas fa-shopping-cart mr-5"></i> <span>Buy
-																Now</span>
+															class="fas fa-shopping-cart mr-5"></i> <span>상품 조회
+													</span>
 														</a>
 													</div>
 													<!-- / product-card-footer -->
