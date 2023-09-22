@@ -102,7 +102,7 @@
 		<h3 class="section-title">자유게시판</h3>
 	</div>
 	<!-- / section-title-area -->
-	<div class="container">
+	<div class="container" onclick="location.href='<c:url value="/freeboard/list"/>'">
 		<!-- posts carousel -->
 		<div class="posts-carousel owl-carousel owl-theme">
 			<c:forEach var="free" items="${newFreeList}">
@@ -146,7 +146,7 @@
 		 
 	</div>
 	<!-- / section-title-area -->
-	<div class="container">
+	<div class="container" onclick="location.href='<c:url value="/infoboard/list"/>'">
 		<!-- posts carousel -->
 		<div class="posts-carousel owl-carousel owl-theme">
 			<c:forEach var="info" items="${newInfoList}">
@@ -199,7 +199,7 @@
 		<h3 class="section-title">판매게시판</h3>
 	</div>
 	<!-- / section-title-area -->
-	<div class="container">
+	<div class="container" onclick="location.href='<c:url value="/productboard/list"/>'">
 		<!-- posts carousel -->
 		<div class="posts-carousel owl-carousel owl-theme">
 			<c:forEach var="sales" items="${newSalesList}">
@@ -248,7 +248,6 @@ $(document).ready(function () {
         items: 1, // 보여질 슬라이드 수
         loop: true, // 무한 루프
         autoplay: true, // 자동 재생
-        // 다른 설정 옵션들...
     });
 });
 

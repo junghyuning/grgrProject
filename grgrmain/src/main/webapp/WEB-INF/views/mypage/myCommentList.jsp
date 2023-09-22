@@ -197,34 +197,6 @@
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 
-	<!-- core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-	<!-- / core JavaScript -->
-
-	<!-- preloader -->
-	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
-	<!-- / preloader -->
-
-	<!-- smooth scroll -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.easing.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/smooth-scroll.js"></script>
-	<!-- / smooth scroll -->
-
-	<!-- hide nav -->
-	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
-	<!-- / hide nav -->
-
-	<!-- portfolio script -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
-	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
 		$(document).ready(
 				function() {
@@ -262,34 +234,7 @@
 						}
 					});
 
-					if (Modernizr.touch) {
-						// show the close overlay button
-						$('.close-overlay').removeClass('hidden');
-						// handle the adding of hover class when clicked
-						$('.img').click(function(e) {
-							if (!$(this).hasClass('hover')) {
-								$(this).addClass('hover');
-							}
-						});
-						// handle the closing of the overlay
-						$('.close-overlay').click(function(e) {
-							e.preventDefault();
-							e.stopPropagation();
-							if ($(this).closest('.img').hasClass('hover')) {
-								$(this).closest('.img').removeClass('hover');
-							}
-						});
-					} else {
-						// handle the mouseenter functionality
-						$('.img').mouseenter(function() {
-							$(this).addClass('hover');
-						})
-						// handle the mouseleave functionality
-						.mouseleave(function() {
-							$(this).removeClass('hover');
-						});
-					}
-				});
+
 	</script>
 	<!-- / portfolio script -->
 </body>

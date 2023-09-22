@@ -94,8 +94,6 @@
 				<!-- 폼 제출 영역 -->
 				<form action="write" method="post" class="validation-inner"
 					id="form-validation" novalidate="novalidate">
-					<!-- <input type="hidden" name="uno" value="loginUno" /><input type="hidden" name="infoUpdateUno" value="loginUno" /><input type="hidden"
-						name="infoLoc" value="loginLoc" />  -->
 					<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
 					<input type="hidden" name="loginUserStatus" value="${sessionScope.loginUserStatus}" />
 					<input type="hidden" name="noticeUpdateUno" value="${sessionScope.loginUno}" />

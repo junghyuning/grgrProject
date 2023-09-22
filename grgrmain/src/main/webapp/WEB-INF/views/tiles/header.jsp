@@ -79,123 +79,192 @@
 }
 
 .loc {
-	/* 	display: flex;
-	text-align: center;
- */
-	width: 60px;
-	height: 60px;
+	width: 30px;
+	height: 30px;
 }
 
-.nav-item {
-	display: flex;
-	item-align: center;
+.nav-itm {
+	gap: 10px;
 }
 </style>
 </head>
 <body style="background-color: white">
-	<div style="background-color: #E2E6FC;">
-		<nav
-			class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 d-flex justify-content-between">
-			<a href="<c:url value='/main' />" class="navbar"> <img
-				class=" ml-10 mt-5 w-50"
-				src="${pageContext.request.contextPath}/images/grgr_logo.png"
-				alt="메인로고">
-			</a>
+	<div class="bg-light">
 
-			<div class="collapse navbar-collapse" id="navbar-toggle1">
-				<ul class="nav-item d-flex justify-content-between">
-					<li class="nav-item loc d-flex align-items-center "><a
-						href="<c:url value="/info/matzib"/>"><img class="mb-10"
-							alt="맛집정보" src="<c:url value="/images/restaurant.png"/>" />맛집</a></li>
-					<li class="nav-item loc d-flex align-items-center"><a
-						href="<c:url value="/info/medical"/>"><img class="mb-10"
-							alt="병원정보" src="<c:url value="/images/hospital.png"/>" />병원</a></li>
+
+		<div class="modal fade modal-left modal-left-example modal-register"
+			tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="side-modal-wrapper">
+						<div class="vertical-align">
+							<div class="table-cell">
+								<div class="modal-body">
+									<ul>
+										<hr>
+										<p>▶내 정보</p>
+										<hr>
+										<li><a href="<c:url value="/mypage/userProfile"/>">-
+												마이 페이지</a></li>
+										<li><a href="<c:url value="/cart/list"/>">- 장바구니</a></li>
+										<hr>
+										<p>▶주변 정보</p>
+										<hr>
+										<li><a href="<c:url value="/info/matzib"/>">- 맛집 정보</a></li>
+										<li><a href="<c:url value="/info/medical"/>">- 의료 정보</a></li>
+										<hr width:20px>
+										<p>▶게시판</p>
+										<hr>
+										<li><a href="<c:url value="/noticeboard/list"/>">-
+												공지사항</a></li>
+										<li><a href="<c:url value="/infoboard/list"/>">- 정보공유</a></li>
+										<li><a href="<c:url value="/productboard/list"/>">-
+												판매</a></li>
+										<li><a href="<c:url value="/freeboard/list"/>">- 자유</a></li>
+										<li><a href="<c:url value="/qnaboard/list"/>">- 문의</a></li>
+									</ul>
+								</div>
+								<!-- / modal-body -->
+							</div>
+							<!-- / table-cell -->
+						</div>
+						<!-- / vertical-align -->
+					</div>
+					<!-- / side-modal-wrapper -->
+					<div class="modal-footer text-left">
+						<span class="fs-14">Already have an account? <a href="#x"
+							class="fs-14">Login Now</a></span>
+					</div>
+					<!-- / modal-footer -->
+				</div>
+				<!-- / modal-content -->
+			</div>
+			<!-- / modal-dialog -->
+		</div>
+
+		<nav
+			class="navbar navbar-expand-lg navbar-light custom-menu split-menu bg-light">
+
+			<!-- 아이템 컨테이너 -->
+
+			<!-- ---------------------------------------------------------------------------------------------------------- -->
+			<div class="collapse navbar-collapse pt-30 pb-30 "
+				id="navbar-toggle-split-left">
+				<button id="showModalBtn" class="btn btn-icon btn-danger">
+					<i class="fas fa-indent fs-14"></i>
+				</button>
+				<ul class="navbar-nav align-items-center" style="width: 500px;">
+
+					<li class="nav-item w-50 mr-30"><a
+						href="<c:url value="/info/matzib"/>"> <img class="w-40 mr-10"
+							alt="맛집정보" src="<c:url value="/images/restaurant.png"/>" /><span>맛집</span>
+					</a></li>
+					<li class="nav-item w-50 mr-30"><a
+						href="<c:url value="/info/medical"/>"> <img class="w-40 mr-10"
+							alt="병원정보" src="<c:url value="/images/hospital.png"/>" /><span>병원</span></a>
+					</li>
+					<li class="nav-item w-100">
+						<button class="update-location-button btn btn-primary"
+							style="padding: 10px;" onclick="updateLocation()">
+							<i class="fas fa-map-marker-alt fs-30 va-middle mr-10"></i> <span
+								class="va-middle" style="width: 100px !important;">나의 위치
+								인증</span>
+						</button>
+					</li>
 				</ul>
-				<!-- / navbar-nav -->
+
 			</div>
 
-			<!-- / input-group -->
-			<c:if test="${loginUno==null}">
-			<div>
-					<h2>
-						<a
-							href="<c:url value='/noticeboard/read?noticeBno=${latestNoticeBno}'/>"
-							style="text-decoration: underline;"> <i
-							class="fas fa-bullhorn"></i> ${latestNoticeTitle}
-						</a>
-					</h2>
-				</div>
-				<ul class="navbar-button p-30 m-0 d-flex justify-content-between">
-					<li class="nav-item"><a href="<c:url value="/user/login"/>"
-						class="btn btn-sm btn-primary pill"> <i
-							class="fas fa-rotate-90 fs-12 va-middle mr-5"></i> <span>로그인</span>
-					</a></li>
-					<li class="nav-item"><a href="<c:url value="/user/register"/>"
-						class="btn btn-sm btn-primary pill"> <i
-							class="fas fa-rotate-90 fs-12 va-middle mr-5"></i> <span>회원가입</span>
-					</a></li>
-				</ul>
-			</c:if>
-			<c:if test="${loginUno!=null && loginUserStatus!=1 }">
-
-				<div
-					class="collapse navbar-collapse m-0 d-flex justify-content-between"
-					id="navbar-toggle1">
-					<ul class="navbar-nav align-items-center">
-						<li class="nav-item"
-							style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"${loginNickname }"님의
-							위치는<br> "${loginLocation}" 입니다.
-						</li>
-						<li class="nav-item ml-30"><a class="nav-link">
-								<button class="update-location-button"
-									onclick="updateLocation()">Update Location</button>
-						</a></li>
-					</ul>
-					<!-- / navbar-nav -->
-
-				</div>
-				<div>
-					<h2>
-						<a
-							href="<c:url value='/noticeboard/read?noticeBno=${latestNoticeBno}'/>"
-							style="text-decoration: underline;"> <i
-							class="fas fa-bullhorn"></i> ${latestNoticeTitle}
-						</a>
-					</h2>
-				</div>
-				<ul class="navbar-button p-0 m-0 m-0 d-flex justify-content-between">
-
-					<li class="nav-item"><a
-						href="<c:url value="/mypage/userProfile"/>"
-						class="btn btn-sm btn-primary pill"> <i
-							class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>마이페이지</span>
-					</a></li>
-					<li class="nav-item"><a href="<c:url value="/cart/list"/>"
-						class="btn btn-sm btn-primary pill"> <i
-							class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>장바구니</span>
-					</a></li>
-					<li class="nav-item"><a href="<c:url value="/user/logout"/>"
-						class="btn btn-sm btn-primary pill"> <i
-							class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>로그아웃</span>
-					</a></li>
-				</ul>
-			</c:if>
-			<c:if test="${loginUno!=null && loginUserStatus==1 }">
-
-				<span>관리자님, 환영합니다.</span>
-
-				<ul class="navbar-button p-0 m-0 m-0 d-flex justify-content-between">
-					<li class="nav-item"><a
-						href="<c:url value="/admin/user-list"/>"
-						class="btn btn-sm btn-primary pill"> <i
-							class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>관리자페이지</span></a></li>
-					<li class="nav-item"><a href="<c:url value="/user/logout"/>"
-						class="btn btn-sm btn-primary pill"> <i
-							class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>로그아웃</span>
-					</a></li>
-				</ul>
-			</c:if>
-
+			<!-- / navbar-nav -->
 			<!-- / navbar-collapse -->
+
+			<c:if test="${loginUno==null}">
+				<a class="navbar-brand m-auto" href="<c:url value='/main' />"><img
+					src="${pageContext.request.contextPath}/images/grgr_favicon.png"
+					alt="메인로고"></a>
+			</c:if>
+
+			<c:if test="${loginUno!=null}">
+				<div class="collapse navbar-collapse p-30">
+					<ul class="navbar-nav align-items-center" style="width: 800px;">
+
+						<c:if test="${loginUno!=null && loginUserStatus!=1 }">
+							<li class="nav-item w-120 mr-30"
+								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"${loginNickname }"님의
+								위치는</li>
+							<li class="nav-item w-50 mr-30"><a
+								class="navbar-brand m-auto" href="<c:url value='/main' />"><img
+									src="${pageContext.request.contextPath}/images/grgr_favicon.png"
+									alt="메인로고"></a></li>
+							<li class="nav-item w-120"
+								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"${loginLocation}" 입니다.</li>
+						</c:if>
+						<!-- 관리자 페이지 -->
+						<c:if test="${loginUno!=null && loginUserStatus==1 }">
+							<li class="nav-item w-120 mr-30"
+								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
+							<li class="nav-item w-50 mr-30"><a class="navbar-brand"
+								href="<c:url value='/main' />"><img
+									src="${pageContext.request.contextPath}/images/grgr_favicon.png"
+									alt="메인로고"></a></li>
+							<li class="nav-item w-120"
+								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"관리자"님
+								환영합니다.</li>
+						</c:if>
+					</ul>
+
+				</div>
+			</c:if>
+
+
+			<div class="collapse navbar-collapse pr-30"
+				id="navbar-toggle-split-right">
+				<!-- 비로그인 사용자 -->
+				<c:if test="${loginUno==null}">
+					<ul class="navbar-nav ml-auto d-flex align-items-center"
+						style="width: 500px; justify-content: flex-end;">
+						<li class="nav-item w-50 mr-30">
+							<!-- href="<c:url value="/info/matzib"/>" --> <span></span>
+						</li>
+						<li class="nav-item w-50 mr-30">
+							<!-- href="<c:url value="/info/matzib"/>" --> <span></span>
+						</li>
+						<li class="nav-item w-50 mr-30"><a
+							href="<c:url value="/user/login"/>"><span>로그인</span></a></li>
+						<li class="nav-item w-50 mr-30"><a
+							href="<c:url value="/user/register"/>"><span>회원가입</span></a></li>
+					</ul>
+				</c:if>
+				<!-- 로그인 사용자 -->
+				<c:if test="${loginUno!=null && loginUserStatus!=1 }">
+					<ul class="navbar-nav ml-auto d-flex align-items-center"
+						style="width: 500px; justify-content: flex-end;">
+						<li class="nav-item w-50 mr-30"><span></span></li>
+						<li class="nav-item w-50 mr-30"><a
+							href="<c:url value="/mypage/userProfile"/>"><span>마이페이지</span></a></li>
+						<li class="nav-item w-50 mr-30"><a
+							href="<c:url value="/cart/list"/>"><span>장바구니</span></a></li>
+						<li class="nav-item w-50 mr-30"><a
+							href="<c:url value="/user/logout"/>"><span>로그아웃</span></i></a></li>
+					</ul>
+				</c:if>
+
+				<!-- 관리자 사용자 -->
+				<c:if test="${loginUno!=null && loginUserStatus==1 }">
+					<ul class="navbar-nav ml-auto d-flex align-items-center"
+						style="width: 500px; justify-content: flex-end;">
+						<li class="nav-item w-50 mr-30"><span></span></li>
+						<li class="nav-item w-50 mr-30"><span></span></li>
+						<li class="nav-item w-50 mr-30"><a
+							href="<c:url value="/admin/user-list"/>"><span>관리자페이지</span></a></li>
+						<li class="nav-item w-50 mr-30"><a
+							href="<c:url value="/user/logout"/>"><span>로그아웃</span></a></li>
+					</ul>
+				</c:if>
+				<!-- / navbar-nav -->
+			</div>
+			<!-- / navbar-collapse -->
+
 		</nav>
+		<!-- / split-navbar -->
 	</div>

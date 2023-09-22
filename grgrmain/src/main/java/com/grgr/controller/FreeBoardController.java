@@ -33,15 +33,15 @@ import lombok.extern.slf4j.Slf4j;
 public class FreeBoardController {
 	private final FreeBoardService freeBoardService;
 
-
 	// 글목록 (전체 & 검색 조건)
 	@RequestMapping("/list")
 	public String list(SearchCondition searchCondition, HttpSession session, Model model) {
-		searchCondition.setLoginLocation(extractLoginLocation(session));
 
+		if (session.getAttribute("loginUno") != null) {
+			searchCondition.setLoginLocation(extractLoginLocation(session));
+		}
 		Map<String, Object> result = freeBoardService.getFreeBoardList(searchCondition);
-	
-		
+
 		model.addAttribute("freeBoardList", result.get("freeBoardList"));
 		model.addAttribute("pager", result.get("pager"));
 		model.addAttribute("fileList", result.get("fileList"));
@@ -53,9 +53,10 @@ public class FreeBoardController {
 	public String freeBoardRead(@RequestParam int freeBno, SearchCondition searchCondition, HttpSession session,
 			Model model) {
 
-		searchCondition.setLoginLocation(extractLoginLocation(session));
-		Integer loginUno = (Integer)session.getAttribute("loginUno");
-		if(loginUno==null) loginUno = -1;
+		searchCondition.setLoginLocation(extractLoginLocation(session)); //검색조건에 위치정보 추가
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
+		if (loginUno == null)
+			loginUno = -1;
 		Map<String, Object> freeBoardWithFiles = freeBoardService.getFreeBoard(loginUno, freeBno);
 		Map<String, Object> nextAndPrev = freeBoardService.prevAndNextFreeBno(searchCondition, freeBno);
 		model.addAllAttributes(freeBoardWithFiles);
@@ -135,9 +136,10 @@ public class FreeBoardController {
 		return redirectUri;
 
 	}
+
 	// 세션의 위치정보에서 <구>에 대한 정보만 추출하는 메서드
 	private String extractLoginLocation(HttpSession session) {
-		if ((Integer)session.getAttribute("loginUserStatus") != 1) {
+		if ((Integer) session.getAttribute("loginUserStatus") != 1) {
 			String loginLocation = (String) session.getAttribute("loginLocation");
 			if (loginLocation != null && !loginLocation.trim().isEmpty()) {
 				return loginLocation.split(",")[1].trim();

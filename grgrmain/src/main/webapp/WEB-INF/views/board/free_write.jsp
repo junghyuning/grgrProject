@@ -52,7 +52,7 @@
 					<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
 					<input type="hidden" name="freeUpdateUno"
 						value="${sessionScope.loginUno}" /> <input type="hidden"
-						name="freeLoc" value="${loginLocation}" />
+						name="freeLoc" value="${searchCondition.loginLocation}" />
 					<div class="row">
 
 						<div class="col-md-12">

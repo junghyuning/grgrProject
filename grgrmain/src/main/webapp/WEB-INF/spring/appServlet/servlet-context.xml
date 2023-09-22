@@ -91,6 +91,7 @@
 			<mapping path="/inforeport/**" />
 			<mapping path="/infocomment/**" />
 			<mapping path="/infolike/**" />
+			<exclude-mapping path="/freeboard/list"/>
 			<exclude-mapping path="/mypage/activateUser/**"/>
 			<beans:ref bean="deActiveAuthInterceptor"/>
 		</interceptor>
