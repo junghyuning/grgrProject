@@ -43,13 +43,6 @@
 <link
 	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
 	rel="stylesheet" type="text/css">
-	
-<link
-	href="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"
-	rel="stylesheet" type="text/javaScript">
-<link
-	href="${pageContext.request.contextPath}/index.html"
-	rel="stylesheet">	
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style type="text/css">
@@ -105,15 +98,13 @@
     background-color: #ffffff;
     z-index: 1000;
 }
-
 </style>
 </head>
 <body style="background-color: white">
-<<<<<<< HEAD
-		<div class="fix_Header" style="background-color: #E2E6FC;">
-			<nav
-				class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 d-flex justify-content-between">
-				<button id="showModalBtn" class="btn btn-sm btn-danger mr-5 mb-5"><i class="fas fa-indent mr-5 fs-14"></i> </button>
+	<div style="background-color: #E2E6FC;">
+		<nav
+			class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 d-flex justify-content-between">
+			<button id="showModalBtn" class="btn btn-sm btn-danger mr-5 mb-5"><i class="fas fa-indent mr-5 fs-14"></i> </button>
 				
 				<div class="modal fade modal-left modal-left-example modal-register" tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
                             <div class="modal-dialog modal-dialog-centered">
@@ -153,25 +144,6 @@
                             </div><!-- / modal-dialog -->
                         </div>
                         
-                        
-				<a href="<c:url value='/main' />" class="navbar"> <img
-					class=" ml-10 mt-5 w-50"
-					src="${pageContext.request.contextPath}/images/grgr_logo.png"
-					alt="메인로고">
-				</a>
-				
-				<div class="collapse navbar-collapse" id="navbar-toggle1">
-					<ul class="nav-item d-flex justify-content-between">
-						<li class="nav-item loc d-flex align-items-center "><a
-							href="<c:url value="/info/matzib"/>"><img class="mb-10"
-								alt="맛집정보" src="<c:url value="/images/restaurant.png"/>" />맛집</a></li>
-						<li class="nav-item loc d-flex align-items-center"><a
-							href="<c:url value="/info/medical"/>"><img class="mb-10"
-								alt="병원정보" src="<c:url value="/images/hospital.png"/>" />병원</a>
-=======
-	<div style="background-color: #E2E6FC;">
-		<nav
-			class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 d-flex justify-content-between">
 			<a href="<c:url value='/main' />" class="navbar"> <img
 				class=" ml-10 mt-5 w-50"
 				src="${pageContext.request.contextPath}/images/grgr_logo.png"
@@ -212,7 +184,6 @@
 						<li class="nav-item"
 							style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"${loginNickname }"님의
 							위치는<br> "${loginLocation}" 입니다.
-
 						</li>
 						<li class="nav-item ml-30"><a class="nav-link">
 								<button class="update-location-button"
@@ -264,25 +235,6 @@
 				</ul>
 			</c:if>
 
-<<<<<<< HEAD
-					<span>관리자님, 환영합니다.</span>
-
-					<ul class="navbar-button p-0 m-0 m-0 d-flex justify-content-between">
-						<li class="nav-item"><a	href="<c:url value="/admin/user-list"/>" class="btn btn-sm btn-primary pill"> 
-						<i class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>관리자페이지</span></a></li>
-						<li class="nav-item"><a href="<c:url value="/user/logout"/>"
-							class="btn btn-sm btn-primary pill"> <i
-								class="fas fa-rotate-90 fs-12 va-middle mr-5"></i><span>로그아웃</span>
-						</a></li>
-					</ul>
-				</c:if>
-
-				<!-- / navbar-collapse -->
-			</nav>
-		</div>
-		
-=======
 			<!-- / navbar-collapse -->
 		</nav>
 	</div>
->>>>>>> branch 'main' of https://github.com/SxnnyJ/grgrProject.git
