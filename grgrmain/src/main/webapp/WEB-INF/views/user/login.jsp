@@ -136,13 +136,13 @@
 								<div class="pt-60 text-center">
 									<p style="margin-bottom: 4px;">간편 로그인</p>
 									<a class="socialLogin socialIcon"> <img class="socialIcon"
-										src="<c:url value="${pageContext.request.contextPath}/images/naver_login.png"/>" alt="네이버 로그인"
+										src="<c:url value="/images/naver_login.png"/>" alt="네이버 로그인"
 										onclick="location.href='<c:url value="/oauth/naver"/>';">
 										<img class="socialIcon"
-										src="<c:url value="${pageContext.request.contextPath}/images/kakaoBtn.png"/>" alt="카카오 로그인"
+										src="<c:url value="/images/kakaoBtn.png"/>" alt="카카오 로그인"
 										onclick="location.href='<c:url value="/oauth/kakao"/>';">
 										<img class="socialIcon"
-										src="${pageContext.request.contextPath}/images/google_OAuth_btn.png"
+										src="<c:url value="/images/google_OAuth_btn.png"/>"
 										alt="구글 로그인"
 										onclick="location.href='<c:url value="/oauth/google"/>';">
 									</a>

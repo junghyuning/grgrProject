@@ -34,6 +34,11 @@
 <body>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
 	<!-- 배너 -->
 	<c:set var="boardName" value="정보공유게시판" />
 	<header class="xl bg-img bg-fixed"
@@ -77,7 +82,7 @@
 						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="crew">모임 / 구인</a></li>
 					<li><a
 						href="<c:url value="/infoboard/list?keyword=event"/>"
-						class="btn btn-outline-primary m-y-10 mr-10" data-keyword="event">이벤트</a></li>
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="event">이벤트</a></li>
 				</ul>
 
 
@@ -273,6 +278,17 @@
 	<script>
 		$(document).ready(function() {
 					var keywordInput = $('input[name="searchKeyword"]');
+					const url = new URLSearchParams(window.location.search);
+					var keyword = url.get('keyword');
+					console.log("keyword :"+keyword)
+					
+					if(keyword!= null && keyword != '' ){
+						console.log("if keyword :" + keyword)
+						const pressedBtn = document.querySelector('.keyword-button[data-keyword='+keyword+']');
+						console.log("pressed :" + pressedBtn)
+						pressedBtn.classList.replace('btn-outline-primary', 'btn-primary-gradient');
+						
+					}
 				  
 
 					

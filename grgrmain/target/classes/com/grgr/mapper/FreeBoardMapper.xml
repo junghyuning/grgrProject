@@ -70,13 +70,21 @@
 
 	<!-- n번 게시글 -->
 	<select id="selectFreeBoard" resultType="FreeBoard">
-		SELECT FREE_BNO, UNO,
-		 FREE_TITLE, FREE_CONTENT, FREE_LOC,
-		FREE_VIEW_CNT,
-		FREE_REPORT_CNT,
-		FREE_BLINDSTATE, FREE_REGDATE, FREE_UPDATE,
-		FREE_UPDATE_UNO FROM FREE_BOARD
-		WHERE FREE_BNO=#{freeBno}
+		SELECT
+		F.FREE_BNO, F.UNO,
+		F.FREE_TITLE, F.FREE_CONTENT, F.FREE_LOC,
+		F.FREE_VIEW_CNT,
+		F.FREE_REPORT_CNT,
+		F.FREE_BLINDSTATE, F.FREE_REGDATE,
+		F.FREE_UPDATE,
+		F.FREE_UPDATE_UNO,
+		U.NICKNAME
+		FROM
+		FREE_BOARD F
+		JOIN
+		USERINFO U ON F.UNO = U.UNO
+		WHERE
+		F.FREE_BNO=#{infoBno}
 	</select>
 
 
@@ -145,7 +153,7 @@
 
 
 
-	<!-- 이미지파일 업로드 : INFO_FILE_UPDATE_UNO 는 로그인 기능 완성시 추가할 것 -->
+	<!-- 이미지파일 업로드 : FREE_FILE_UPDATE_UNO 는 로그인 기능 완성시 추가할 것 -->
 	<insert id="insertFreeFile">
 		INSERT INTO FREE_FILE (FREE_FILE_NO, FREE_BNO,
 		FREE_FILE_ORIGIN, FREE_FILE_UPLOAD)

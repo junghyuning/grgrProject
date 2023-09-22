@@ -6,6 +6,11 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 <!-- 배너 -->
+<div id="preloader">
+	<div class="preloader">
+		<span></span> <span></span>
+	</div>
+</div>
 <c:set var="boardName" value="자유게시판" />
 <header class="xl bg-img bg-fixed"
 	style="background-image: url(${pageContext.request.contextPath}/images/free2.jpg); background-size: cover;">

@@ -81,9 +81,10 @@
 .loc {
 	/* 	display: flex;
 	text-align: center;
- */
+
 	width: 60px;
 	height: 60px;
+
 }
 
 .nav-item {
