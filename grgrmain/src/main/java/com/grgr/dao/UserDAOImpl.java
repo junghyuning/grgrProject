@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class UserDAOImpl implements UserDAO {
-	
+
 	private final UserMapper userMapper;
 	private final String NAMESPACE = "com.grgr.mapper.UserMapper.";
 	private final SqlSession sqlSession;
@@ -91,61 +91,59 @@ public class UserDAOImpl implements UserDAO {
 	public int selectWriteCount(int uno) {
 		return sqlSession.getMapper(UserMapper.class).selectWriteCount(uno);
 	}
-	
-	/*관리자 - 회원보기*/
+
+	/* 관리자 - 회원보기 */
 	@Override
 	public List<UserVO> getAllUsers(Map<String, Object> map) {
 		return sqlSession.getMapper(UserMapper.class).getAllUsers(map);
 	}
 
-	/* 전체 회원 수*/
+	/* 전체 회원 수 */
 	@Override
 	public int selectUserCount() {
 		return sqlSession.getMapper(UserMapper.class).selectUserCount();
 	}
-	
-	/*관리자 - 회원 정보 수정*/
+
+	/* 관리자 - 회원 정보 수정 */
 	@Override
 	public void updateUser(UserVO user) {
 		sqlSession.update(NAMESPACE + "updateUser", user);
-		
+
 	}
-	
-	/* 아이디 찾기*/
+
+	/* 아이디 찾기 */
 	@Override
 	public String findUserIdByNameAndEmail(String name, String email) {
-        return userMapper.findUserIdByNameAndEmail(name, email);
-    }
+		return userMapper.findUserIdByNameAndEmail(name, email);
+	}
 
 	@Override
 	public UserVO findUserByIdAndEmail(String userId, String email) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("userId", userId);
-	    params.put("email", email);
-	    return sqlSession.selectOne("com.grgr.mapper.UserMapper.findUserByIdAndEmail", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("email", email);
+		return sqlSession.selectOne("com.grgr.mapper.UserMapper.findUserByIdAndEmail", params);
 	}
-
 
 	@Override
 	public void updateUserPassword(UserVO user) {
-	        sqlSession.update("com.grgr.mapper.UserMapper.updateUserPassword", user);
-	    }
-
+		sqlSession.update("com.grgr.mapper.UserMapper.updateUserPassword", user);
+	}
 
 	@Override
-	public void getAddressFromCoordinate(String loginId, String address){
+	public void getAddressFromCoordinate(String loginId, String address) {
 		Map<Object, String> parameterMap = new HashMap<>();
 		parameterMap.put("loginId", loginId);
 		parameterMap.put("address", address);
 		sqlSession.update("getAddressFromCoordinate", parameterMap);
 	}
-	
+
 	/* 관심게시글 조회 */
 	@Override
 	public List<MyLike> getLikeList(int uno, int startRow, int endRow) {
 		return sqlSession.getMapper(UserMapper.class).getLikeList(uno, startRow, endRow);
 	}
-	
+
 	/* 전체 관심게시글 수 */
 	@Override
 	public int selectLikeCount(int uno) {
@@ -161,26 +159,24 @@ public class UserDAOImpl implements UserDAO {
 	public int selectReportCount() {
 		return sqlSession.getMapper(UserMapper.class).selectReportCount();
 	}
-	
+
 	/* 휴면계정으로 전환 */
 	@Override
 	public int updateUserDisactivate() {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(UserMapper.class).updateUserDisactivate();
 	}
-	
+
 	/* 활동계정으로 전환 */
 	@Override
 	public int updateUserActivate(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(UserMapper.class).updateUserActivate(map);
 	}
-	
+
+	@Override
+	public int updateLastLoginDate(UserVO user) {
+		return sqlSession.getMapper(UserMapper.class).updateLastLoginDate(user);
+	}
+
 }
-	
-
-
-	
-	
-
-

@@ -83,4 +83,7 @@ public interface UserMapper {
     
     /* 활동계정으로 전환 */
     int updateUserActivate(Map<String, Object> map);
+    
+    /* 마지막 로그인 날짜 변경 */
+    int updateLastLoginDate(UserVO user);
 }

@@ -1,5 +1,6 @@
 package com.grgr.controller;
 
+import java.util.Date;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -163,6 +164,7 @@ public class UserController {
 		String encodePw = "";
 
 		UserVO loginSuccessUser = userService.userLogin(user);
+		
 
 		if (loginSuccessUser != null) { // 일치하는 아이디 존재
 
@@ -178,6 +180,8 @@ public class UserController {
 				session.setAttribute("loginUserStatus", loginSuccessUser.getUserStatus());
 				session.setAttribute("loginLastLogin", loginSuccessUser.getLastLogin());
 				session.setAttribute("loginLocation", loginSuccessUser.getUserLoc());
+				userService.modifyLastLoginDate(loginSuccessUser);
+				
 				if(loginSuccessUser.getActive() == 2) {
 					return "redirect:/mypage/activateUser";
 				}
