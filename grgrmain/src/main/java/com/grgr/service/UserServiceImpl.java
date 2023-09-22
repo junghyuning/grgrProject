@@ -347,4 +347,9 @@ public class UserServiceImpl implements UserService {
 		return userDAO.updateUserActivate(map);
 	}
 
+	@Override
+	public int modifyLastLoginDate(UserVO user) {
+		return userDAO.updateLastLoginDate(user);
+	}
+
 }
