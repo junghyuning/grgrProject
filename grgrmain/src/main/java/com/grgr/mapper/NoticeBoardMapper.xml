@@ -110,6 +110,16 @@
 		1
 		WHERE notice_bno = #{noticeBno}
 	</update>
+	
+	<select id="selectLatestNotice" resultType="NoticeBoard">
+        SELECT *
+FROM (
+    SELECT *
+    FROM NOTICE_BOARD
+    ORDER BY NOTICE_REGDATE DESC
+)
+WHERE ROWNUM = 1
+    </select>
 
 </mapper>
        

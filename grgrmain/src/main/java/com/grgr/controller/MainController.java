@@ -6,9 +6,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.grgr.dto.NoticeBoard;
 import com.grgr.service.MainPageService;
+import com.grgr.service.NoticeBoardService;
 
 import lombok.AllArgsConstructor;
 
@@ -16,7 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MainController {
 	private final MainPageService mainPageService;
-	
+
 	@RequestMapping("/main")
 	public String mainPage(Model model, HttpSession session) {
 		Map<String, Object> newPostWithFile = mainPageService.selectNewPost();

@@ -15,6 +15,7 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
 
 		HttpSession session = request.getSession();
 		Object loginUno = session.getAttribute("loginUno");
+		
 
 		if (loginUno == null) {
 			String requestURI = request.getRequestURI();

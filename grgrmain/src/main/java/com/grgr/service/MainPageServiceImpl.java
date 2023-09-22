@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.grgr.dao.MainPageDAO;
+import com.grgr.dao.NoticeBoardDAO;
 
 import lombok.AllArgsConstructor;
 
@@ -13,6 +14,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MainPageServiceImpl implements MainPageService{
 	private final MainPageDAO mainPageDAO;
+	private final NoticeBoardDAO noticeBoardDAO;
+	
 
 
 	@Override
@@ -22,6 +25,7 @@ public class MainPageServiceImpl implements MainPageService{
 		map.put("newInfoList", mainPageDAO.selectNewInfo());
 		map.put("newFreeList", mainPageDAO.selectNewFree());
 		map.put("newSalesList", mainPageDAO.selectNewSales());
+		map.put("latestNotice", noticeBoardDAO.selectLatestNotice());
 		return map;
 	}
 }
