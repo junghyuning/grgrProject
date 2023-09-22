@@ -25,6 +25,11 @@
 </style>
 </head>
 <body>
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<!-- 배너 -->
