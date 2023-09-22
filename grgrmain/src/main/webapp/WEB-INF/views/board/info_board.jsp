@@ -61,6 +61,11 @@
 <body>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
 	<!-- 배너 -->
 	<c:set var="boardName" value="정보공유게시판" />
 	<header class="xl bg-img bg-fixed"
@@ -159,8 +164,11 @@
 
 						<i class="fas fa-user mr-5"></i>${infoBoard.nickname } <span
 							class="mr-5 ml-5 text-muted">|</span><i
-							class="fas fa-calendar-alt mr-5"></i><fmt:formatDate value="${infoBoard.infoRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
-						<span class="mr-5 ml-5 text-muted">|</span> <i class="fas fa-tag mr-5"></i>
+							class="fas fa-calendar-alt mr-5"></i>
+						<fmt:formatDate value="${infoBoard.infoRegdate}"
+							pattern="yyyy-MM-dd HH:mm:ss" />
+						<span class="mr-5 ml-5 text-muted">|</span> <i
+							class="fas fa-tag mr-5"></i>
 						<c:choose>
 							<c:when test="${infoBoard.infoKeyword=='food'}">맛집</c:when>
 							<c:when test="${infoBoard.infoKeyword=='market'}">기타 후기</c:when>
@@ -183,7 +191,7 @@
 					</c:forEach>
 
 				</div>
-				
+
 				<!-- 보던페이지로 이동 -->
 				<a
 					href="<c:url value='/infoboard/list${searchCondition.getQueryString()}' />"
@@ -268,8 +276,8 @@
 	<!-- / pagination-center -->
 
 	<!-- 위로 스크롤 -->
-	<a href="#top" class="scroll-to-top is-hidden"
-		data-nav-status="toggle"><i class="fas fa-chevron-up"></i></a>
+	<a href="#top" class="scroll-to-top is-hidden" data-nav-status="toggle"><i
+		class="fas fa-chevron-up"></i></a>
 
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
@@ -321,7 +329,7 @@
 	        $('#reportModal').modal('hide');
 	    }
 	</script>
-	
+
 	<!-- 좋아요 기능 -->
 	<script>
 	//좋아요 상태 check
@@ -370,7 +378,7 @@
     });
 	
 	</script>
-	
+
 	<!-- 댓글기능 관련 스크립트  -->
 	<script>
 		const url = new URL(window.location.href);
@@ -681,7 +689,7 @@
 		
 		
 	</script>
-	
+
 
 </body>
 </html>

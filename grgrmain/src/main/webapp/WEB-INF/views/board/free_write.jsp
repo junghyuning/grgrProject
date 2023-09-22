@@ -14,6 +14,11 @@
 </style>
 </head>
 <body>
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<!-- 배너 -->
@@ -156,42 +161,69 @@
 								return file
 										&& validImageTypes.includes(file.type);
 							}
-							$('#write-submit').click(function(){
+							$('#write-submit')
+									.click(
+											function() {
 												var title = document
 														.getElementsByName('freeTitle')[0].value;
 												var content = document
 														.getElementsByName('freeContent')[0].value;
 												var contentErrorMessage = "";
-										        var imgErrorMessage = "";
+												var imgErrorMessage = "";
 												if (title.trim() === ''
 														|| content.trim() === '') {
 													alert('제목과 내용을 모두 입력해주세요.');
-												} 
-												if (files && files.length > 0 && !Array.from(files).every(isImageFile)) {
+												}
+												if (files
+														&& files.length > 0
+														&& !Array
+																.from(files)
+																.every(
+																		isImageFile)) {
 													imgErrorMessage = '유효하지 않은 파일 형식입니다. 이미지 파일만 업로드 해주세요.';
-												} 	        if (contentErrorMessage !== "") {
-										            console.log('title error not null');
-										            document.getElementById('content-error-message').textContent = contentErrorMessage;
-										            $('#content-error-message').show();
-										            console.log('title error show');
-										            setTimeout(function() {
-										                $('#content-error-message').fadeOut('slow');
-										            }, 5000);
-										        }
+												}
+												if (contentErrorMessage !== "") {
+													console
+															.log('title error not null');
+													document
+															.getElementById('content-error-message').textContent = contentErrorMessage;
+													$('#content-error-message')
+															.show();
+													console
+															.log('title error show');
+													setTimeout(
+															function() {
+																$(
+																		'#content-error-message')
+																		.fadeOut(
+																				'slow');
+															}, 5000);
+												}
 
-										        if (imgErrorMessage !== '') {
-										            console.log('img error not null');
-										            document.getElementById('img-error-message').textContent = imgErrorMessage;
-										            $('#img-error-message').show();
-										            console.log('img error show');
-										            setTimeout(function() {
-										                $('#img-error-message').fadeOut('slow');
-										            }, 5000);
-										        }
+												if (imgErrorMessage !== '') {
+													console
+															.log('img error not null');
+													document
+															.getElementById('img-error-message').textContent = imgErrorMessage;
+													$('#img-error-message')
+															.show();
+													console
+															.log('img error show');
+													setTimeout(
+															function() {
+																$(
+																		'#img-error-message')
+																		.fadeOut(
+																				'slow');
+															}, 5000);
+												}
 
-										        if (contentErrorMessage === "" && imgErrorMessage === "") {
-										            document.getElementById('form-validation').submit(); // 폼을 제출
-										        }
+												if (contentErrorMessage === ""
+														&& imgErrorMessage === "") {
+													document.getElementById(
+															'form-validation')
+															.submit(); // 폼을 제출
+												}
 											});
 
 							setTimeout(function() {

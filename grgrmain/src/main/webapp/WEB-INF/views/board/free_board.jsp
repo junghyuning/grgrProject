@@ -56,6 +56,11 @@
 </head>
 
 <body>
+	<div id="preloader">
+		<div class="preloader">
+			<span></span> <span></span>
+		</div>
+	</div>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 	<!-- 배너 -->
@@ -183,7 +188,8 @@
 
 				<!-- 이전글, 다음글 -->
 				<nav aria-label="pager" style="clear: both; padding-top: 30px">
-					<ul class="pager" style="display: flex; justify-content: space-between;">
+					<ul class="pager"
+						style="display: flex; justify-content: space-between;">
 						<c:if test="${!isFirstPost }">
 							<li class="pager-left"><a
 								href="<c:url value='/freeboard/read${searchCondition.getQueryString()}&freeBno=${prevFreeBno}'/>"><i
