@@ -4,41 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit">
-<meta name="author" content="kingstudio.ro">
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png">
-<!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet">
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/login-register.css"
-	rel="stylesheet">
 <style>
 .socialLogin img:hover {
 	cursor: pointer;
@@ -54,12 +20,16 @@
 </head>
 
 <body>
+	<div id="top"></div>
 
 	<div id="preloader">
 		<div class="preloader">
 			<span></span> <span></span>
 		</div>
 	</div>
+	<!-- 헤더 -->
+	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
+	
 
 	<a href="${pageContext.request.contextPath}/index.html"
 		class="top-logo"> <img
@@ -134,18 +104,18 @@
 								</form>
 								<!-- / login-form -->
 								<div class="pt-60 text-center">
-									<p style="margin-bottom: 4px;">간편 로그인</p>
-									<a class="socialLogin socialIcon"> <img class="socialIcon"
-										src="<c:url value="/images/naver_login.png"/>" alt="네이버 로그인"
-										onclick="location.href='<c:url value="/oauth/naver"/>';">
-										<img class="socialIcon"
-										src="<c:url value="/images/kakaoBtn.png"/>" alt="카카오 로그인"
-										onclick="location.href='<c:url value="/oauth/kakao"/>';">
-										<img class="socialIcon"
-										src="<c:url value="/images/google_OAuth_btn.png"/>"
-										alt="구글 로그인"
-										onclick="location.href='<c:url value="/oauth/google"/>';">
-									</a>
+									<p style="gap:3px">간편 로그인</p>
+										<div class="p-5"><img class="socialIcon"
+											src="<c:url value="/images/naver_login.png"/>" alt="네이버 로그인"
+											onclick="location.href='<c:url value="/oauth/naver"/>';"></div>
+										<div class="p-5"><img class="socialIcon  w-70"
+											src="<c:url value="/images/kakaoBtn.png"/>" alt="카카오 로그인"
+											onclick="location.href='<c:url value="/oauth/kakao"/>';"></div>
+										<div ><img class="socialIcon w-70"
+											src="<c:url value="/images/google_OAuth_btn.png"/>"
+											alt="구글 로그인"
+											onclick="location.href='<c:url value="/oauth/google"/>';"></div>
+									
 								</div>
 
 							</div>
@@ -159,32 +129,6 @@
 		</div>
 	</div>
 
-	<p class="absolute bottom-15 x-0 text-center">
-		<a href="${pageContext.request.contextPath}/index.html"
-			class="text-link fs-16 m-x-15">Home</a> <a
-			href="${pageContext.request.contextPath}/components.html"
-			class="text-link fs-16 m-x-15">Components</a> <a
-			href="${pageContext.request.contextPath}/sections.html"
-			class="text-link fs-16 m-x-15">Sections</a> <a
-			href="${pageContext.request.contextPath}/templates.html"
-			class="text-link fs-16 m-x-15">Templates</a>
-	</p>
-	<!-- core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-	<!-- / core JavaScript -->
-
-	<!-- preloader -->
-	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
-	<!-- / preloader -->
-
-	<!-- form validation -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.validate.min.js"></script>
-</body>
+	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 
 </html>

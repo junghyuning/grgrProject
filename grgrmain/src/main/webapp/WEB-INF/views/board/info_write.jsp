@@ -52,7 +52,7 @@
 				<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
 				<input type="hidden" name="infoUpdateUno"
 					value="${sessionScope.loginUno}" /> <input type="hidden"
-					name="infoLoc" value="${loginLocation }" />
+					name="infoLoc" value="${searchCondition.loginLocation}" />
 				<div class="row">
 					<div class="col-md-3">
 						<div class="col-md-0 tablet-top">

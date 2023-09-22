@@ -125,8 +125,6 @@
 	<script
 		src="${pageContext.request.contextPath}/assets/js/jquery.easing.min.js"></script>
 	<!-- / smooth scroll -->
-<script
-		src="${pageContext.request.contextPath}/assets/js/smooth-scroll.js"></script>
 	<!-- hide nav -->
 	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
 	<!-- / hide nav -->

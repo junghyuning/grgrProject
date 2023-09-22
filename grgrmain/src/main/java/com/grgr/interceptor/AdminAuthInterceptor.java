@@ -15,7 +15,7 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
 		
 		HttpSession session = request.getSession();		
 		if(session.getAttribute("loginUserStatus")==null) {
-			response.sendRedirect(request.getContextPath()+"/404");
+			response.sendRedirect(request.getContextPath()+"/user/login");
 			return false;
 		}
 		

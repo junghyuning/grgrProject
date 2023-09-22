@@ -99,7 +99,7 @@
 				class="validation-inner" id="form-validation"
 				novalidate="novalidate">
 				<!-- <input type="hidden" name="uno" value="loginUno" /><input type="hidden" name="infoUpdateUno" value="loginUno" /><input type="hidden"
-						name="infoLoc" value="loginLoc" />  -->
+						name="infoLoc" value="loginLocation" />  -->
 				<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
 				<input type="hidden" name="productUpdateUno"
 					value="${sessionScope.loginUno}" />
