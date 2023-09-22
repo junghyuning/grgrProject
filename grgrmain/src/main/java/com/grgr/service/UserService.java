@@ -77,4 +77,7 @@ public interface UserService {
 
 	/* 휴면계정 활성화 */
 	int activateUser(int loginUno, String email);
+	
+	/* 마지막 로그인 날짜 변경 */
+	int modifyLastLoginDate(UserVO user);
 }
