@@ -51,6 +51,7 @@ public class ProductCartController {
 		List<ProductCartDTO> cartList = productCartService.getCartList(loginUno);
 
 		model.addAttribute("cartList", cartList);
+		model.addAttribute("uno", loginUno);
 		System.out.println(cartList);
 		return "board/product_cart";
 	}

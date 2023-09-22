@@ -128,6 +128,8 @@
                             href="<c:url value='/productboard/get?productId=${cartItem.productId}'/>">
                             <p class="mb-20 text-center">${cartItem.productTitle}</p>
                         </a>
+                        <!-- productId 출력 -->
+                        <p class="mb-20 text-center">[${cartItem.productId}]</p>
                     </div>
                     <div class="col-lg-2">
                         <p class="lead mb-15 text-center">
@@ -159,18 +161,17 @@
     </li>
 </c:forEach>
 
+
 <!-- 총 가격을 표시하는 부분 -->
 
 
 						
 
 					</ul>
-					<a href="<c:url value="/" />" class="btn btn-primary rounded"
-						style="font-size: 15px; float: right;"><span>전체 구매</span></a> <a
-						href="<c:url value="/" />"
-						class="btn btn-primary rounded btn-spacing"
-						style="font-size: 15px; float: right;"><span>선택 항목 구매</span></a>
-
+					
+					<button onclick="purchaseSelectedItems()" class="btn btn-primary rounded btn-spacing" style="font-size: 15px; float: right;">
+    					<span>선택 항목 구매</span>
+					</button>
 
 				</div>
 
@@ -180,6 +181,7 @@
 	<hr>
 <div id="totalPrice">
     총 가격: 0 원
+    
 </div>
 	<!-- / pagination-center -->
 
@@ -318,6 +320,54 @@ function deleteCart(productCartNo) {
 	    document.getElementById("totalPrice").textContent = "총 가격: " + totalPrice.toFixed(2) + " 원";
 	}
 
+</script>
+<script>
+function purchaseSelectedItems() {
+    const checkboxes = document.getElementsByName("selectedItems");
+    const selectedItems = [];
+    
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            const productCartNo = checkboxes[i].value;
+            const productPrice = parseFloat(checkboxes[i].getAttribute("data-productPrice"));
+            const productCount = parseFloat(checkboxes[i].getAttribute("data-productCount"));
+            const totalPrice = productPrice * productCount;
+            
+            selectedItems.push({
+                productCartNo: productCartNo,
+                productId: checkboxes[i].getAttribute("data-productId"),
+                productCount: productCount,
+                productPrice: productPrice,
+                totalPrice: totalPrice
+            });
+        }
+    }
+
+    // 선택된 항목이 없는 경우 경고 메시지 출력
+    if (selectedItems.length === 0) {
+        alert("선택된 항목이 없습니다.");
+        return;
+    }
+
+    // 선택된 항목 정보를 서버로 전송
+    $.ajax({
+        type: "POST",
+        url: "<c:url value='/purchase'/>", 
+        data: JSON.stringify(selectedItems), 
+        success: function (response) {
+            // 서버 응답 처리
+            if (response.success) {
+                alert("선택 항목 구매가 완료되었습니다.");
+                location.reload();
+            } else {
+                alert("구매 실패: " + response.message);
+            }
+        },
+        error: function () {
+            alert("구매 요청 중 오류가 발생했습니다.");
+        }
+    });
+}
 </script>
 
 
