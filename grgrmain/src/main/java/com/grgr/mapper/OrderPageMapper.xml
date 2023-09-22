@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grgr.mapper.OrderPageMapper">
+	<!-- 장바구니 리스트 받기 -->
+	<select id="selectCartOrderPage" resultType="ProductCartDTO">
+		SELECT
+		PC.PRODUCT_CART_NO,
+		PC.UNO,
+		PC.PRODUCT_ID,
+		PC.PRODUCT_COUNT,
+		PB.PRODUCT_TITLE,
+		PB.PRODUCT_PRICE
+		FROM
+		PRODUCT_CART PC
+		JOIN
+		PRODUCT_BOARD PB ON PC.PRODUCT_ID = PB.PRODUCT_ID
+		WHERE
+		PC.PRODUCT_ID = #{productId} 
+		ORDER BY PC.PRODUCT_CART_NO DESC
+	</select>
+
+	<!-- 바로구매 받기 -->
+	<select id="selectProductOrderPage" resultType="ProductBoardVO">
+		SELECT 
+		PRODUCT_ID,
+		PRODUCT_TITLE,
+		UNO,
+		PRODUCT_PRICE
+		FROM
+		PRODUCT_BOARD
+		WHERE
+		PRODUCT_ID=#{productId} AND UNO = #{uno}
+	</select>
+
+	<!-- 장바구니/바로구매 주문페이지 삽입 -->
+	<insert id="insertOrderPage">
+		INSERT INTO ORDERPAGE
+		(ORDER_NO, UNO, PRODUCT_ID,
+		ORDER_STATUS, ORDER_QUANTITY)
+		VALUES(ORDERPAGE_NO_SEQ.NEXTVAL, #{uno},
+		#{productId},
+		#{orderStatus}, #{orderQuantity})
+	</insert>
+	
+	<!-- 회원정보 가져오기 -->
+	<select id="selectOrderUserinfo" resultType="Userinfo">
+		SELECT USERINFO
+		USER_NAME,
+		PHONE,
+		EMAIL
+		FROM
+		USERINFO
+		WHERE
+		UNO = #{uno}
+	</select>
+</mapper>

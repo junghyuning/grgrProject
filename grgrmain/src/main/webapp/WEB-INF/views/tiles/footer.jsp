@@ -125,7 +125,8 @@
 	<script
 		src="${pageContext.request.contextPath}/assets/js/jquery.easing.min.js"></script>
 	<!-- / smooth scroll -->
-
+<script
+		src="${pageContext.request.contextPath}/assets/js/smooth-scroll.js"></script>
 	<!-- hide nav -->
 	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
 	<!-- / hide nav -->
@@ -322,3 +323,26 @@
 			}
 		}
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var showModalBtn = document.getElementById('showModalBtn');
+        var modalTarget = document.querySelector('.modal-left-example');
+        var myModal = new bootstrap.Modal(modalTarget);
+
+        showModalBtn.addEventListener('click', function () {
+            myModal.show();
+        });
+
+        modalTarget.addEventListener('click', function (e) {
+            if (e.target === modalTarget) {
+                myModal.hide();
+            }
+        });
+    });
+</script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+	
+
+	

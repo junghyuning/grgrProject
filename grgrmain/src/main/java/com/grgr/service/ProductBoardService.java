@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.grgr.dto.NoticeBoard;
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductUserDTO;
 import com.grgr.exception.FileDeleteException;
@@ -47,5 +48,7 @@ public interface ProductBoardService {
 
 	/* 이미지 삭제 */
 	void removeProductFiles(List<Integer> deleteFileList) throws FileDeleteException;
+	
+	
 
 }

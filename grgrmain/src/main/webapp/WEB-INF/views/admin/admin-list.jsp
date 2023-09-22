@@ -87,6 +87,11 @@ table.table-xl th,
   table.table-xl tbody tr {
     margin-bottom: 10px;
     }
+    
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
   
 </style>
 </head>
@@ -261,13 +266,8 @@ table.table-xl th,
 		</div>
 	</div>
 
-<div class="col-md-10">
-				<div class="row">
-					<div class="col-md-12">
-						<h1>신고 게시글 조회</h1>
-						<hr>
-					</div>
-				</div>
+
+				
 
 
 	<!-- 위로 버튼 -->
