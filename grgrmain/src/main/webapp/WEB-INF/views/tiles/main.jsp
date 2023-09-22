@@ -2,6 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 <jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 <!-- / top -->
@@ -10,26 +15,25 @@
 <!-- / top -->
 
 
-<!-- 배너 - testimonial slider -->
-<div id="testimonial-slider"
-	class="owl-carousel owl-theme carousel-controls main-banner" >
-	<div class="card bg-transparent b-0 ">
-		<img class="m-x-auto mb-30 "
-			src="${pageContext.request.contextPath}/images/vanner1.jpg" alt="">
+<div id="testimonial-slider" class="owl-carousel owl-theme carousel-controls main-banner">
+	<div class="card bg-transparent b-0">
+		<img class="m-x-auto mb-30"
+			src="${pageContext.request.contextPath}/images/main_page.png" alt="" style="width: 100%; height: 100%; object-fit: contain;">
 	</div>
 	<!-- / card -->
-	<div class="card bg-transparent b-0 ">
-		<img class="m-x-auto mb-30 "
-			src="${pageContext.request.contextPath}/images/vanner1.jpg" alt="">
+	<div class="card bg-transparent b-0">
+		<img class="m-x-auto mb-30"
+			src="${pageContext.request.contextPath}/images/main_page2.png" alt="" style="width: 100%; height: 100%; object-fit: contain;">
 	</div>
 	<!-- / card -->
-	<div class="card bg-transparent b-0 ">
-		<img class="m-x-auto mb-30 "
-			src="${pageContext.request.contextPath}/images/vanner1.jpg" alt="">
-	</div>
-	<!-- / card -->
+	<div class="card bg-transparent b-0">
+		<img class="m-x-auto mb-30"
+			src="${pageContext.request.contextPath}/images/main_page3.png" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+   </div>
+   <!-- / card -->
 </div>
 <!-- / testimonial-slider -->
+
 
 <!-- 메인 카테고리 -->
 <div class="main-container" style="background-color: white">
@@ -238,6 +242,18 @@
 	class="fas fa-chevron-up"></i></a>
 
 <jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
+<script>
+$(document).ready(function () {
+    $("#testimonial-slider").owlCarousel({
+        items: 1, // 보여질 슬라이드 수
+        loop: true, // 무한 루프
+        autoplay: true, // 자동 재생
+        // 다른 설정 옵션들...
+    });
+});
+
+</script>
+
 </body>
 
 </html>

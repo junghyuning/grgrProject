@@ -90,12 +90,60 @@
 	display: flex;
 	item-align: center;
 }
+.modal fade modal-left modal-left-example modal-register {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    z-index: 1000;
+}
 </style>
 </head>
 <body style="background-color: white">
 	<div style="background-color: #E2E6FC;">
 		<nav
 			class="navbar navbar-expand-lg navbar-light top-0 left-0 right-0 d-flex justify-content-between">
+			<button id="showModalBtn" class="btn btn-sm btn-danger mr-5 mb-5"><i class="fas fa-indent mr-5 fs-14"></i> </button>
+				
+				<div class="modal fade modal-left modal-left-example modal-register" tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="side-modal-wrapper">
+                                        <div class="vertical-align">
+                                            <div class="table-cell">
+                                                <div class="modal-body">
+                                                    <ul>
+                                                    <hr>
+                                                    <p>▶내 정보</p>
+                                                    <hr>
+                                                    <li><a href="<c:url value="/mypage/userProfile"/>">- 마이 페이지</a></li>
+                                                    <li><a href="<c:url value="/cart/list"/>">- 장바구니</a></li>
+                                                    <hr>
+                                                    <p>▶주변 정보</p>
+                                                    <hr>
+                                                    <li><a href="<c:url value="/info/matzib"/>">- 맛집 정보</a></li>
+                                                    <li><a href="<c:url value="/info/medical"/>">- 의료 정보</a></li>
+                                                    <hr width:20px>
+                                                    <p>▶게시판</p>
+                                                    <hr>
+	            <li><a href="<c:url value="/noticeboard/list"/>">- 공지사항</a></li>
+	            <li><a href="<c:url value="/infoboard/list"/>">- 정보공유</a></li>
+	            <li><a href="<c:url value="/productboard/list"/>">- 판매</a></li>
+	            <li><a href="<c:url value="/freeboard/list"/>">- 자유</a></li>
+	            <li><a href="<c:url value="/qnaboard/list"/>">- 문의</a></li>
+	        </ul>
+                                                </div><!-- / modal-body -->
+                                            </div><!-- / table-cell -->
+                                        </div><!-- / vertical-align -->
+                                    </div><!-- / side-modal-wrapper -->
+                                    <div class="modal-footer text-left">
+                                        <span class="fs-14">Already have an account? <a href="#x" class="fs-14">Login Now</a></span>
+                                    </div><!-- / modal-footer -->
+                                </div><!-- / modal-content -->
+                            </div><!-- / modal-dialog -->
+                        </div>
+                        
 			<a href="<c:url value='/main' />" class="navbar"> <img
 				class=" ml-10 mt-5 w-50"
 				src="${pageContext.request.contextPath}/images/grgr_logo.png"

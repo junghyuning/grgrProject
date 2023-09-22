@@ -96,58 +96,68 @@
 						id="grid" style="clear: both">
 
 						<!-- project : 게시글 list 출력 -->
-						<c:set var="i" value="0" />
-						<c:forEach items="${cartList}" var="cartItem">
-							<li class="col-md-12 col-lg-0 project"
-								id="project_${cartItem.productCartNo}">
-								<div class="promo-box mx-auto"
-									style="min-height: 50px; padding: 20px;">
-									<div class="cta p-0">
-										<div class="row align-items-center">
-											<div class="col-lg-1 text-center">
-												<input type="checkbox" name="selectedItems"
-													class="form-check-input" value="${cartItem.productCartNo}">
-											</div>
-											<div class="col-lg-2 text-center">
-												<!-- 가운데 정렬을 위해 text-center 클래스 추가 -->
-												<img
-													src="${pageContext.request.contextPath}/images/coffee.jpg"
-													class="rounded" />
-											</div>
-											<div class="col-lg-2">
-												<a
-													href="<c:url value='/productboard/get?productId=${cartItem.productId}'/>">
-													<p class="mb-20 text-center">${cartItem.productTitle}</p>
-												</a>
-											</div>
-											<div class="col-lg-2">
-												<p class="lead mb-15 text-center">
-													${cartItem.productPrice} &nbsp;<i class="fas fa-won-sign"></i>
-												</p>
-											</div>
-											<div class="col-lg-2 text-center">
-												<p class="lead mb-15 text-center">
-													<input type="number" step="1" min="1" max="10" name="cart"
-														value="${cartItem.productCount}" title="cart"
-														class="form-control qty mr-10 rounded" id="quantityInput">
-											</div>
-											<div class="col-lg-2 text-center">
-												<button class="btn btn-xs btn-primary pill qty-update-btn"
-													style="font-size: 15px"
-													onclick="updateCount(${cartItem.productCartNo})">수량
-													변경</button>
-											</div>
+						<c:set var="totalPrice" value="0" />
 
-											<div class="col-lg-1 text-center">
-												<button class="btn btn-xs btn-primary pill delete-btn"
-													style="font-size: 15px"
-													onclick="deleteCart(${cartItem.productCartNo})">삭제</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</li>
-						</c:forEach>
+<c:forEach items="${cartList}" var="cartItem" varStatus="status">
+    <li class="col-md-12 col-lg-0 project"
+        id="project_${cartItem.productCartNo}">
+        <div class="promo-box mx-auto"
+            style="min-height: 50px; padding: 20px;">
+            <div class="cta p-0">
+                <div class="row align-items-center">
+                    <div class="col-lg-1 text-center">
+                        <input type="checkbox" name="selectedItems" class="form-check-input" 
+               value="${cartItem.productCartNo}" 
+               data-productPrice="${cartItem.productPrice}"
+               data-productCount="${cartItem.productCount}"
+               onclick="calculateTotalPrice()">
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <!-- 가운데 정렬을 위해 text-center 클래스 추가 -->
+                        <img
+                            src="${pageContext.request.contextPath}/images/coffee.jpg"
+                            class="rounded" />
+                    </div>
+                    <div class="col-lg-2">
+                        <a
+                            href="<c:url value='/productboard/get?productId=${cartItem.productId}'/>">
+                            <p class="mb-20 text-center">${cartItem.productTitle}</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2">
+                        <p class="lead mb-15 text-center">
+                            ${cartItem.productPrice} &nbsp;<i class="fas fa-won-sign"></i>
+                        </p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <p class="lead mb-15 text-center">
+                            <input type="number" step="1" min="1" max="10" name="cart"
+                                value="${cartItem.productCount}" title="cart"
+                                class="form-control qty mr-10 rounded" id="quantityInput"
+                                onchange="updateCount(${cartItem.productCartNo})">
+                        </p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                        <button class="btn btn-xs btn-primary pill qty-update-btn"
+                            style="font-size: 15px"
+                            onclick="updateCount(${cartItem.productCartNo})">수량
+                            변경</button>
+                    </div>
+                    <div class="col-lg-1 text-center">
+                        <button class="btn btn-xs btn-primary pill delete-btn"
+                            style="font-size: 15px"
+                            onclick="deleteCart(${cartItem.productCartNo})">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</c:forEach>
+
+<!-- 총 가격을 표시하는 부분 -->
+
+
+						
 
 					</ul>
 					<a href="<c:url value="/" />" class="btn btn-primary rounded"
@@ -162,6 +172,10 @@
 			</main>
 		</div>
 	</div>
+	<hr>
+<div id="totalPrice">
+    총 가격: 0 원
+</div>
 	<!-- / pagination-center -->
 
 	<a href="#top" class="scroll-to-top is-visible smooth-scroll"
@@ -281,5 +295,27 @@ function deleteCart(productCartNo) {
 	    });
 	}
 </script>
+	<script>
+	// 체크박스 클릭 시 호출되는 함수
+	function calculateTotalPrice() {
+	    let totalPrice = 0;
+	    const checkboxes = document.getElementsByName("selectedItems");
+
+	    for (let i = 0; i < checkboxes.length; i++) {
+	        if (checkboxes[i].checked) {
+	            const productPrice = parseFloat(checkboxes[i].getAttribute("data-productPrice"));
+	            const productCount = parseFloat(checkboxes[i].getAttribute("data-productCount"));
+	            totalPrice += productPrice * productCount;
+	        }
+	    }
+
+	    // 업데이트된 합계 금액을 화면에 표시
+	    document.getElementById("totalPrice").textContent = "총 가격: " + totalPrice.toFixed(2) + " 원";
+	}
+
+</script>
+
+
+
 </body>
 </html>
