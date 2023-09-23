@@ -18,7 +18,7 @@
 <div id="testimonial-slider" class="owl-carousel owl-theme carousel-controls main-banner">
 	<div class="card bg-transparent b-0">
 		<img class="m-x-auto mb-30"
-			src="${pageContext.request.contextPath}/images/main_page.png" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+			src="${pageContext.request.contextPath}/images/friends.jpg" alt="" style="width: 100%; height: 100%; object-fit: contain;">
 	</div>
 	<!-- / card -->
 	<div class="card bg-transparent b-0">
