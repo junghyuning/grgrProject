@@ -5,40 +5,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
-<!-- Favicon -->
-<link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
-<!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
-</head>
-
-
 <style>
 .page-link {
 	font-size: 20px;
@@ -67,6 +33,9 @@
 	margin-right: 20px; /* 원하는 여백 크기로 설정 */
 }
 </style>
+</head>
+
+
 <body>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
@@ -113,6 +82,7 @@
 											<div class="col-lg-1 text-center">
 												<input type="checkbox" name="selectedItems"
 													class="form-check-input" value="${cartItem.productCartNo}"
+													data-selected-item="${cartItem.productCartNo}"
 													data-productPrice="${cartItem.productPrice}"
 													data-productCount="${cartItem.productCount}"
 													onclick="calculateTotalPrice()">
@@ -190,8 +160,8 @@
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
 
-<!-- 장바구니에서 제거 -->
-<script>
+	<!-- 장바구니에서 제거 -->
+	<script>
 function deleteCart(productCartNo) {
     if (confirm("정말로 삭제하시겠습니까?")) {
         $.ajax({
@@ -219,7 +189,7 @@ function deleteCart(productCartNo) {
     }
 }
 </script>
-<!-- 장바구니 상품수량 증가 -->
+	<!-- 장바구니 상품수량 증가 -->
 	<script>
 	function updateCount(productCartNo) {
 		const quantityInput = document.getElementById('quantityInput');
@@ -254,11 +224,11 @@ function deleteCart(productCartNo) {
 
 
 	<script>
+	    var totalPrice;
+	    var checkboxes = document.getElementsByName("selectedItems");
 	// 체크박스 클릭 시 호출되는 함수
 	function calculateTotalPrice() {
-	    let totalPrice = 0;
-	    const checkboxes = document.getElementsByName("selectedItems");
-
+		totalPrice=0;
 	    for (let i = 0; i < checkboxes.length; i++) {
 	        if (checkboxes[i].checked) {
 	            const productPrice = parseFloat(checkboxes[i].getAttribute("data-productPrice"));
@@ -270,57 +240,55 @@ function deleteCart(productCartNo) {
 	    // 업데이트된 합계 금액을 화면에 표시
 	    document.getElementById("totalPrice").textContent = "총 가격: " + totalPrice.toFixed(2) + " 원";
 	}
+	<!-- 장바구니 테이블에 저장된 항목을 주문테이블에 저장하기위한 체크박스 항목 전달 -->
+	
+	function purchaseSelectedItems() {
+		const selectedItemList =[];
+		//위에서 정의된 checkedBoxes 변수 사용    
+	    for (let i = 0; i < checkboxes.length; i++) {
+	        if (checkboxes[i].checked) {
+	        	//체크박스가 체크된 카트 넘버를 selectedItemList배열에 저장
+	           	var cartNo = parseInt(checkboxes[i].getAttribute("data-selected-item"));
+	        	selectedItemList.push(cartNo);
+	        }
+	    }
+		console.log("체크리스트(카트) :" + selectedItemList);
+		console.log("totalPrice : " + totalPrice);
+
+	    // 선택된 항목이 없는 경우 경고 메시지 출력
+	    if (selectedItemList.length === 0) {
+	        alert("선택된 항목이 없습니다.");
+	        return;
+	    }
+
+	    // 선택된 항목 정보를 서버로 전송
+	    $.ajax({
+	        type: "POST",
+	        url: "<c:url value='/purchase'/>", 
+	        contentType: "application/json",
+	        data: JSON.stringify({
+	        	selectedItemList : selectedItemList,
+	        	totalPrice : totalPrice
+	        }), 
+	        success: function (response) {
+	        	
+	            // 서버 응답 처리
+	            if (response=="success") {
+	                alert("선택 항목 구매가 완료되었습니다.");
+	                /* 새로고침 명령 -> 주문페이지 완성시 없어질 것 */
+	                location.reload();
+	            } else {
+	                alert("구매 실패: " + response.message);
+	            }
+	        },
+	        error: function (xhr) {
+	            alert(xhr.responseText);
+	        }
+	    });
+	}
 
 </script>
-<!-- 장바구니 테이블에 저장된 항목을 주문테이블에 저장하기위한 체크박스 항목 전달 -->
-	<script>
-function purchaseSelectedItems() {
-    const checkboxes = document.getElementsByName("selectedItems");
-    const selectedItems = [];
-    
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            const productCartNo = checkboxes[i].value;
-            const productPrice = parseFloat(checkboxes[i].getAttribute("data-productPrice"));
-            const productCount = parseFloat(checkboxes[i].getAttribute("data-productCount"));
-            const totalPrice = productPrice * productCount;
-            
-            selectedItems.push({
-                productCartNo: productCartNo,
-                productId: checkboxes[i].getAttribute("data-productId"),
-                productCount: productCount,
-                productPrice: productPrice,
-                totalPrice: totalPrice
-            });
-        }
-    }
 
-    // 선택된 항목이 없는 경우 경고 메시지 출력
-    if (selectedItems.length === 0) {
-        alert("선택된 항목이 없습니다.");
-        return;
-    }
-
-    // 선택된 항목 정보를 서버로 전송
-    $.ajax({
-        type: "POST",
-        url: "<c:url value='/purchase'/>", 
-        data: JSON.stringify(selectedItems), 
-        success: function (response) {
-            // 서버 응답 처리
-            if (response.success) {
-                alert("선택 항목 구매가 완료되었습니다.");
-                location.reload();
-            } else {
-                alert("구매 실패: " + response.message);
-            }
-        },
-        error: function () {
-            alert("구매 요청 중 오류가 발생했습니다.");
-        }
-    });
-}
-</script>
 
 
 
