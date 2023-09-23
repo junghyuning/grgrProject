@@ -1,5 +1,6 @@
 package com.grgr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,21 +29,22 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderPageController {
 	private final OrderPageService orderPageService;
 
-	// 장바구니
+	// 장바구니에서 넘어오는 데이터 받아서 출력 및 주문내역에 추가하는 메서드
 	@RequestMapping("/cart/{productCartNo}")
-	public String cartOrderPage(@RequestBody int productCartNo,
-			HttpSession session, Model model) {
-		log.info("@@@@@ OrderPageController 클래스의 cartOrderPage 호출");
+	public String cartOrderPage(@RequestBody List<Integer> selectedItemList, HttpSession session,
+			Model model) throws NumberFormatException {
 
-		Integer loginUno = (Integer) session.getAttribute("loginUno");
-		log.info("loginUno"+loginUno);
-
-		Map<String, Object> result = orderPageService.getCartOrderPage(loginUno, productCartNo);
-		log.info("result"+result);
 		
-		model.addAttribute("cartOrderPage", result.get("cartOrderPage"));
-
+		
 		return "board/orderpage";
+	}
+
+	Map<String, Object> result = orderPageService.getCartOrderPage(loginUno,
+			productCartNoList);log.info("result"+result);
+
+	model.addAttribute("cartOrderPage",result.get("cartOrderPage"));
+
+	return"board/orderpage";
 	}
 
 	// 바로구매
@@ -58,19 +60,4 @@ public class OrderPageController {
 
 		return "board/orderpage";
 	}
-
-	// 주문테이블에 저장
-	@PostMapping("/add")
-	public String addOrderPage(@ModelAttribute OrderPage orderPage, @RequestParam Integer productId, @PathVariable int uno, Model model) {
-		log.info("@@@@@ OrderPageController 클래스의 addOrderPage 호출");
-
-		orderPageService.addOrderPage(orderPage);
-		
-
-	    // 주문번호를 모델에 추가
-	    model.addAttribute("message", "주문에 성공했습니다.");
-
-		return "success"; // 주문 성공 시
-	}
-
 }

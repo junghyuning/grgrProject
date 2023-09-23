@@ -1,8 +1,5 @@
 package com.grgr.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -20,13 +17,13 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 	private final SqlSession sqlSession;
 	
 	@Override
-	public List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(map); 
+	public ProductCartDTO selectCartOrderPage(int productCartNo) {
+		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(productCartNo); 
 	}
 
 	@Override
-	public ProductBoardVO selectProductOrderPage(Map<String, Object> map) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(map);
+	public ProductBoardVO selectProductOrderPage(int productId) {
+		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(productId);
 	}
 
 	@Override

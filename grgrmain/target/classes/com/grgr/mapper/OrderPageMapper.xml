@@ -15,8 +15,7 @@
 		JOIN
 		PRODUCT_BOARD PB ON PC.PRODUCT_ID = PB.PRODUCT_ID
 		WHERE
-		PC.PRODUCT_CART_NO = #{productCartNo} 
-		ORDER BY PC.PRODUCT_CART_NO DESC
+		PC.PRODUCT_CART_NO = #{productCartNo}
 	</select>
 
 	<!-- 바로구매 받기 -->

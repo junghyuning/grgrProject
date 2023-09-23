@@ -23,31 +23,19 @@ public class OrderPageServiceImpl implements OrderPageService {
 	private final OrderPageDAO orderPageDAO;
 
 	@Override
-	public Map<String, Object> getCartOrderPage(int loginUno, int productCartNo) {
-		Map<String, Object> cartMap = new HashMap<String, Object>();
-		cartMap.put("uno", loginUno);
-		cartMap.put("productCartNo", productCartNo);
-
-		// 장바구니 목록 출력
-		List<ProductCartDTO> cartList = orderPageDAO.selectCartOrderPage(cartMap);
-		log.info("cartList" + cartList);
-
-		// 유저 조회
-		Userinfo userInfo = orderPageDAO.selectOrderUserinfo(loginUno);
-		log.info("userInfo" + userInfo);
-
-		// cart 테이블 where절 join
-		for (ProductCartDTO cart : cartList) {
-			if (cartList != null && !cartList.isEmpty()) {
-				cart.setUno(loginUno);
-				orderPageDAO.selectCartOrderPage(cartMap);
-			}
+	public ProductCartDTO getCartOrderPage(int loginUno, int productCartNo, List<Integer> cartOderList) {
+		ProductCartDTO productCartDTO = orderPageDAO.selectCartOrderPage(productCartNo);
+		
+		for(int cartNo : cartOderList) {
+			orderPageDAO.selectCartOrderPage(productCartNo);
 		}
-		return cartMap;
+		
+		return productCartDTO;
 	}
 
 	@Override
-	public Map<String, Object> getProductOrderPage(int loginUno, int productId) {
+	@Transactional
+	public ProductBoardVO getProductOrderPage(int loginUno, int productId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uno", loginUno);
 		map.put("productId", productId);
