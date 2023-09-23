@@ -10,8 +10,11 @@ CREATE TABLE product_cart (
 */
 package com.grgr.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
+//0923 - cartList 필드 추가(주문페이지에서 사용)
 @Data
 public class ProductCartDTO {
 	private int productCartNo; // 장바구니 등록 번호
@@ -22,4 +25,5 @@ public class ProductCartDTO {
 	private String productTitle; // 상품명
 	private int productPrice; // 가격
 
+	private List<ProductCartDTO> cartList;//주문페이지 사용
 }
