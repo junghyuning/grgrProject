@@ -112,8 +112,8 @@
 					<div class="col-md-9">
 						<div class="form-group">
 							<input type="text" class="form-control" id="contact-email"
-								name="infoTitle" placeholder="제목을 입력해주세요" required="true"
-								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400"
+								name="infoTitle" placeholder="제목을 입력해주세요" required
+								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400;  color: black;"
 								aria-required="true">
 						</div>
 						<!-- / form-group -->
@@ -123,8 +123,8 @@
 					<div class="form-group">
 						<textarea id="contact-message" class="form-control"
 							name="infoContent" rows="8" placeholder="내용을 입력하세요"
-							required="true"
-							style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px;"
+							required
+							style=" color: black; font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px;"
 							aria-required="true"></textarea>
 					</div>
 
