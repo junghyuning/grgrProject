@@ -29,11 +29,6 @@
 <body>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
 	<!-- 배너 -->
 	<c:set var="boardName" value="정보공유게시판" />
 	<header class="xl bg-img bg-fixed"
@@ -136,7 +131,7 @@
 							<div class="form-group">
 								<input type="text" class="form-control" id="contact-email"
 									name="infoTitle" required
-									style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; color: #000;"
+									style="color: black; font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; color: #000;"
 									aria-required="true" value="${infoBoard.infoTitle}">
 							</div>
 							<!-- / form-group -->
@@ -145,7 +140,7 @@
 						<!-- 글쓰기 영역 -->
 						<div class="form-group">
 							<textarea id="contact-message" class="form-control"
-								name="infoContent" rows="8" required
+								name=" color: black; infoContent" rows="8" required
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px; color: #000;"
 								aria-required="true">${infoBoard.infoContent}</textarea>
 						</div>
