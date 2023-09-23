@@ -475,10 +475,10 @@
 					html += '<span id="comment-select" style="float: right;">';				
 					if (comment.uno === loginUno) {
 						//html += '<a href="#x" class="cwomment-modify"> <i class="far fa-comments fs-15 mr-5"></i>변경</a>';
-						html += '<a href="#x" class="comment-remove"> <i class="far fa-comments fs-15 mr-5"></i>삭제</a>';
+						html += '<a href="#x" class="comment-remove"> <i class="fas fa-times text-danger mr-5"></i>삭제</a>';
 					}
 					if (loginUserStatus === 1) {
-						html += '<a href="#x" class="comment-hide"> <i class="far fa-comments fs-15 mr-5"></i>숨김</a>';
+						html += '<a href="#x" class="comment-hide"> <i class="fas fa-times text-danger mr-5"></i>숨김</a>';
 					}
 					html += '</span>';
 					html += '</p>';

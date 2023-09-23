@@ -77,8 +77,7 @@
 
 <body>
 	<!-- 헤더 -->
-	<jsp:include
-		page="${pageContext.request.contextPath}/WEB-INF/views/tiles/header.jsp" />
+	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 		<div id="preloader">
 		<div class="preloader">
 			<span></span> <span></span>
@@ -97,11 +96,6 @@
 		<!-- / container -->
 	</header>
 
-	<div id="preloader">
-		<div class="preloader">
-			<span></span> <span></span>
-		</div>
-	</div>
 
 	<div id="top"></div>
 	<!-- / top -->
