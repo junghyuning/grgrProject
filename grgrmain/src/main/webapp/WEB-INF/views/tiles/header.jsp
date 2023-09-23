@@ -89,7 +89,7 @@
 </style>
 </head>
 <body style="background-color: white">
-	<div class="bg-light">
+	<div class="bg-light ">
 
 
 		<div class="modal fade modal-left modal-left-example modal-register"
@@ -150,10 +150,11 @@
 			<!-- ---------------------------------------------------------------------------------------------------------- -->
 			<div class="collapse navbar-collapse pt-30 pb-30 "
 				id="navbar-toggle-split-left">
+
 				<button id="showModalBtn" class="btn btn-icon btn-danger">
 					<i class="fas fa-indent fs-14"></i>
 				</button>
-				<ul class="navbar-nav align-items-center" style="width: 500px;">
+				<ul class="navbar-nav align-items-center" style="width: 300px;">
 
 					<li class="nav-item w-50 mr-30"><a
 						href="<c:url value="/info/matzib"/>"> <img class="w-40 mr-10"
@@ -161,70 +162,57 @@
 					</a></li>
 					<li class="nav-item w-50 mr-30"><a
 						href="<c:url value="/info/medical"/>"> <img class="w-40 mr-10"
-							alt="병원정보" src="<c:url value="/images/hospital.png"/>" /><span>병원</span></a>
-					</li>
-					<li class="nav-item w-100">
-						<button class="update-location-button btn btn-primary"
-							style="padding: 10px;" onclick="updateLocation()">
-							<i class="fas fa-map-marker-alt fs-30 va-middle mr-10"></i> <span
-								class="va-middle" style="width: 100px !important;">나의 위치
-								인증</span>
-						</button>
-					</li>
-
+							alt="병원정보" src="<c:url value="/images/hospital.png"/>" /><span>병원</span></a></li>
 				</ul>
-				<div>
-					<h2>
-						<a
-							href="<c:url value='/noticeboard/read?noticeBno=${latestNoticeBno}'/>"
-							style="text-decoration: underline;"> <i
-							class="fas fa-bullhorn"></i> ${latestNoticeTitle}
-						</a>
-					</h2>
-				</div>
+
 			</div>
 
 			<!-- / navbar-nav -->
 			<!-- / navbar-collapse -->
 
-			<c:if test="${loginUno==null}">
-				<a class="navbar-brand m-auto" href="<c:url value='/main' />"><img
-					src="${pageContext.request.contextPath}/images/grgr_favicon.png"
-					alt="메인로고"></a>
-			</c:if>
-
-			<c:if test="${loginUno!=null}">
-				<div class="collapse navbar-collapse p-30">
-					<ul class="navbar-nav align-items-center" style="width: 800px;">
-
+			<div
+				class="collapse navbar-collapse p-30 d-flex justify-content-center">
+				<c:if test="${loginUno==null}">
+					<a class="navbar-brand" href="<c:url value='/main' />"><img
+						src="${pageContext.request.contextPath}/images/grgr_favicon.png"
+						alt="메인로고"></a>
+				</c:if>
+				<c:if test="${loginUno!=null}">
+					<ul
+						class="navbar-nav align-items-center d-flex justify-content-xl-between"
+						style="width: 600px;">
 						<c:if test="${loginUno!=null && loginUserStatus!=1 }">
 							<li class="nav-item w-120 mr-30"
-								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"${loginNickname }"님의
-								위치는</li>
-							<li class="nav-item w-50 mr-30"><a
-								class="navbar-brand m-auto" href="<c:url value='/main' />"><img
+								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;"><button
+									class="update-location-button btn btn-primary"
+									style="padding: 10px;" onclick="updateLocation()">
+									<i class="fas fa-map-marker-alt fs-30 va-middle mr-10"></i> <span id="login-location-text"
+										class="va-middle" style="width: 100px !important;">${loginLocation != null ? loginLocation : '나의 위치 인증'}</span>
+								</button></li>
+							<li class="nav-item"><a
+								class="navbar-brand " href="<c:url value='/main' />"><img
 									src="${pageContext.request.contextPath}/images/grgr_favicon.png"
 									alt="메인로고"></a></li>
-							<li class="nav-item w-120"
-								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"${loginLocation}"
-								입니다.</li>
+							<li class="nav-item w-120"><h5>"${loginNickname }"님 환영합니다</h5></li>
 						</c:if>
 						<!-- 관리자 페이지 -->
 						<c:if test="${loginUno!=null && loginUserStatus==1 }">
-							<li class="nav-item w-120 mr-30"
-								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
-							<li class="nav-item w-50 mr-30"><a class="navbar-brand"
-								href="<c:url value='/main' />"><img
+							<li class="nav-item w-120 mr-30 invisible"> <button
+									style="padding: 10px;" onclick="updateLocation()">
+									<i class="fas fa-map-marker-alt fs-30 va-middle mr-10"></i> <span
+										class="va-middle" style="width: 100px !important;">나의
+										위치 인증</span>
+								</button></li>
+							<li class="nav-item"><a
+								class="navbar-brand" href="<c:url value='/main' />"><img
 									src="${pageContext.request.contextPath}/images/grgr_favicon.png"
 									alt="메인로고"></a></li>
-							<li class="nav-item w-120"
-								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;">"관리자"님
-								환영합니다.</li>
+							<li class="nav-item w-120"><h5>"관리자"님 환영합니다.</h5></li>
 						</c:if>
 					</ul>
 
-				</div>
-			</c:if>
+				</c:if>
+			</div>
 
 
 			<div class="collapse navbar-collapse pr-30"
@@ -232,42 +220,38 @@
 				<!-- 비로그인 사용자 -->
 				<c:if test="${loginUno==null}">
 					<ul class="navbar-nav ml-auto d-flex align-items-center"
-						style="width: 500px; justify-content: flex-end;">
-						<li class="nav-item w-50 mr-30">
-							<!-- href="<c:url value="/info/matzib"/>" --> <span></span>
-						</li>
+						style="width: 300px; justify-content: flex-end;">
 						<li class="nav-item w-50 mr-30">
 							<!-- href="<c:url value="/info/matzib"/>" --> <span></span>
 						</li>
 						<li class="nav-item w-50 mr-30"><a
 							href="<c:url value="/user/login"/>"><span>로그인</span></a></li>
-						<li class="nav-item w-50 mr-30"><a
+						<li class="nav-item w-50 "><a
 							href="<c:url value="/user/register"/>"><span>회원가입</span></a></li>
 					</ul>
 				</c:if>
 				<!-- 로그인 사용자 -->
 				<c:if test="${loginUno!=null && loginUserStatus!=1 }">
 					<ul class="navbar-nav ml-auto d-flex align-items-center"
-						style="width: 500px; justify-content: flex-end;">
-						<li class="nav-item w-50 mr-30"><span></span></li>
-						<li class="nav-item w-50 mr-30"><a
+						style="width: 300px; justify-content: flex-end;">
+
+						<li class="nav-item w-100 mr-30"><a
 							href="<c:url value="/mypage/userProfile"/>"><span>마이페이지</span></a></li>
 						<li class="nav-item w-50 mr-30"><a
 							href="<c:url value="/cart/list"/>"><span>장바구니</span></a></li>
-						<li class="nav-item w-50 mr-30"><a
+						<li class="nav-item w-50 "><a
 							href="<c:url value="/user/logout"/>"><span>로그아웃</span></i></a></li>
 					</ul>
 				</c:if>
 
 				<!-- 관리자 사용자 -->
 				<c:if test="${loginUno!=null && loginUserStatus==1 }">
-					<ul class="navbar-nav ml-auto d-flex align-items-center"
-						style="width: 500px; justify-content: flex-end;">
+					<ul class="navbar-nav d-flex align-items-center"
+						style="width: 300px; justify-content: flex-end;">
 						<li class="nav-item w-50 mr-30"><span></span></li>
-						<li class="nav-item w-50 mr-30"><span></span></li>
-						<li class="nav-item w-50 mr-30"><a
+						<li class="nav-item w-100 mr-30"><a
 							href="<c:url value="/admin/user-list"/>"><span>관리자페이지</span></a></li>
-						<li class="nav-item w-50 mr-30"><a
+						<li class="nav-item w-50 "><a
 							href="<c:url value="/user/logout"/>"><span>로그아웃</span></a></li>
 					</ul>
 				</c:if>
