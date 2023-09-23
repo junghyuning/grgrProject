@@ -299,6 +299,7 @@
 				navigator.geolocation.getCurrentPosition(function(position) {
 					var latitude = position.coords.latitude;
 					var longitude = position.coords.longitude;
+					
 
 					$.ajax({
 						type : "POST",
@@ -307,8 +308,11 @@
 							latitude : latitude,
 							longitude : longitude
 						},
+						dataType:"text",
 						success : function(response) {
+							console.log("위치정보 : " + response);
 							alert("위치 정보가 업데이트 되었습니다.");
+							 $('#login-location-text').text(response);
 						},
 						error : function(error) {
 							alert(error.status )
