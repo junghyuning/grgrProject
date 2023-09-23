@@ -155,6 +155,7 @@
 											</div>
 											<!-- / column -->
 											<div class="col-lg-10 text-left tablet-lg-center">
+												<div class="d-flex align-items-center"><i class="fas fa-map-marker-alt fs-15 va-middle text-danger mr-5"></i><div class="va-middle pt-1">${infoBoard.infoLoc}</div></div>
 												<p class="mb-20">${infoBoard.infoTitle}</p>
 												<p class="lead mb-20">${infoBoard.infoContent}&nbsp;&nbsp;...</p>
 
