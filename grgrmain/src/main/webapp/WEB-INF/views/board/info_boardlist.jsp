@@ -68,21 +68,21 @@
 						class="btn btn-outline-primary m-y-10 mr-10">
 							${loginUserStatus == 1 ? '관리자' : pager.searchCondition.loginLocation}
 					</a></li>
-					<li><a
-						href="<c:url value="/infoboard/list?keyword=food"/>"
-						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="food">맛집후기</a></li>
-					<li><a
-						href="<c:url value="/infoboard/list?keyword=market"/>"
-						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="market">동네후기</a></li>
-					<li><a
-						href="<c:url value="/infoboard/list?keyword=living"/>"
-						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="living">생활정보</a></li>
-					<li><a
-						href="<c:url value="/infoboard/list?keyword=crew"/>"
-						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="crew">모임 / 구인</a></li>
-					<li><a
-						href="<c:url value="/infoboard/list?keyword=event"/>"
-						class="btn btn-outline-primary m-y-10 mr-10 keyword-button" data-keyword="event">이벤트</a></li>
+					<li><a href="<c:url value="/infoboard/list?keyword=food"/>"
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button"
+						data-keyword="food">맛집후기</a></li>
+					<li><a href="<c:url value="/infoboard/list?keyword=market"/>"
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button"
+						data-keyword="market">동네후기</a></li>
+					<li><a href="<c:url value="/infoboard/list?keyword=living"/>"
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button"
+						data-keyword="living">생활정보</a></li>
+					<li><a href="<c:url value="/infoboard/list?keyword=crew"/>"
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button"
+						data-keyword="crew">모임 / 구인</a></li>
+					<li><a href="<c:url value="/infoboard/list?keyword=event"/>"
+						class="btn btn-outline-primary m-y-10 mr-10 keyword-button"
+						data-keyword="event">이벤트</a></li>
 				</ul>
 
 
@@ -142,57 +142,58 @@
 						<!-- project : 게시글 list 출력 -->
 						<c:set var="i" value="0" />
 						<c:forEach items="${infoBoardList}" var="infoBoard">
-							<li class="col-md-12 col-lg-0 project"><a
-								href="<c:url value='/infoboard/read${pager.searchCondition.getQueryString()}&infoBno=${infoBoard.infoBno}'/>">
-									<div class="promo-box">
-										<div class="cta p-0">
-											<div class="row v-center">
-												<div class="col-lg-2 tablet-lg-top-30 tablet-lg-center">
-													<img
-														src="${pageContext.request.contextPath}/upload/${fileList[i]}"
-														alt="Thumbnail" class="rounded" />
-													<c:set var="i" value="${i+1 }" />
-												</div>
-												<!-- / column -->
-												<div class="col-lg-10 text-left tablet-lg-center">
-													<p class="mb-20">${infoBoard.infoTitle}</p>
-													<p class="lead mb-20">${infoBoard.infoContent}&nbsp;&nbsp;...</p>
+							<li class="col-md-12 col-lg-0 project">
+								<div class="promo-box"
+									onclick="location.href='<c:url value="/infoboard/read${pager.searchCondition.getQueryString()}&infoBno=${infoBoard.infoBno}"/>'">
+									<div class="cta p-0">
+										<div class="row v-center">
+											<div class="col-lg-2 tablet-lg-top-30 tablet-lg-center">
+												<img
+													src="${pageContext.request.contextPath}/upload/${fileList[i]}"
+													alt="Thumbnail" class="rounded" />
+												<c:set var="i" value="${i+1 }" />
+											</div>
+											<!-- / column -->
+											<div class="col-lg-10 text-left tablet-lg-center">
+												<p class="mb-20">${infoBoard.infoTitle}</p>
+												<p class="lead mb-20">${infoBoard.infoContent}&nbsp;&nbsp;...</p>
 
-													<!-- 조회수 -->
-													<div class="viewCnt">
-														<p class="d-inline-block va-middle "
-															style="margin-bottom: 0">
-															<span class="text-sm text-info">조회수 : </span> <span
-																class="timer va-middle" id="count-inline-three"
-																data-to=${infoBoard.infoViewCnt } data-speed="3000">${infoBoard.infoViewCnt }</span>
-														</p>
-													</div>
-
-													<!-- 닉네임, 등록일, 키워드 -->
-													<p class="fs-16 post-meta-small mb-0"
-														style="display: block; text-align: right;">
-														<i class="fas fa-user mr-5"></i>${infoBoard.nickname} <span
-															class="m-x-10 text-muted">|</span> <i
-															class="far fa-calendar-alt mr-5"></i>
-														<fmt:formatDate value="${infoBoard.infoRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
-														<span class="m-x-10 text-muted">|</span> <i
-															class="fas fa-tag mr-10"></i>
-														<c:choose>
-															<c:when test="${infoBoard.infoKeyword=='food'}">맛집</c:when>
-															<c:when test="${infoBoard.infoKeyword=='market'}">기타 후기</c:when>
-															<c:when test="${infoBoard.infoKeyword=='living'}">생활정보</c:when>
-															<c:when test="${infoBoard.infoKeyword=='crew'}">모임 / 구인</c:when>
-															<c:otherwise>이벤트</c:otherwise>
-														</c:choose>
+												<!-- 조회수 -->
+												<div class="viewCnt">
+													<p class="d-inline-block va-middle "
+														style="margin-bottom: 0">
+														<span class="text-sm text-info">조회수 : </span> <span
+															class="timer va-middle" id="count-inline-three"
+															data-to=${infoBoard.infoViewCnt } data-speed="3000">${infoBoard.infoViewCnt }</span>
 													</p>
 												</div>
-												<!-- / column -->
+
+												<!-- 닉네임, 등록일, 키워드 -->
+												<p class="fs-16 post-meta-small mb-0"
+													style="display: block; text-align: right;">
+													<i class="fas fa-user mr-5"></i>${infoBoard.nickname} <span
+														class="m-x-10 text-muted">|</span> <i
+														class="far fa-calendar-alt mr-5"></i>
+													<fmt:formatDate value="${infoBoard.infoRegdate}"
+														pattern="yyyy-MM-dd HH:mm:ss" />
+													<span class="m-x-10 text-muted">|</span> <i
+														class="fas fa-tag mr-10"></i>
+													<c:choose>
+														<c:when test="${infoBoard.infoKeyword=='food'}">맛집</c:when>
+														<c:when test="${infoBoard.infoKeyword=='market'}">기타 후기</c:when>
+														<c:when test="${infoBoard.infoKeyword=='living'}">생활정보</c:when>
+														<c:when test="${infoBoard.infoKeyword=='crew'}">모임 / 구인</c:when>
+														<c:otherwise>이벤트</c:otherwise>
+													</c:choose>
+												</p>
 											</div>
-											<!-- / row -->
+											<!-- / column -->
 										</div>
-										<!-- / cta -->
-									</div> <!-- / promo-box -->
-							</a></li>
+										<!-- / row -->
+									</div>
+									<!-- / cta -->
+								</div> <!-- / promo-box -->
+							</li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -276,29 +277,31 @@
 		src="${pageContext.request.contextPath}/assets/js/jquery.shuffle.min.js"></script>
 	<script src="${pageContext.request.contextPath}/assets/js/portfolio.js"></script>
 	<script>
-		$(document).ready(function() {
+		$(document).ready(
+				function() {
 					var keywordInput = $('input[name="searchKeyword"]');
 					const url = new URLSearchParams(window.location.search);
 					var keyword = url.get('keyword');
-					console.log("keyword :"+keyword)
-					
-					if(keyword!= null && keyword != '' ){
-						console.log("if keyword :" + keyword)
-						const pressedBtn = document.querySelector('.keyword-button[data-keyword='+keyword+']');
-						console.log("pressed :" + pressedBtn)
-						pressedBtn.classList.replace('btn-outline-primary', 'btn-primary-gradient');
-						
-					}
-				  
+					console.log("keyword :" + keyword)
 
-					
+					if (keyword != null && keyword != '') {
+						console.log("if keyword :" + keyword)
+						const pressedBtn = document
+								.querySelector('.keyword-button[data-keyword='
+										+ keyword + ']');
+						console.log("pressed :" + pressedBtn)
+						pressedBtn.classList.replace('btn-outline-primary',
+								'btn-primary-gradient');
+
+					}
+
 					$('#search-button').click(
 							function() {
 								// 선택한 검색 유형과 키워드를 가져옵니다.
 								var searchType = $('#select').val();
 								var searchKeyword = keywordInput.val();
 								var pageNum = $('input[name="pageNum"]').val();
-								
+
 								if (searchKeyword === '') {
 									keywordInput.val('검색어를 입력하지 않으셨습니다.'); // 값을 직접 변경
 									keywordInput.css('color', 'red'); // 텍스트 색상 변경
@@ -323,8 +326,6 @@
 							keywordInput.css('color', 'black'); // 일반 텍스트 색상으로 되돌림
 						}
 					});
-					
-					
 
 				});
 	</script>

@@ -271,7 +271,7 @@ public class UserController {
 	}
 
 	/* Reverse Geocoder + NaverMaps API */
-	@PostMapping("/getAddress")
+	@PostMapping(value="/getAddress", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String getAddressFromCoordinates(HttpSession session, @RequestParam("latitude") String latitude,
 			@RequestParam("longitude") String longitude) {

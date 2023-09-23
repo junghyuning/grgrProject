@@ -29,15 +29,9 @@
 	</div>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
-	
 
-	<a href="${pageContext.request.contextPath}/index.html"
-		class="top-logo"> <img
-		src="${pageContext.request.contextPath}/assets/images/logo-main.png"
-		alt=""></a>
 
-	<div class="full-height relative p-y-30 v-center bg-img"
-		style="background-image: url(/assets/images/placeholder.jpg)">
+	<div class="full-height relative p-y-30 v-center">
 		<div class="container p-y-70">
 			<div class="m-x-auto" style="max-width: 500px;">
 				<div class="card mb-15">
