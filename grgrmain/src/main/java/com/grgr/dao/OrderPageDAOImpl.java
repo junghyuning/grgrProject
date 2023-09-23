@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.grgr.dto.OrderPage;
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductCartDTO;
+import com.grgr.dto.Userinfo;
 import com.grgr.mapper.OrderPageMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 	}
 
 	@Override
-	public List<ProductBoardVO> selectProductOrderPage(Map<String, Object> map) {
+	public ProductBoardVO selectProductOrderPage(Map<String, Object> map) {
 		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(map);
 	}
 
@@ -34,8 +35,8 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 	}
 
 	@Override
-	public List<ProductBoardVO> selectOrderUserinfo(Map<String, Object> map) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectOrderUserinfo(map);
+	public Userinfo selectOrderUserinfo(int uno) {
+		return sqlSession.getMapper(OrderPageMapper.class).selectOrderUserinfo(uno);
 	}
 	
 }
