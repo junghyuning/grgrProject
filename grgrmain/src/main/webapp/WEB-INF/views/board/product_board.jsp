@@ -371,7 +371,9 @@
         $("#buyItemBtn").on("click", function() {
             const productId = ${productBoard.productId}
             const productCount = parseInt($("#quantityInput").val());
+            const totalPrice = ${productBoard.productPrice} * productCount;
             console.log("productCount : "+ productCount);
+            console.log("totalPrice : "+ totalPrice);
             
             let loginUno = ${loginUno};
  
@@ -395,7 +397,8 @@
                 data: JSON.stringify({
                     productId: productId,
                     uno: loginUno,
-                    orderQuantity: productCount
+                    orderQuantity: productCount,
+                    totalPrice: totalPrice
                 }),
                 success: function(result) {
                 	alert("주문테이블에 저장");
