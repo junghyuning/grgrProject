@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/* 관리자 - 회원 정보 수정 */
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void updateUser(UserVO user) {
 		userDAO.updateUser(user);
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
 		return userDAO.findUserByIdAndEmail(userId, email);
 	}
 
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void updateUserPassword(UserVO user) {
 		userDAO.updateUserPassword(user);
@@ -222,7 +222,7 @@ public class UserServiceImpl implements UserService {
 
 	/* NaverLogin 관련 회원가입 및 정보 Update를 하는 서비스 클래스 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public boolean loginNaverUser(UserVO profile) {
 
 		UserVO user = naverDAO.selectByEmail(profile.getEmail());
@@ -247,7 +247,7 @@ public class UserServiceImpl implements UserService {
 
 	/* KakaoLogin 관련 회원가입 및 정보 Update를 하는 서비스 클래스 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public boolean loginKakaoUser(UserVO profile) {
 
 		UserVO user = kakaoDAO.selectByEmail(profile.getEmail());

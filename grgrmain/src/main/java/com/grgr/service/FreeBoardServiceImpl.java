@@ -34,7 +34,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	private final WebApplicationContext context;
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int addFreeBoard(FreeBoard freeBoard, List<MultipartFile> files) throws WriteNullException, FileUploadFailException, IOException {
 		
 		if (freeBoard.getFreeTitle() == null || freeBoard.getFreeContent() == null) {
@@ -48,7 +48,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void modifyFreeBoard(FreeBoard freeBoard, List<MultipartFile> files) throws WriteNullException, FileUploadFailException, IOException {
 		if (freeBoard.getFreeTitle() == null || freeBoard.getFreeContent() == null) {
 	        throw new WriteNullException("제목 또는 내용이 비어있습니다.");
@@ -81,7 +81,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> getFreeBoard(int loginUno, int freeBno) {
 		
 		//게시글 출력
@@ -152,7 +152,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void removeFreeFiles(List<Integer> deleteFileList) throws FileDeleteException {
 		
 		for(Integer fileNo : deleteFileList) {
@@ -177,7 +177,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 	
 	//파일 업로드 처리 메서드
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	private void imgUpload(FreeBoard freeBoard, List<MultipartFile> files) throws FileUploadFailException, IOException {
 		
 		String uploadDirectory=context.getServletContext().getRealPath("/resources/upload");

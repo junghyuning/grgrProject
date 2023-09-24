@@ -29,9 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderPageServiceImpl implements OrderPageService {
 	private final OrderPageDAO orderPageDAO;
 	private final ProductCartDAO productCartDAO;
-
+	// 작성자 : 김정현
 	// 장바구니 목록을 주문테이블에 저장 - 주문테이블에 저장한 장바구니 목록은 삭제
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void addOrderedItems(List<Integer> selectedItemList, int loginUno)
 			throws CartNullException, CartDeleteFailException, OrderInsertFailException {
@@ -67,7 +67,23 @@ public class OrderPageServiceImpl implements OrderPageService {
 			}
 		}
 	}
-
+	// 작성자 : 김정현
+	// 바로구매시 주문테이블에 저장하는 과정을 위한 서비스 클래스
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void addDirectPurchase(OrderPage orderPage) throws OrderInsertFailException {
+		int orderGroup = orderPageDAO.selectLastOrderGroup() + 1;
+		orderPage.setOrderGroup(orderGroup);
+		int result = orderPageDAO.insertOrderPage(orderPage);
+		if(result<1) {
+			throw new OrderInsertFailException("주문목록에 담는 과정에 오류가 발생하였습니다.");
+		}
+		
+	}
+	
+	
+	
+/***************************************************************************************************************************/	
 	@Override
 	public Map<String, Object> getCartOrderPage(int loginUno, int productCartNo) {
 		Map<String, Object> cartMap = new HashMap<String, Object>();
@@ -114,11 +130,4 @@ public class OrderPageServiceImpl implements OrderPageService {
 		return map;
 	}
 
-	@Override
-	@Transactional
-	public int addOrderPage(OrderPage orderPage) {
-		orderPageDAO.insertOrderPage(orderPage);
-
-		return orderPage.getOrderNo();
-	}
 }

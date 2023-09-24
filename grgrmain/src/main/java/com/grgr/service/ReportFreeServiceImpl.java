@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ReportFreeServiceImpl implements ReportFreeService {
 	private final ReportFreeDAO reportFreeDAO;
 
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public String addReportFreeBoard(ReportFreeboard reportFreeboard) {
 
