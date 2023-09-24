@@ -1,11 +1,12 @@
 package com.grgr.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grgr.dto.OrderPage;
 import com.grgr.dto.ProductCartDTO;
+import com.grgr.exception.CartDeleteFailException;
+import com.grgr.exception.CartNullException;
+import com.grgr.exception.OrderInsertFailException;
 import com.grgr.service.OrderPageService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,23 +32,38 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderPageController {
 	private final OrderPageService orderPageService;
-
-	// 장바구니에서 넘어오는 데이터 받아서 출력 및 주문내역에 추가하는 메서드
-	@RequestMapping("/cart/{productCartNo}")
-	public String cartOrderPage(@RequestBody List<Integer> selectedItemList, HttpSession session,
-			Model model) throws NumberFormatException {
-
+	
+	// 주문테이블에 저장
+	@PostMapping("/add")
+	public ResponseEntity<String> addOrderItems(@RequestParam("selectedItemList[]") List<Integer> selectedItemList, @RequestParam int totalPrice, HttpSession session ) throws CartNullException, CartDeleteFailException, OrderInsertFailException {
+		
+		session.setAttribute("totalPrice", totalPrice);
+		
+		Integer loginUno =(Integer)session.getAttribute("loginUno");
+		
+		//주문테이블에 저장 및 장바구니에서 삭제
+		orderPageService.addOrderedItems(selectedItemList, loginUno);
 		
 		
-		return "board/orderpage";
+		return new ResponseEntity<String> ("success", HttpStatus.OK);
 	}
 
-	Map<String, Object> result = orderPageService.getCartOrderPage(loginUno,
-			productCartNoList);log.info("result"+result);
 
-	model.addAttribute("cartOrderPage",result.get("cartOrderPage"));
+	// 장바구니
+	@RequestMapping("/cart/{productCartNo}")
+	public String cartOrderPage(@RequestBody int productCartNo,
+			HttpSession session, Model model) {
+		log.info("@@@@@ OrderPageController 클래스의 cartOrderPage 호출");
 
-	return"board/orderpage";
+		Integer loginUno = (Integer) session.getAttribute("loginUno");
+		log.info("loginUno"+loginUno);
+
+		Map<String, Object> result = orderPageService.getCartOrderPage(loginUno, productCartNo);
+		log.info("result"+result);
+		
+		model.addAttribute("cartOrderPage", result.get("cartOrderPage"));
+
+		return "board/orderpage";
 	}
 
 	// 바로구매
@@ -60,4 +79,6 @@ public class OrderPageController {
 
 		return "board/orderpage";
 	}
+
+
 }
