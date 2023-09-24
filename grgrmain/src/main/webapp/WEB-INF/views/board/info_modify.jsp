@@ -140,7 +140,7 @@
 						<!-- 글쓰기 영역 -->
 						<div class="form-group">
 							<textarea id="contact-message" class="form-control"
-								name=" color: black; infoContent" rows="8" required
+								name="infoContent" rows="8" required
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px; color: #000;"
 								aria-required="true">${infoBoard.infoContent}</textarea>
 						</div>
@@ -317,4 +317,3 @@
 	<!-- / portfolio script -->
 </body>
 </html>
-

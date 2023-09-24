@@ -6,6 +6,10 @@
 <!DOCTYPE html>
 <html lang="kor">
 <head>
+<!-- Favicon -->
+<link rel="icon"
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
+	
 <!-- Site Title -->
 <title>끼리끼리 - 정보공유게시판</title>
 <style>
