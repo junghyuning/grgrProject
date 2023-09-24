@@ -6,7 +6,9 @@
 <html lang="en">
 
 <head>
-
+<!-- Favicon -->
+<link rel="icon"
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
 </head>
 
 <body>
