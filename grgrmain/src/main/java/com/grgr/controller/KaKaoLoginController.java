@@ -71,6 +71,10 @@ public class KaKaoLoginController {
 		session.setAttribute("loginActive", user.getActive());
 		session.setAttribute("loginUserStatus", user.getUserStatus());
 		session.setAttribute("loginLastLogin", user.getLastLogin());
+		
+		if(user.getActive() == 2) {
+			return "redirect:/mypage/activateUser";
+		}
 
 		if (user.getNickName() == null) {
 			Integer loginUno = (Integer) session.getAttribute("loginUno");
