@@ -109,6 +109,7 @@
 														<c:when test="${user.userStatus == 1}">관리자</c:when>
 														<c:when test="${user.userStatus == 2}">일반회원</c:when>
 														<c:when test="${user.userStatus == 3}">상권회원</c:when>
+														<c:when test="${user.userStatus == 4}">소셜로그인회원</c:when>
 													</c:choose></li>
 
 												<li class="mb-15"><i class="fas fa-star va-middle mr-5"></i>
