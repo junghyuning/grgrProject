@@ -1,5 +1,8 @@
 package com.grgr.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -17,23 +20,43 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 	private final SqlSession sqlSession;
 	
 	@Override
-	public ProductCartDTO selectCartOrderPage(int productCartNo) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(productCartNo); 
+	public int selectLastOrderGroup() {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(OrderPageMapper.class).selectLastOrderGroup();
 	}
-
-	@Override
-	public ProductBoardVO selectProductOrderPage(int productId) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(productId);
-	}
-
+	
 	@Override
 	public int insertOrderPage(OrderPage orderPage) {
 		return sqlSession.getMapper(OrderPageMapper.class).insertOrderPage(orderPage);
 	}
-
+	
 	@Override
 	public Userinfo selectOrderUserinfo(int uno) {
 		return sqlSession.getMapper(OrderPageMapper.class).selectOrderUserinfo(uno);
 	}
+	
+	@Override
+	public ProductCartDTO selectCartByCartNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(OrderPageMapper.class).selectCartByCartNo(map);
+	}
+	
+	@Override
+	public List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map) {
+		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(map); 
+	}
+
+	@Override
+	public ProductBoardVO selectProductOrderPage(Map<String, Object> map) {
+		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(map);
+	}
+
+
+
+
+
+
+
+
 	
 }

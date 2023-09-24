@@ -1,13 +1,20 @@
 package com.grgr.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.grgr.dto.OrderPage;
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductCartDTO;
 import com.grgr.dto.Userinfo;
 
 public interface OrderPageDAO {
-	ProductCartDTO selectCartOrderPage(int productCartNo);//장바구니 목록
-	ProductBoardVO selectProductOrderPage(int productId);//바로구매 목록
-	int insertOrderPage(OrderPage orderPage);//주문내역 삽입
+	int selectLastOrderGroup();
+	int insertOrderPage(OrderPage orderPage);
 	Userinfo selectOrderUserinfo(int uno);//유저정보
+	ProductCartDTO selectCartByCartNo(Map<String, Object> map);//카트에서 정보 받아오기
+	
+	List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map);//장바구니 목록
+	ProductBoardVO selectProductOrderPage(Map<String, Object> map);//바로구매 목록
+
 }
