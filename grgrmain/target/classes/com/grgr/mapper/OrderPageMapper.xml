@@ -44,20 +44,15 @@
 		WHERE
 		UNO = #{uno}
 	</select>
-
 	
-	<!-- 바로구매 받기 -->
-	<select id="selectProductOrderPage" resultType="OrderPage">
-		SELECT 
-		PRODUCT_ID,
-		PRODUCT_TITLE,
-		UNO,
-		PRODUCT_PRICE
-		FROM
-		PRODUCT_BOARD
-		WHERE
-		PRODUCT_ID=#{productId} AND UNO = #{uno}
+	<select id ="selectRecentOrderListByUno" resultType="OrderListDTO">
+		SELECT * FROM (
+			
+			(SELECT MAX(ORDER_GROUP) FROM ORDERPAGE WHERE UNO = #{UNO}) 
+		)
+		ORDERPAGE O JOIN PRODUCT_BOARD P ON WHERE O.PRODUCT_ID P.PRODUCT_ID
 	</select>
+
 	
 
 	<!-- 장바구니 리스트 받기 -->
