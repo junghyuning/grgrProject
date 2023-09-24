@@ -49,22 +49,7 @@ public class OrderPageController {
 	}
 
 
-	// 장바구니
-	@RequestMapping("/cart/{productCartNo}")
-	public String cartOrderPage(@RequestBody int productCartNo,
-			HttpSession session, Model model) {
-		log.info("@@@@@ OrderPageController 클래스의 cartOrderPage 호출");
-
-		Integer loginUno = (Integer) session.getAttribute("loginUno");
-		log.info("loginUno"+loginUno);
-
-		Map<String, Object> result = orderPageService.getCartOrderPage(loginUno, productCartNo);
-		log.info("result"+result);
-		
-		model.addAttribute("cartOrderPage", result.get("cartOrderPage"));
-
-		return "board/orderpage";
-	}
+	
 
 	// 바로구매
 	@RequestMapping("/product/{productId}")

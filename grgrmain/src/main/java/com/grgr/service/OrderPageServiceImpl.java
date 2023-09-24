@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.FetchProfile.Item;
-
-import org.junit.internal.runners.statements.Fail;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,27 +66,11 @@ public class OrderPageServiceImpl implements OrderPageService {
 	}
 
 	@Override
-	public Map<String, Object> getCartOrderPage(int loginUno, int productCartNo) {
-		Map<String, Object> cartMap = new HashMap<String, Object>();
-		cartMap.put("uno", loginUno);
-		cartMap.put("productCartNo", productCartNo);
+	public Map<String, Object> getCartOrderPage(int orderGroup) {		
+		Map<String, Object> orderMap = new HashMap<String, Object>();
+		orderMap.put("orderGroup", orderGroup);
 
-		// 장바구니 목록 출력
-		List<ProductCartDTO> cartList = orderPageDAO.selectCartOrderPage(cartMap);
-		log.info("cartList" + cartList);
-
-		// 유저 조회
-		Userinfo userInfo = orderPageDAO.selectOrderUserinfo(loginUno);
-		log.info("userInfo" + userInfo);
-
-		// cart 테이블 where절 join
-		for (ProductCartDTO cart : cartList) {
-			if (cartList != null && !cartList.isEmpty()) {
-				cart.setUno(loginUno);
-				orderPageDAO.selectCartOrderPage(cartMap);
-			}
-		}
-		return cartMap;
+        return orderMap;
 	}
 
 	@Override

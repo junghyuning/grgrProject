@@ -15,6 +15,6 @@ public interface OrderPageMapper {
 	ProductCartDTO selectCartByCartNo(Map<String, Object> map); //카트넘버 + 사용자 번호
 	
 	
-	List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map);//장바구니 목록
+	List<OrderPage> selectCartOrderPage(int orderGroup);//장바구니 목록
 	ProductBoardVO selectProductOrderPage(Map<String, Object> map);//바로구매 목록
 }

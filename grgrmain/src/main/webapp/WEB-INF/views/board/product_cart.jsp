@@ -275,7 +275,7 @@ function deleteCart(productCartNo) {
 	            if (response=="success") {
 	                alert("주문에 저장 + 장바구니 삭제");
 	                /* 새로고침 명령 -> 주문페이지 완성시 없어질 것 */
-	                location.reload();
+	                window.location.href = "<c:url value='/order/cart'/>";
 	            } else {
 	                alert("구매 실패: " + response.message);
 	            }
