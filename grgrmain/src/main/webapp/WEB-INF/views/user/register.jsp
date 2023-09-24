@@ -122,7 +122,7 @@
 										placeholder="&#xf2bd; ID" required=""
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
 									<span class="id_input_re_2">이미 사용중인 아이디 입니다.</span> <span
-										class="id_input_re_3">형식에 맞는 아이디를 입력해주세요.(알파벳 소대문 6~15자)</span><span
+										class="id_input_re_3">형식에 맞는 아이디를 입력해주세요.(알파벳 소대문, 숫자 6~15자)</span><span
 										class="final_id_ck">아이디를 입력해주세요.</span>
 								</div>
 
@@ -135,7 +135,7 @@
 										placeholder="&#xf11c; Password"
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
 										<span
-										class="pw_input_re">형식에 맞는 비밀번호를 입력해주세요.<br>(영문 숫자 특수기호 조합 8자리 이상)</span>
+										class="pw_input_re">형식에 맞는 비밀번호를 입력해주세요.<br>(영문 숫자 특수기호(!, @, #, $, %, ^, *, +, =, -) 조합 8자리 이상)</span>
 									<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
 								</div>
 								<!-- / form-group -->
