@@ -19,7 +19,7 @@ public class StopAccountScheduler {
 	private UserDAO userDAO;
 	
 	@Scheduled(cron ="0 0 4 * * *")
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void autoUserDisActive() {
 
 		userDAO.updateUserDisactivate();

@@ -16,8 +16,8 @@
 		WHERE PRODUCT_CART_NO = #{productCartNo} and UNO = #{uno}
 	</select>
 
-	<!-- 장바구니/바로구매 주문테이블 삽입 -->
-	<insert id="insertOrderPage" >
+	<!-- 장바구니 / 바로구매 주문테이블 삽입 -->
+	<insert id="insertOrderPage" parameterType="OrderPage" >
 		INSERT INTO ORDERPAGE
 		(ORDER_NO, 
 		ORDER_GROUP, 
@@ -31,6 +31,7 @@
 		#{productId},
 		#{orderQuantity})
 	</insert>
+
 	
 	<!-- 주문페이지에 출력할 회원정보 가져오기 -->
 	<select id="selectOrderUserinfo" resultType="Userinfo">
@@ -44,12 +45,9 @@
 		UNO = #{uno}
 	</select>
 
-
-
-	
 	
 	<!-- 바로구매 받기 -->
-	<select id="selectProductOrderPage" resultType="ProductBoardVO">
+	<select id="selectProductOrderPage" resultType="OrderPage">
 		SELECT 
 		PRODUCT_ID,
 		PRODUCT_TITLE,

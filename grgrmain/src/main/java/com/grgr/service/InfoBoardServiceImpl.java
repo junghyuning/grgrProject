@@ -38,7 +38,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	private final WebApplicationContext context;
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int addInfoBoard(InfoBoard infoBoard, List<MultipartFile> files) throws WriteNullException, FileUploadFailException, IOException {
 		
 		if (infoBoard.getInfoTitle() == null || infoBoard.getInfoContent() == null) {
@@ -52,7 +52,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void modifyInfoBoard(InfoBoard infoBoard, List<MultipartFile> files) throws WriteNullException, FileUploadFailException, IOException {
 		if (infoBoard.getInfoTitle() == null || infoBoard.getInfoContent() == null) {
 	        throw new WriteNullException("제목 또는 내용이 비어있습니다.");
@@ -85,7 +85,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> getInfoBoard(int loginUno, int infoBno) {
 		
 		//게시글 출력
@@ -157,7 +157,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void removeInfoFiles(List<Integer> deleteFileList) throws FileDeleteException {
 		
 		for(Integer fileNo : deleteFileList) {
@@ -188,7 +188,7 @@ public class InfoBoardServiceImpl implements InfoBoardService {
 	}
 	
 	//파일 업로드 처리 메서드
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	private void imgUpload(InfoBoard infoBoard, List<MultipartFile> files) throws FileUploadFailException, IOException {
 		
 		String uploadDirectory=context.getServletContext().getRealPath("/resources/upload");
