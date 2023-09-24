@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grgr.mapper.OrderPageMapper">
 
-	
+
 	<!-- 주문그룹번호생성 : max 값 + 1 할것.. -->
 	<select id="selectLastOrderGroup">
 		SELECT NVL(MAX(ORDER_GROUP),0) FROM ORDERPAGE
 	</select>
-	
+
 	<!-- 카트넘버로 주문테이블에 저장할 값 가져오기 -->
 	<select id="selectCartByCartNo">
 		SELECT UNO,
@@ -17,25 +17,26 @@
 	</select>
 
 	<!-- 장바구니 / 바로구매 주문테이블 삽입 -->
-	<insert id="insertOrderPage" parameterType="OrderPage" >
-		INSERT INTO ORDERPAGE
-		(ORDER_NO, 
-		ORDER_GROUP, 
-		UNO, 
+	<insert id="insertOrderPage" parameterType="OrderPage">
+		INSERT
+		INTO ORDERPAGE
+		(ORDER_NO,
+		ORDER_GROUP,
+		UNO,
 		PRODUCT_ID,
 		ORDER_QUANTITY)
 		VALUES(
-		ORDERPAGE_SEQ.NEXTVAL, 
-		#{orderGroup}, 
+		ORDERPAGE_SEQ.NEXTVAL,
+		#{orderGroup},
 		#{uno},
 		#{productId},
 		#{orderQuantity})
 	</insert>
 
-	
+
 	<!-- 주문페이지에 출력할 회원정보 가져오기 -->
 	<select id="selectOrderUserinfo" resultType="Userinfo">
-		SELECT USERINFO
+		SELECT UNO,
 		USER_NAME,
 		PHONE,
 		EMAIL
@@ -44,16 +45,32 @@
 		WHERE
 		UNO = #{uno}
 	</select>
-	
-	<select id ="selectRecentOrderListByUno" resultType="OrderListDTO">
-		SELECT * FROM (
-			
-			(SELECT MAX(ORDER_GROUP) FROM ORDERPAGE WHERE UNO = #{UNO}) 
-		)
-		ORDERPAGE O JOIN PRODUCT_BOARD P ON WHERE O.PRODUCT_ID P.PRODUCT_ID
+
+	<!-- 유저의 주문테이블 중에서 가장 최신의 주문테이블을 출력 -->
+	<select id="selectRecentOrderListByUno"
+		resultType="OrderListDTO">
+		SELECT
+		O.ORDER_GROUP,
+		O.PRODUCT_ID,
+		O.ORDER_STATUS,
+		O.ORDER_QUANTITY,
+		O.ORDER_DATE,
+		P.PRODUCT_TITLE,
+		P.PRODUCT_PRICE,
+		P.PRODUCT_CONTENT,
+		P.UNO,
+		U.NICKNAME
+		FROM
+		ORDERPAGE O
+		JOIN
+		PRODUCT_BOARD P ON O.PRODUCT_ID = P.PRODUCT_ID
+		JOIN
+		USERINFO U ON P.UNO = U.UNO
+		WHERE
+		ORDER_GROUP = (SELECT MAX(ORDER_GROUP) FROM ORDERPAGE WHERE UNO = #{uno})
 	</select>
 
-	
+
 
 	<!-- 장바구니 리스트 받기 -->
 	<select id="selectCartOrderPage" resultType="ProductCartDTO">
@@ -67,9 +84,11 @@
 		FROM
 		PRODUCT_CART PC
 		JOIN
-		PRODUCT_BOARD PB ON PC.PRODUCT_ID = PB.PRODUCT_ID
+		PRODUCT_BOARD
+		PB ON PC.PRODUCT_ID = PB.PRODUCT_ID
 		WHERE
-		PC.PRODUCT_CART_NO = #{productCartNo} 
+		PC.PRODUCT_CART_NO =
+		#{productCartNo}
 		ORDER BY PC.PRODUCT_CART_NO DESC
 	</select>
 </mapper>
