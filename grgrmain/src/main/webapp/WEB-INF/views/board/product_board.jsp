@@ -6,37 +6,10 @@
 <html lang="ko">
 
 <head>
-<!-- Meta -->
 <!-- Favicon -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png">
-<!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Custom Styles -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/nouislider.css"
-	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/assets/css/owl.carousel.min.css"
-	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet">
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css">
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
+
 <style>
 .va-middle {
 	font-size: 20px;
