@@ -75,6 +75,7 @@
 			<div class="promo-box" >
 				<div class="row">
 					<!-- 주문자 정보 확인 -->
+					<!-- 
 					<div class="col-lg-6" >
 						<h6 class="mb-10">주문자정보</h6>
 						<c:if test="${orderPage.loginUno == sesseionScope.loginUno }">
@@ -87,9 +88,11 @@
 							<p class="card-text mt-15 mb-15">이메일 : ${orderPage.email }</p>
 						</c:if>
 					</div>
+					 -->
 					<!-- / column -->
 
 					<!-- 결제 상세 확인 -->
+					<!-- 
 					<div class="col-lg-6" >
 						<h6 class="mb-10">결제 상세</h6>
 						<c:if test="${not empty cartList}">
@@ -100,6 +103,7 @@
 
 						</c:forEach>
 					</div>
+					 -->
 					<!-- / column -->
 				</div>
 
@@ -128,12 +132,17 @@
 										</tr>
 									</thead>
 									<!-- 게시글 목록 출력 -->
-									<c:forEach items="${cartList}" var="cart">
+									<c:forEach items="${cartOrderList}" var="cart">
 										<tr>
+										<!-- 
 											<td width="100">${cart.productTitle }</td>
 											<td width="100">${cart.uno }</td>
 											<td width="100">${cart.productCount }</td>
 											<td width="100">${cart.productPrice }</td>
+											 -->
+											<td width="100">${cart.orderGrouop }</td>
+											<td width="100">${cart.productId }</td>
+											<td width="100">${cart.orderQuantity }</td>
 										</tr>
 									</c:forEach>
 								</table>
@@ -230,6 +239,5 @@
 			}
 		});
 	</script>
-
 </body>
 </html>
