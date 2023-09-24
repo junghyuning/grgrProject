@@ -42,8 +42,8 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 	}
 	
 	@Override
-	public List<OrderPage> selectCartOrderPage(int orderGroup) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(orderGroup); 
+	public List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map) {
+		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(map); 
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 //	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int addQnaBoard(QnaBoard qnaBoard, Integer qnaBlindstate, List<MultipartFile> files)
 	        throws WriteNullException, FileUploadFailException, IOException {
 	    if (qnaBoard.getQnaTitle() == null || qnaBoard.getQnaContent() == null) {
@@ -71,7 +71,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void modifyQnaBoard(QnaBoard qnaBoard, Integer qnaBlindstate, List<MultipartFile> files)
 			throws WriteNullException, FileUploadFailException, IOException {
 		if (qnaBoard.getQnaTitle() == null || qnaBoard.getQnaContent() == null) {
@@ -112,7 +112,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> getQnaBoard(int loginUno, int qnaBno) {
 		// 게시글 출력
 		Map<String, Object> readMap = new HashMap<String, Object>();
@@ -183,7 +183,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void removeQnaFiles(List<Integer> deleteFileList) throws FileDeleteException {
 		for (Integer fileNo : deleteFileList) {
 			qnaBoardDAO.deleteQnaFile(fileNo);

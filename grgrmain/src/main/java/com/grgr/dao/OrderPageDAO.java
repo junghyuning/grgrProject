@@ -14,7 +14,7 @@ public interface OrderPageDAO {
 	Userinfo selectOrderUserinfo(int uno);//유저정보
 	ProductCartDTO selectCartByCartNo(Map<String, Object> map);//카트에서 정보 받아오기
 	
-	List<OrderPage> selectCartOrderPage(int orderGroup);//장바구니 목록
+	List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map);//장바구니 목록
 	ProductBoardVO selectProductOrderPage(Map<String, Object> map);//바로구매 목록
 
 }

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.FetchProfile.Item;
+
+import org.junit.internal.runners.statements.Fail;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderPageServiceImpl implements OrderPageService {
 	private final OrderPageDAO orderPageDAO;
 	private final ProductCartDAO productCartDAO;
-
+	// 작성자 : 김정현
 	// 장바구니 목록을 주문테이블에 저장 - 주문테이블에 저장한 장바구니 목록은 삭제
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void addOrderedItems(List<Integer> selectedItemList, int loginUno)
 			throws CartNullException, CartDeleteFailException, OrderInsertFailException {
@@ -64,13 +67,45 @@ public class OrderPageServiceImpl implements OrderPageService {
 			}
 		}
 	}
-
+	// 작성자 : 김정현
+	// 바로구매시 주문테이블에 저장하는 과정을 위한 서비스 클래스
+	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Map<String, Object> getCartOrderPage(int orderGroup) {		
-		Map<String, Object> orderMap = new HashMap<String, Object>();
-		orderMap.put("orderGroup", orderGroup);
+	public void addDirectPurchase(OrderPage orderPage) throws OrderInsertFailException {
+		int orderGroup = orderPageDAO.selectLastOrderGroup() + 1;
+		orderPage.setOrderGroup(orderGroup);
+		int result = orderPageDAO.insertOrderPage(orderPage);
+		if(result<1) {
+			throw new OrderInsertFailException("주문목록에 담는 과정에 오류가 발생하였습니다.");
+		}
+		
+	}
+	
+	
+	
+/***************************************************************************************************************************/	
+	@Override
+	public Map<String, Object> getCartOrderPage(int loginUno, int productCartNo) {
+		Map<String, Object> cartMap = new HashMap<String, Object>();
+		cartMap.put("uno", loginUno);
+		cartMap.put("productCartNo", productCartNo);
 
-        return orderMap;
+		// 장바구니 목록 출력
+		List<ProductCartDTO> cartList = orderPageDAO.selectCartOrderPage(cartMap);
+		log.info("cartList" + cartList);
+
+		// 유저 조회
+		Userinfo userInfo = orderPageDAO.selectOrderUserinfo(loginUno);
+		log.info("userInfo" + userInfo);
+
+		// cart 테이블 where절 join
+		for (ProductCartDTO cart : cartList) {
+			if (cartList != null && !cartList.isEmpty()) {
+				cart.setUno(loginUno);
+				orderPageDAO.selectCartOrderPage(cartMap);
+			}
+		}
+		return cartMap;
 	}
 
 	@Override
@@ -95,11 +130,4 @@ public class OrderPageServiceImpl implements OrderPageService {
 		return map;
 	}
 
-	@Override
-	@Transactional
-	public int addOrderPage(OrderPage orderPage) {
-		orderPageDAO.insertOrderPage(orderPage);
-
-		return orderPage.getOrderNo();
-	}
 }

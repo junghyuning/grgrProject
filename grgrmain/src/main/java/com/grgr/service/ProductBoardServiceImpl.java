@@ -70,7 +70,7 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 
 	/* 특정 상품 조회 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> getProductBoard(int productId) {
 
 		Map<String, Object> readMap = new HashMap<String, Object>();
@@ -105,7 +105,7 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 
 	/* 상품 등록 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)	
 	public int addProduct(ProductBoardVO productBoard, List<MultipartFile> files)
 			throws WriteNullException, FileUploadFailException, IOException {
 
@@ -121,7 +121,7 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void modifyProduct(ProductBoardVO productBoard, List<MultipartFile> files)
 			throws FileUploadFailException, IOException {
 		// TODO Auto-generated method stub
@@ -186,7 +186,7 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 
 	// 이미지 파일 삭제
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void removeProductFiles(List<Integer> deleteFileList) throws FileDeleteException {
 		// TODO Auto-generated method stub
 		for (Integer fileNo : deleteFileList) {

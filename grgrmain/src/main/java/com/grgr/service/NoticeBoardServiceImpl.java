@@ -29,7 +29,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int addNoticeBoard(NoticeBoard noticeBoard) throws WriteNullException, IOException {
 		
 		if (noticeBoard.getNoticeTitle() == null || noticeBoard.getNoticeContent() == null) {

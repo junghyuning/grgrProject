@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ReportQnaBoardServiceImpl implements ReportQnaBoardService {
 	private final ReportQnaBoardDAO reportQnaBoardDAO;
 
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public String addReportQnaBoard(int qnaBno, ReportQnaBoard reportQnaBoard)
 			throws WriteNullException {

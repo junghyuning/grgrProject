@@ -48,22 +48,20 @@ public class OrderPageController {
 		return new ResponseEntity<String> ("success", HttpStatus.OK);
 	}
 
+	
+	
+	// 바로구매
+	@PostMapping("/product")
+	public ResponseEntity<String> porductOrderPage(@RequestBody OrderPage orderPage, HttpSession session) throws OrderInsertFailException {
+
+		orderPageService.addDirectPurchase(orderPage);
+		session.setAttribute("totalPrice", orderPage.getTotalPrice());
+		return new ResponseEntity<String> ("success", HttpStatus.OK);
+	}
+
 
 	
 
-	// 바로구매
-	@RequestMapping("/product/{productId}")
-	public String porductOrderPage(@PathVariable Integer productId, HttpSession session, Model model) {
-		log.info("@@@@@ OrderPageController 클래스의 porductOrderPage 호출");
-
-		Integer loginUno = (Integer) session.getAttribute("loginUno");
-
-		Map<String, Object> result = orderPageService.getProductOrderPage(loginUno, productId);
-
-		model.addAttribute("product", result.get("product"));
-
-		return "board/orderpage";
-	}
 
 
 }

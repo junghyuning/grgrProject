@@ -27,7 +27,7 @@ public class OrderController {
 	@RequestMapping("/cart")
 	public String getCartOrderPage(int orderGroup, HttpSession session, Model model) {
 		log.info("@@@OrderController의 getCartOrderPage 호출");
-		Map<String, Object> map = orderPageService.getCartOrderPage(orderGroup);
+//		Map<String, Object> map = orderPageService.getCartOrderPage(orderGroup);
 		
 		//Integer totalPrice = (Integer) session.getAttribute("totalPrice");
 

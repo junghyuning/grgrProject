@@ -78,7 +78,7 @@
 <body>
 	<!-- 헤더 -->
 	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
-		<div id="preloader">
+	<div id="preloader">
 		<div class="preloader">
 			<span></span> <span></span>
 		</div>
@@ -155,10 +155,12 @@
 									id="addToCartBtn">
 									<i class="fas fa-shopping-cart mr-5"></i> <span>장바구니 담기</span>
 								</button>
-							</span> <a href="<c:url value="/" />" class="btn btn-primary rounded"
-								style="float: right; font-size: 15px"><span>바로 구매</span></a>
+								<button class="btn btn-primary rounded" type="button"
+									id="buyItemBtn">
+									<i class="fas fa-shopping-cart mr-5"></i> <span>바로 구매</span>
+								</button>
+							</span>
 						</div>
-
 					</div>
 
 					<c:if
@@ -302,34 +304,10 @@
 
 	<!-- footer 영역 -->
 	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
+	
+	
 
-	<!-- core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-	<!-- / core JavaScript -->
 
-	<!-- preloader -->
-	<script src="${pageContext.request.contextPath}/assets/js/preloader.js"></script>
-	<!-- / preloader -->
-
-	<!-- hide nav -->
-	<script src="${pageContext.request.contextPath}/assets/js/hide-nav.js"></script>
-	<!-- / hide nav -->
-
-	<!-- form validation -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/jquery.validate.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/js/form-validation.js"></script>
-	<!-- end of form validation -->
-
-	<!-- Owl Carousel -->
-	<script
-		src="${pageContext.request.contextPath}/assets/js/owl.carousel.min.js"></script>
 	<script>
 		$('#product-carousel').owlCarousel({
 			loop : true,
@@ -342,6 +320,100 @@
 		});
 	</script>
 	<!-- / Owl Carousel -->
+	
+	<script>
+
+		/* 장바구니 관련 스크립트 */
+        $("#addToCartBtn").on("click", function() {
+            const productId = ${productBoard.productId}
+            const productCount = parseInt($("#quantityInput").val());
+            console.log("productCount : "+ productCount);
+            let loginUno = ${loginUno};
+            
+            // 수량 체크
+            if (productCount > 10) {
+                alert("최대 가능 수량은 " + 10 + " 개 입니다.");
+                return; // 등록 X
+            }
+            
+            // 공백 체크
+             if (!productCount || isNaN(productCount) || productCount <1) {
+                alert("수량을 입력하세요.");
+                return; // 등록 X
+            }
+            // AJAX 요청
+            $.ajax({
+                url: "<c:url value="/cart/add"/>",
+                type: 'POST',
+                data: {
+                    "productId": productId,
+                    "uno": loginUno,
+                    "productCount": productCount
+                },
+                success: function(result) {
+                    
+                    if (result === '1') {
+                        alert("장바구니에 추가되었습니다.");
+                    } else if (result === '2') {
+                        alert("장바구니에 이미 추가되어 있습니다.");
+                    } else {
+                        alert("장바구니에 추가를 하지 못하였습니다.");
+                    }
+                },	
+                error: function() {
+                	
+                    alert("오류가 발생하였습니다.");
+                }
+            });
+        });
+        
+        /* 바로구매 관련 스크립트 */
+        $("#buyItemBtn").on("click", function() {
+            const productId = ${productBoard.productId}
+            const productCount = parseInt($("#quantityInput").val());
+            const totalPrice = ${productBoard.productPrice} * productCount;
+            console.log("productCount : "+ productCount);
+            console.log("totalPrice : "+ totalPrice);
+            
+            let loginUno = ${loginUno};
+ 
+        	
+            // 수량 체크
+            if (productCount > 10) {
+                alert("최대 가능 수량은 " + 10 + " 개 입니다.");
+                return; // 등록 X
+            }
+            
+            // 공백 체크
+             if (!productCount || isNaN(productCount) || productCount <1) {
+                alert("수량을 입력하세요.");
+                return; // 등록 X
+            }
+            // AJAX 요청
+            $.ajax({
+                url: "<c:url value="/order/product"/>",
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    productId: productId,
+                    uno: loginUno,
+                    orderQuantity: productCount,
+                    totalPrice: totalPrice
+                }),
+                success: function(result) {
+                	alert("주문테이블에 저장");
+                	if(result == "success")
+                	location.reload();
+                	//window.locatoin.href = '${pageContext.request.contextPath}/order/cart';
+                },	
+                error: function(xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+
+</script>
+	
 
 	<script>
 		const url = new URL(window.location.href);
@@ -646,39 +718,6 @@
 		});
 	</script>
 
-	<script>
-	$(document).ready(function() {
-			if (Modernizr.touch) {
-				// show the close overlay button
-				$('.close-overlay').removeClass('hidden');
-				// handle the adding of hover class when clicked
-				$('.img').click(function(e) {
-					if (!$(this).hasClass('hover')) {
-						$(this).addClass('hover');
-					}
-				});
-				// handle the closing of the overlay
-				$('.close-overlay').click(function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					if ($(this).closest('.img').hasClass('hover')) {
-						$(this).closest('.img').removeClass('hover');
-					}
-				});
-			} else {
-				// handle the mouseenter functionality
-				$('.img').mouseenter(function() {
-					$(this).addClass('hover');
-				})
-				// handle the mouseleave functionality
-				.mouseleave(function() { // 추가된 부분
-					$(this).removeClass('hover');
-				}); // 추가된 부분
-			}
-		});
-	</script>
-
-
 	<%--
     // minInput과 maxInput 요소 가져오기
     const quantityInput = document.getElementById("quantityInput");
@@ -689,53 +728,6 @@
 </script>
 --%>
 	<!-- JavaScript 코드 -->
-
-	<script>
-    $(document).ready(function() {
-        $("#addToCartBtn").on("click", function() {
-            const productId = ${productBoard.productId}
-            const productCount = parseInt($(".qty").val()); // 수량 입력 필드의 값 적용
-            let loginUno;
-            loginUno = ${sessionScope.loginUno};
-            
-            // 수량 체크
-            if (productCount > 10) {
-                alert("최대 가능 수량은 " + 10 + " 개 입니다.");
-                return; // 등록 X
-            }
-            
-            // 공백 체크
-             if (!productCount || isNaN(productCount)) {
-                alert("수량을 입력하세요.");
-                return; // 등록 X
-            }
-            // AJAX 요청
-            $.ajax({
-                url: "<c:url value="/cart/add"/>",
-                type: 'POST',
-                data: {
-                    productId: productId,
-                    uno: loginUno,
-                    productCount: productCount
-                },
-                success: function(result) {
-                    
-                    if (result === '1') {
-                        alert("장바구니에 추가되었습니다.");
-                    } else if (result === '2') {
-                        alert("장바구니에 이미 추가되어 있습니다.");
-                    } else {
-                        alert("장바구니에 추가를 하지 못하였습니다.");
-                    }
-                },	
-                error: function() {
-                	
-                    alert("오류가 발생하였습니다.");
-                }
-            });
-        });
-    });
-</script>
 
 
 </body>
