@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grgr.dto.OrderPage;
 import com.grgr.dto.ProductCartDTO;
+import com.grgr.exception.CartDeleteFailException;
+import com.grgr.exception.CartNullException;
+import com.grgr.exception.OrderInsertFailException;
 import com.grgr.service.OrderPageService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +32,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderPageController {
 	private final OrderPageService orderPageService;
+	
+	// 주문테이블에 저장
+	@PostMapping("/add")
+	public ResponseEntity<String> addOrderItems(@RequestParam("selectedItemList[]") List<Integer> selectedItemList, @RequestParam int totalPrice, HttpSession session ) throws CartNullException, CartDeleteFailException, OrderInsertFailException {
+		
+		session.setAttribute("totalPrice", totalPrice);
+		
+		Integer loginUno =(Integer)session.getAttribute("loginUno");
+		
+		//주문테이블에 저장 및 장바구니에서 삭제
+		orderPageService.addOrderedItems(selectedItemList, loginUno);
+		
+		
+		return new ResponseEntity<String> ("success", HttpStatus.OK);
+	}
+
 
 	// 장바구니
 	@RequestMapping("/cart/{productCartNo}")
@@ -59,18 +80,5 @@ public class OrderPageController {
 		return "board/orderpage";
 	}
 
-	// 주문테이블에 저장
-	@PostMapping("/add")
-	public String addOrderPage(@ModelAttribute OrderPage orderPage, @RequestParam Integer productId, @PathVariable int uno, Model model) {
-		log.info("@@@@@ OrderPageController 클래스의 addOrderPage 호출");
-
-		orderPageService.addOrderPage(orderPage);
-		
-
-	    // 주문번호를 모델에 추가
-	    model.addAttribute("message", "주문에 성공했습니다.");
-
-		return "success"; // 주문 성공 시
-	}
 
 }

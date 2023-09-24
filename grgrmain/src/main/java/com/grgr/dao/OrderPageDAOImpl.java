@@ -20,6 +20,28 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 	private final SqlSession sqlSession;
 	
 	@Override
+	public int selectLastOrderGroup() {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(OrderPageMapper.class).selectLastOrderGroup();
+	}
+	
+	@Override
+	public int insertOrderPage(OrderPage orderPage) {
+		return sqlSession.getMapper(OrderPageMapper.class).insertOrderPage(orderPage);
+	}
+	
+	@Override
+	public Userinfo selectOrderUserinfo(int uno) {
+		return sqlSession.getMapper(OrderPageMapper.class).selectOrderUserinfo(uno);
+	}
+	
+	@Override
+	public ProductCartDTO selectCartByCartNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(OrderPageMapper.class).selectCartByCartNo(map);
+	}
+	
+	@Override
 	public List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map) {
 		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(map); 
 	}
@@ -29,14 +51,12 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(map);
 	}
 
-	@Override
-	public int insertOrderPage(OrderPage orderPage) {
-		return sqlSession.getMapper(OrderPageMapper.class).insertOrderPage(orderPage);
-	}
 
-	@Override
-	public Userinfo selectOrderUserinfo(int uno) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectOrderUserinfo(uno);
-	}
+
+
+
+
+
+
 	
 }

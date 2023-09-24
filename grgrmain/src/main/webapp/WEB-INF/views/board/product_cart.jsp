@@ -264,17 +264,16 @@ function deleteCart(productCartNo) {
 	    // 선택된 항목 정보를 서버로 전송
 	    $.ajax({
 	        type: "POST",
-	        url: "<c:url value='/purchase'/>", 
-	        contentType: "application/json",
-	        data: JSON.stringify({
-	        	selectedItemList : selectedItemList,
-	        	totalPrice : totalPrice
-	        }), 
+	        url: "<c:url value='/order/add'/>", 
+	        data: {
+	            "selectedItemList": selectedItemList,
+	            "totalPrice": totalPrice
+	        }, 
 	        success: function (response) {
 	        	
 	            // 서버 응답 처리
 	            if (response=="success") {
-	                alert("선택 항목 구매가 완료되었습니다.");
+	                alert("주문에 저장 + 장바구니 삭제");
 	                /* 새로고침 명령 -> 주문페이지 완성시 없어질 것 */
 	                location.reload();
 	            } else {

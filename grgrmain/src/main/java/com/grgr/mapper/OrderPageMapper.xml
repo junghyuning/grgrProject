@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grgr.mapper.OrderPageMapper">
+
+	
+	<!-- 주문그룹번호생성 : max 값 + 1 할것.. -->
+	<select id="selectLastOrderGroup">
+		SELECT NVL(MAX(ORDER_GROUP),0) FROM ORDERPAGE
+	</select>
+	
+	<!-- 카트넘버로 주문테이블에 저장할 값 가져오기 -->
+	<select id="selectCartByCartNo">
+		SELECT UNO,
+		PRODUCT_ID,
+		PRODUCT_COUNT FROM PRODUCT_CART
+		WHERE PRODUCT_CART_NO = #{productCartNo} and UNO = #{uno}
+	</select>
+
+	<!-- 장바구니/바로구매 주문테이블 삽입 -->
+	<insert id="insertOrderPage" >
+		INSERT INTO ORDERPAGE
+		(ORDER_NO, 
+		ORDER_GROUP, 
+		UNO, 
+		PRODUCT_ID,
+		ORDER_QUANTITY)
+		VALUES(
+		ORDERPAGE_SEQ.NEXTVAL, 
+		#{orderGroup}, 
+		#{uno},
+		#{productId},
+		#{orderQuantity})
+	</insert>
+	
+	<!-- 주문페이지에 출력할 회원정보 가져오기 -->
+	<select id="selectOrderUserinfo" resultType="Userinfo">
+		SELECT USERINFO
+		USER_NAME,
+		PHONE,
+		EMAIL
+		FROM
+		USERINFO
+		WHERE
+		UNO = #{uno}
+	</select>
+
+
+
+	
+	
+	<!-- 바로구매 받기 -->
+	<select id="selectProductOrderPage" resultType="ProductBoardVO">
+		SELECT 
+		PRODUCT_ID,
+		PRODUCT_TITLE,
+		UNO,
+		PRODUCT_PRICE
+		FROM
+		PRODUCT_BOARD
+		WHERE
+		PRODUCT_ID=#{productId} AND UNO = #{uno}
+	</select>
+	
+
 	<!-- 장바구니 리스트 받기 -->
 	<select id="selectCartOrderPage" resultType="ProductCartDTO">
 		SELECT
@@ -17,40 +78,5 @@
 		WHERE
 		PC.PRODUCT_CART_NO = #{productCartNo} 
 		ORDER BY PC.PRODUCT_CART_NO DESC
-	</select>
-
-	<!-- 바로구매 받기 -->
-	<select id="selectProductOrderPage" resultType="ProductBoardVO">
-		SELECT 
-		PRODUCT_ID,
-		PRODUCT_TITLE,
-		UNO,
-		PRODUCT_PRICE
-		FROM
-		PRODUCT_BOARD
-		WHERE
-		PRODUCT_ID=#{productId} AND UNO = #{uno}
-	</select>
-
-	<!-- 장바구니/바로구매 주문페이지 삽입 -->
-	<insert id="insertOrderPage">
-		INSERT INTO ORDERPAGE
-		(ORDER_NO, UNO, PRODUCT_ID,
-		ORDER_STATUS, ORDER_QUANTITY)
-		VALUES(ORDERPAGE_NO_SEQ.NEXTVAL, #{uno},
-		#{productId},
-		#{orderStatus}, #{orderQuantity})
-	</insert>
-	
-	<!-- 회원정보 가져오기 -->
-	<select id="selectOrderUserinfo" resultType="Userinfo">
-		SELECT USERINFO
-		USER_NAME,
-		PHONE,
-		EMAIL
-		FROM
-		USERINFO
-		WHERE
-		UNO = #{uno}
 	</select>
 </mapper>
