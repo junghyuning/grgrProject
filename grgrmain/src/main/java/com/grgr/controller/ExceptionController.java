@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.grgr.exception.CartDeleteFailException;
+import com.grgr.exception.CartNullException;
 import com.grgr.exception.CommentBlindException;
 import com.grgr.exception.CommentInsertException;
 import com.grgr.exception.CommentModifyException;
@@ -20,6 +22,7 @@ import com.grgr.exception.CommentRemoveException;
 import com.grgr.exception.FileDeleteException;
 import com.grgr.exception.FileUploadFailException;
 import com.grgr.exception.NoCommentsException;
+import com.grgr.exception.OrderInsertFailException;
 import com.grgr.exception.PostUpdateException;
 import com.grgr.exception.WriteNullException;
 
@@ -68,6 +71,20 @@ public class ExceptionController {
 	}
 	@ExceptionHandler(CommentBlindException.class)
 	public ResponseEntity<String> commentBlindExceptionHandler(CommentBlindException exception){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+	}
+	
+	@ExceptionHandler(CartNullException.class)
+	public ResponseEntity<String> cartNullExceptionHandler(CartNullException exception){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+	}
+	@ExceptionHandler(CartDeleteFailException.class)
+	public ResponseEntity<String> cartDeleteFailExceptionHandler(CartDeleteFailException exception){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+	}
+	
+	@ExceptionHandler(OrderInsertFailException.class)
+	public ResponseEntity<String> orderInsertFailExceptionHandler(OrderInsertFailException exception){
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
 	}
 
