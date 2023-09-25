@@ -16,5 +16,5 @@ public interface OrderPageService {
 	void addDirectPurchase(OrderPage orderPage) throws OrderInsertFailException;
 	Map<String, Object> getOrderInfo(int loginUno);
 
-	OrderPage getOrderInfo(String orderNo);
+	OrderPage getOrderInfo(String orderGroup);
 }

@@ -96,6 +96,6 @@
 	
 	<!-- 주문 정보 가져오기 -->
     <select id="getOrderInfo" parameterType="String" resultType="com.grgr.dto.OrderPage">
-        SELECT * FROM ORDERPAGE WHERE order_no = #{orderNo}
+        SELECT * FROM ORDERPAGE WHERE order_group = #{orderGroup}
     </select>
 </mapper>
