@@ -165,21 +165,11 @@
 						href="<c:url value="/info/medical"/>"> <img class="w-40 mr-10"
 							alt="병원정보" src="<c:url value="/images/hospital.png"/>" /><span>병원</span></a></li>
 				</ul>
-<<<<<<< HEAD
+
 		
 		<p class="today">TODAY : <span class="num"><%= new com.grgr.service.HttpSessionListener().getTodayVisitCount()%></span>명</p>
-=======
 				
-				<div>
-					<h2>
-						<a
-							href="<c:url value='/noticeboard/read?noticeBno=${latestNoticeBno}'/>"
-							style="text-decoration: underline;"> <i
-							class="fas fa-bullhorn"></i> ${latestNoticeTitle}
-						</a>
-					</h2>
-				</div>
->>>>>>> branch 'main' of https://github.com/SxnnyJ/grgrProject.git
+				
 
 			</div>
 
