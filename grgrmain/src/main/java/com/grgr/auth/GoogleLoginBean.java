@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -24,11 +25,16 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 public class GoogleLoginBean implements GoogleUrls {
-	private static final String CLIENT_ID = "843097710124-bjfh1r074vs540jiot9vnd1b0rabhu0h.apps.googleusercontent.com";
-	private static final String CLIENT_SECRET = "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";
-	private static final String REDIRECT_URL = "http://localhost:80/oauth/google/callback";
-	private static final String SESSION_STATE = "googleState";
-	private static final String SCOPE="email profile";
+	@Value("${google.client.id}")
+	private String CLIENT_ID;
+	@Value("${google.client.secret}")
+	private String CLIENT_SECRET;
+	@Value("${google.redirect.url}")
+	private String REDIRECT_URL;
+	@Value("${google.session.state}")
+	private String SESSION_STATE;
+	@Value("${google.scope}")
+	private String SCOPE;
 
 	private OAuth20Service oAuth20Service;
 
