@@ -64,7 +64,7 @@
 			<jsp:include page="/WEB-INF/views/tiles/sidebar.jsp" />
 
 			<!-- Main Content -->
-			<main class="main-content col-md-10">
+			<main class="main-content col-md-10" style="margin-top: 50px;">
 				<div>
 					<ul class="row portfolio project-grid lightbox list-unstyled mb-0"
 						id="grid" style="clear: both">
