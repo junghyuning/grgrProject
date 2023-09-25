@@ -98,7 +98,7 @@ public class OrderPageServiceImpl implements OrderPageService {
 	}
 	
 	@Override
-	public OrderPage getOrderInfo(String orderNo) {
-        return orderPageDAO.getOrderInfo(orderNo);
+	public OrderPage getOrderInfo(String orderGroup) {
+        return orderPageDAO.getOrderInfo(orderGroup);
 	}
 }

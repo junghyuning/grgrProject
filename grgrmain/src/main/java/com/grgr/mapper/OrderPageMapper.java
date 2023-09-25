@@ -14,6 +14,6 @@ public interface OrderPageMapper {
 	Userinfo selectOrderUserinfo(int uno);//유저정보
 	List<OrderListDTO> selectRecentOrderListByUno(int uno);
 	ProductCartDTO selectCartByCartNo(Map<String, Object> map); //카트넘버 + 사용자 번호
-	OrderPage getOrderInfo(String orderNo);
+	OrderPage getOrderInfo(String orderGroup);
 
 }

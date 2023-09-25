@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,17 +34,10 @@ public class PaymentsController {
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     @ResponseBody
     public String pay(@RequestBody Payment payment, HttpSession session) {
-        // 주문번호를 이용하여 주문 정보를 조회하고 totalprice를 세션에 저장
-        String orderNo = payment.getMerchantUid();
-        OrderPage orderPage = orderPageService.getOrderInfo(orderNo);
-
-        if (orderPage != null) {
-            int amount = orderPage.getTotalPrice();
-            session.setAttribute(payment.getMerchantUid(), amount);
+    	// 주문번호를 이용하여 주문 정보를 세션에서 가져옴
+         session.setAttribute(payment.getMerchantUid(), payment.getAmount());
             return "ok";
-        } else {
-            return "주문 정보를 가져올 수 없습니다.";
-        }
+       
     } 
 
   //결제 후 결제 금액을 검증하여 응답하는 요청 처리 메소드
