@@ -14,7 +14,7 @@
 <meta name="author" content="kingstudio.ro" />
 <!-- Favicon -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
 <!-- Site Title -->
 <title>Soft UI - Neumorphism Style UI Kit</title>
 <!-- Bootstrap 4 core CSS -->

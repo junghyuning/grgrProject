@@ -4,37 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
-<meta name="author" content="kingstudio.ro" />
 <!-- Favicon -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
-<!-- Site Title -->
-<title>Soft UI - Neumorphism Style UI Kit</title>
-<!-- Bootstrap 4 core CSS -->
-<link
-	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
-	rel="stylesheet" />
-<!-- Custom Styles -->
-<link href="${pageContext.request.contextPath}/assets/css/animate.css"
-	rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/assets/css/style.css"
-	rel="stylesheet" />
-<!-- Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
-	rel="stylesheet" />
-<link
-	href="${pageContext.request.contextPath}/assets/css/fontawesome-all.min.css"
-	rel="stylesheet" type="text/css" />
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
+
 </head>
 <style>
 .va-middle {
@@ -85,7 +58,7 @@
 <!-- / top -->
 
 
-<section class="lg bg-light-grey">
+<section class="lg bg-white">
 	<div class="container">
 		<div class="w-90 m-x-auto mt-70" id="titleAndError">
 			<div style="display: flex; align-items: left;">
@@ -99,7 +72,7 @@
 				class="validation-inner" id="form-validation"
 				novalidate="novalidate">
 				<!-- <input type="hidden" name="uno" value="loginUno" /><input type="hidden" name="infoUpdateUno" value="loginUno" /><input type="hidden"
-						name="infoLoc" value="loginLocation" />  -->
+						name="infoLoc" value="loginLoc" />  -->
 				<input type="hidden" name="uno" value="${sessionScope.loginUno}" />
 				<input type="hidden" name="productUpdateUno"
 					value="${sessionScope.loginUno}" />
@@ -112,7 +85,9 @@
 							<input type="text" class="form-control" id="productTitle"
 								name="productTitle" placeholder="제목을 입력해주세요" required="true"
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400"
-								aria-required="true">
+								aria-required="true"> <span id="error-message"
+								style="color: red;">${message}</span> <span
+								id="title-error-message" style="color: red; padding-left: 20px"></span>
 						</div>
 						<!-- / form-group -->
 					</div>
@@ -256,6 +231,12 @@
 
 											var contentErrorMessage = "";
 											var imgErrorMessage = "";
+											var titleErrorMessage = "";
+
+											if (title.length > 25) {
+												titleErrorMessage = '제목의 길이가 너무 깁니다.';
+											}
+											
 
 											if (title.trim() === ''
 													|| content.trim() === ''
@@ -295,6 +276,23 @@
 												}, 5000);
 											}
 
+											if (titleErrorMessage !== "") {
+												console
+														.log('title error not null');
+
+												document
+														.getElementById('title-error-message').textContent = titleErrorMessage;
+
+												$('#title-error-message')
+														.show();
+												console.log('title error show');
+
+												setTimeout(function() {
+													$('#title-error-message')
+															.fadeOut('slow');
+												}, 5000);
+											}
+
 											if (imgErrorMessage !== '') {
 												console
 														.log('img error not null');
@@ -310,7 +308,8 @@
 											}
 
 											if (contentErrorMessage === ""
-													&& imgErrorMessage === "") {
+													&& imgErrorMessage === ""
+													&& titleErrorMessage === "") {
 												document.getElementById(
 														'form-validation')
 														.submit(); // 폼을 제출
@@ -363,4 +362,3 @@
 <!-- / portfolio script -->
 </body>
 </html>
-

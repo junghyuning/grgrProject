@@ -14,7 +14,7 @@
 	<hr>
 	<button type="button" id="html5_inicis" class="pay">일반결제(KG이니시스)</button>
 	<button type="button" id="kakaopay" class="pay">간편결제(카카오페이)</button>
-	
+
 	<script type="text/javascript">
 
 	$(".pay").click(function() {
@@ -26,37 +26,16 @@
 		IMP.init("imp00885377");
 		
 		//주문번호 - 주문테이블에서 제공된 값 사용
-		var merchantUid="merchant_"+new Date().getTime();
+		var merchantUid=${sessionScope.orderGroup};;
 		//결제금액 - 주문테이블에서 제공된 값 사용
-		var amount=1;
-		
-		/*
-		// 주문 정보를 서버에서 가져오기
-	    $.ajax({
-	        type: "GET",
-	        url: "<c:url value='/order/   '/>", // 주문 정보를 가져올 엔드포인트 URL
-	        //url: "<c:url value='/order/orderNo'/>", 
-	        dataType: "json",
-	        success: function(orderpage) {
-	            if (orderpage) {
-	                var merchantUid = orderpage.orderNo; // 주문 정보에서 merchantUid 가져오기
-	                var pay_date = new Date().getTime();
-	                var amount = orderpage.amount; // 주문 정보에서 결제금액 가져오기
-	                var uno = orderpage.uno;
-
-	                // Payment 객체 생성
-	                var payment = {
-	                    merchantUid: merchantUid,
-	                    amount: amount,
-	                    uno: uno
-	                };
-	      */
-		
+		var amount=${sessionScope.totalPrice};
+				
 		//결제 전 주문번호와 결제금액을 세션에 저장하기 위한 페이지 요청
 		// => 결제 후 결제정보와 비교하여 검증하기 위해 세션에 저장 
 		$.ajax({
 			type: "post",
-			url: "<c:url value="/payment/pay"/>",
+			url: "<c:url value="/order/payment/pay"/>",
+			
 			contentType: "application/json",
 			data: JSON.stringify({"merchantUid":merchantUid, "amount":amount}),
 			dataType: "text",
@@ -73,7 +52,7 @@
 						//결제금액
 						amount : amount,
 						//결제창에 보여질 제품명
-						name: "구매상품",
+						name: "테스트상품",
 
 					}, function(response) {//결제 관련 응답 결과를 제공받아 처리하는 함수
 						//response : 응답결과를 저장한 Object 객체
@@ -81,7 +60,7 @@
 							//결제금액을 검증하기 위한 페이지를 요청
 							$.ajax({
 								type: "post",
-								url: "<c:url value="/payment/complate"/>",
+								url: "<c:url value="/order/payment/complate"/>",
 								contentType: "application/json",
 								data: JSON.stringify({"impUid": response.imp_uid, "merchantUid": response.merchant_uid}),
 								dataType: "text",
@@ -89,9 +68,11 @@
 									if(result == "success") {
 										//결제 성공 페이지로 이동
 										alert("결제 성공");
-									} else {
-										//결제 실패 페이지로 이동
-										alert("결제 취소");
+										
+									} else if(result == "forgery") {
+										alert("결제 forgery");
+									} else{
+										alert("결제 실패")
 									}
 								}, 
 								error: function(xhr) {
@@ -108,6 +89,9 @@
 		});
 		
 	});
+		
+	
+					
 	</script>
 </body>
 </html>

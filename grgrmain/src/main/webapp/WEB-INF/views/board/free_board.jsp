@@ -5,6 +5,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Favicon -->
+<link rel="icon"
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
 <style>
 .va-middle {
 	font-size: 20px;
@@ -82,7 +85,7 @@
 
 
 	<!-- 큰 컨테이너  -->
-	<section class="lg bg-light-grey" id="my-section">
+	<section class="lg bg-white" id="my-section">
 		<div class="container">
 			<div class="w-90 m-x-auto mt-70">
 				<div class="col-xl-auto">

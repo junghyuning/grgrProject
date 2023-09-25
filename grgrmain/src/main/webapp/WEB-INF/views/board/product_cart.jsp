@@ -64,7 +64,7 @@
 			<jsp:include page="/WEB-INF/views/tiles/sidebar.jsp" />
 
 			<!-- Main Content -->
-			<main class="main-content col-md-10">
+			<main class="main-content col-md-10" style="margin-top: 50px;">
 				<div>
 					<ul class="row portfolio project-grid lightbox list-unstyled mb-0"
 						id="grid" style="clear: both">
@@ -273,9 +273,9 @@ function deleteCart(productCartNo) {
 	        	
 	            // 서버 응답 처리
 	            if (response=="success") {
-	                alert("주문에 저장 + 장바구니 삭제");
+	               
 	                /* 새로고침 명령 -> 주문페이지 완성시 없어질 것 */
-	                window.location.href = "<c:url value='/order/cart'/>";
+	                window.location.href = '${pageContext.request.contextPath}/order/list';
 	            } else {
 	                alert("구매 실패: " + response.message);
 	            }

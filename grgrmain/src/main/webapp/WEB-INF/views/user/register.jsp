@@ -65,6 +65,7 @@
 </head>
 
 <body>
+	<jsp:include page="/WEB-INF/views/tiles/header.jsp" />
 
 	<div id="preloader">
 		<div class="preloader">
@@ -111,7 +112,7 @@
 										<input type="text" class="form-control user_input"
 											name="userName" placeholder="&#xf2bd; Username" required=""
 											style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
-											<span class="name_input_re">형식에 맞는 이름을 입력해주세요.(한글2~5자)</span>
+										<span class="name_input_re">형식에 맞는 이름을 입력해주세요.(한글2~5자)</span>
 										<span class="final_name_ck">이름을 입력해주세요.</span>
 									</div>
 								</div>
@@ -122,8 +123,8 @@
 										placeholder="&#xf2bd; ID" required=""
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
 									<span class="id_input_re_2">이미 사용중인 아이디 입니다.</span> <span
-										class="id_input_re_3">형식에 맞는 아이디를 입력해주세요.(알파벳 소대문 6~15자)</span><span
-										class="final_id_ck">아이디를 입력해주세요.</span>
+										class="id_input_re_3">형식에 맞는 아이디를 입력해주세요.(알파벳 소대문, 숫자
+										6~15자)</span><span class="final_id_ck">아이디를 입력해주세요.</span>
 								</div>
 
 
@@ -134,9 +135,9 @@
 										class="form-control pw_input" name="userPw"
 										placeholder="&#xf11c; Password"
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
-										<span
-										class="pw_input_re">형식에 맞는 비밀번호를 입력해주세요.<br>(영문 숫자 특수기호 조합 8자리 이상)</span>
-									<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
+									<span class="pw_input_re">형식에 맞는 비밀번호를 입력해주세요.<br>(영문
+										숫자 특수기호(!, @, #, $, %, ^, *, +, =, -) 조합 8자리 이상)
+									</span> <span class="final_pw_ck">비밀번호를 입력해주세요.</span>
 								</div>
 								<!-- / form-group -->
 								<div class="form-group">
@@ -163,9 +164,9 @@
 									<input type="text" class="form-control phone_input"
 										name="phone" placeholder="&#xf2bd; Phone" required=""
 										style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400">
-										<span
-										class="phone_input_re">형식에 맞는 전화번호를 입력해주세요.(010-xxxx-xxxx)</span>
-									<span class="final_phone_ck">연락처를 입력해주세요.</span>
+									<span class="phone_input_re">형식에 맞는 전화번호를
+										입력해주세요.(010-xxxx-xxxx)</span> <span class="final_phone_ck">연락처를
+										입력해주세요.</span>
 								</div>
 
 								<!-- / form-group -->
@@ -231,19 +232,10 @@
 		</div>
 	</div>
 
-	</div>
-	<!-- / container -->
-	<p class="absolute bottom-15 x-0 text-center">
-		<a href="${pageContext.request.contextPath}/index.html"
-			class="text-link fs-16 m-x-15">Home</a> <a
-			href="${pageContext.request.contextPath}/components.html"
-			class="text-link fs-16 m-x-15">Components</a> <a
-			href="${pageContext.request.contextPath}/sections.html"
-			class="text-link fs-16 m-x-15">Sections</a> <a
-			href="${pageContext.request.contextPath}/templates.html"
-			class="text-link fs-16 m-x-15">Templates</a>
-	</p>
-	</div>
+	<jsp:include page="/WEB-INF/views/tiles/footer.jsp" />
+
+
+
 
 	<!-- core JavaScript -->
 	<script
@@ -300,26 +292,23 @@
 														.css("display", "none");
 											});
 							//이름 형식검사
-							$('.user_input')
-									.on(
-											"propertychange change keyup paste input",
-											function() {
+							$('.user_input').on(
+									"propertychange change keyup paste input",
+									function() {
 
-												var userName = $('.user_input')
-														.val(); 
-												// 이름의 정규식을 검사하여 메시지를 설정
-												if (/^[가-힣]{2,5}$/
-														.test(userName)) {
-													$('.name_input_re').css(
-															'display', 'none');
-													nameFormCheck = true;
-												} else {
-													$('.name_input_re').css(
-															'display', 'block');
-													nameFormCheck = false;
-												}
-											});
-							
+										var userName = $('.user_input').val();
+										// 이름의 정규식을 검사하여 메시지를 설정
+										if (/^[가-힣]{2,5}$/.test(userName)) {
+											$('.name_input_re').css('display',
+													'none');
+											nameFormCheck = true;
+										} else {
+											$('.name_input_re').css('display',
+													'block');
+											nameFormCheck = false;
+										}
+									});
+
 							//비밀번호 형식검사
 							$('.pw_input')
 									.on(
@@ -327,7 +316,7 @@
 											function() {
 
 												var userPw = $('.pw_input')
-														.val(); 
+														.val();
 												// 비번 정규식을 검사하여 메시지를 설정
 												if (/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
 														.test(userPw)) {
@@ -340,27 +329,25 @@
 													pwFormCheck = false;
 												}
 											});
-							
-							//전화번호 형식검사
-							$('.phone_input')
-									.on(
-											"propertychange change keyup paste input",
-											function() {
 
-												var userPw = $('.phone_input')
-														.val(); 
-												// 전화번호 정규식을 검사하여 메시지를 설정
-												if (/^010-[0-9]{4}-[0-9]{4}$/
-														.test(userPw)) {
-													$('.phone_input_re').css(
-															'display', 'none');
-													phoneFormCheck = true;
-												} else {
-													$('.phone_input_re').css(
-															'display', 'block');
-													phoneFormCheck = false;
-												}
-											});
+							//전화번호 형식검사
+							$('.phone_input').on(
+									"propertychange change keyup paste input",
+									function() {
+
+										var userPw = $('.phone_input').val();
+										// 전화번호 정규식을 검사하여 메시지를 설정
+										if (/^010-[0-9]{4}-[0-9]{4}$/
+												.test(userPw)) {
+											$('.phone_input_re').css('display',
+													'none');
+											phoneFormCheck = true;
+										} else {
+											$('.phone_input_re').css('display',
+													'block');
+											phoneFormCheck = false;
+										}
+									});
 
 							//아이디 중복검사
 							$('.id_input')
@@ -512,132 +499,148 @@
 										}
 									});
 							//회원가입 버튼(회원가입 기능 작동)
-							$(".join_button").click(
-									function() {
+							$(".join_button")
+									.click(
+											function() {
 
-										/* 입력값 변수 */
-										var id = $('.id_input').val(); // id 입력란
-										var pw = $('.pw_input').val(); // 비밀번호 입력란
-										var pwck = $('.pwck_input').val(); // 비밀번호 확인 입력란
-										var nickName = $('.nickName_input')
-												.val(); // 닉네임 입력란
-										var name = $('.user_input').val(); // 이름 입력란
-										var email = $('.email_input').val(); // 이메일 입력란
-										var emailNum = $('.email_check_input')
-												.val(); // 인증번호 입력란
+												/* 입력값 변수 */
+												var id = $('.id_input').val(); // id 입력란
+												var pw = $('.pw_input').val(); // 비밀번호 입력란
+												var pwck = $('.pwck_input')
+														.val(); // 비밀번호 확인 입력란
+												var nickName = $(
+														'.nickName_input')
+														.val(); // 닉네임 입력란
+												var name = $('.user_input')
+														.val(); // 이름 입력란
+												var email = $('.email_input')
+														.val(); // 이메일 입력란
+												var emailNum = $(
+														'.email_check_input')
+														.val(); // 인증번호 입력란
 
-										/* 아이디 유효성 검사 */
-										if (id == "") {
-											$('.final_id_ck').css('display',
-													'block');
-											idCheck = false;
-										} else {
-											$('.final_id_ck').css('display',
-													'none');
-											idCheck = true;
-										}
+												/* 아이디 유효성 검사 */
+												if (id == "") {
+													$('.final_id_ck').css(
+															'display', 'block');
+													idCheck = false;
+												} else {
+													$('.final_id_ck').css(
+															'display', 'none');
+													idCheck = true;
+												}
 
-										/* 비밀번호 유효성 검사 */
-										if (pw == "") {
-											$('.final_pw_ck').css('display',
-													'block');
-											pwCheck = false;
-										} else {
-											$('.final_pw_ck').css('display',
-													'none');
-											pwCheck = true;
-										}
+												/* 비밀번호 유효성 검사 */
+												if (pw == "") {
+													$('.final_pw_ck').css(
+															'display', 'block');
+													pwCheck = false;
+												} else {
+													$('.final_pw_ck').css(
+															'display', 'none');
+													pwCheck = true;
+												}
 
-										/* 비밀번호 확인 유효성 검사 */
-										if (pwck == "") {
-											$('.final_pwck_ck').css('display',
-													'block');
-											pwckCheck = false;
-										} else {
-											$('.final_pwck_ck').css('display',
-													'none');
-											pwckCheck = true;
-										}
+												/* 비밀번호 확인 유효성 검사 */
+												if (pwck == "") {
+													$('.final_pwck_ck').css(
+															'display', 'block');
+													pwckCheck = false;
+												} else {
+													$('.final_pwck_ck').css(
+															'display', 'none');
+													pwckCheck = true;
+												}
 
-										/* 닉네임 유효성 검사 */
-										if (nickName == "") {
-											$('.final_nickName_ck').css(
-													'display', 'block');
-											nickNameCheck = false;
-										} else {
-											$('.final_nickName_ck').css(
-													'display', 'none');
-											nickNameCheck = true;
-										}
+												/* 닉네임 유효성 검사 */
+												if (nickName == "") {
+													$('.final_nickName_ck')
+															.css('display',
+																	'block');
+													nickNameCheck = false;
+												} else {
+													$('.final_nickName_ck')
+															.css('display',
+																	'none');
+													nickNameCheck = true;
+												}
 
-										/* 이름 유효성 검사 */
-										if (name == "") {
-											$('.final_name_ck').css('display',
-													'block');
-											nameCheck = false;
-										} else {
-											$('.final_name_ck').css('display',
-													'none');
-											nameCheck = true;
-										}
+												/* 이름 유효성 검사 */
+												if (name == "") {
+													$('.final_name_ck').css(
+															'display', 'block');
+													nameCheck = false;
+												} else {
+													$('.final_name_ck').css(
+															'display', 'none');
+													nameCheck = true;
+												}
 
-										/* 전화번호 유효성 검사 */
-										if (name == "") {
-											$('.final_phone_ck').css('display',
-													'block');
-											phoneCheck = false;
-										} else {
-											$('.final_phone_ck').css('display',
-													'none');
-											phoneCheck = true;
-										}
+												/* 전화번호 유효성 검사 */
+												if (name == "") {
+													$('.final_phone_ck').css(
+															'display', 'block');
+													phoneCheck = false;
+												} else {
+													$('.final_phone_ck').css(
+															'display', 'none');
+													phoneCheck = true;
+												}
 
-										/* 이메일 유효성 검사 */
-										if (email == "") {
-											$('.final_email_ck').css('display',
-													'block');
-											emailCheck = false;
-										} else {
-											$('.final_email_ck').css('display',
-													'none');
-											emailCheck = true;
-										}
+												/* 이메일 유효성 검사 */
+												if (email == "") {
+													$('.final_email_ck').css(
+															'display', 'block');
+													emailCheck = false;
+												} else {
+													$('.final_email_ck').css(
+															'display', 'none');
+													emailCheck = true;
+												}
 
-										/* 인증번호 유효성 검사 */
-										if (emailnumCheck == "") {
-											$('.final_email_check_ck').css(
-													'display', 'block');
-											emailnumCheck = false;
-										} else {
-											$('.final_email_check_ck').css(
-													'display', 'none');
-											emailnumCheck = true;
-										}
+												/* 인증번호 유효성 검사 */
+												if (emailnumCheck == "") {
+													$('.final_email_check_ck')
+															.css('display',
+																	'block');
+													emailnumCheck = false;
+												} else {
+													$('.final_email_check_ck')
+															.css('display',
+																	'none');
+													emailnumCheck = true;
+												}
 
-										/* 정보 수집 동의 */
-										if (!$("#checkbox-register2").is(
-												":checked")) {
-											alert("사용자 정보 수집 동의를 체크해주세요.");
-											return false; // 회원가입을 중단합니다.
-										}
+												/* 정보 수집 동의 */
+												if (!$("#checkbox-register2")
+														.is(":checked")) {
+													alert("사용자 정보 수집 동의를 체크해주세요.");
+													return false; // 회원가입을 중단합니다.
+												}
 
-										/* 최종 유효성 검사 */
-										if (idCheck && idFormCheck && nameFormCheck
-												 && pwCheck && pwFormCheck
-												&& pwckCheck && pwckcorCheck
-												&& nickNameCheck && phoneCheck && phoneFormCheck
-												&& nameCheck && emailCheck
-												&& emailnumCheck) {
+												/* 최종 유효성 검사 */
+												if (idCheck && idFormCheck
+														&& nameFormCheck
+														&& pwCheck
+														&& pwFormCheck
+														&& pwckCheck
+														&& pwckcorCheck
+														&& nickNameCheck
+														&& phoneCheck
+														&& phoneFormCheck
+														&& nameCheck
+														&& emailCheck
+														&& emailnumCheck) {
 
-											$("#join_form").attr("action",
-													"join");
-											$("#join_form").submit();
+													$("#join_form").attr(
+															"action", "join");
+													$("#join_form").submit();
 
-										}
+												}
 
-										return false;
+												return false;
 
-									});
+											});
 						});
 
 		/* 입력 이메일 형식 유효성 검사 */

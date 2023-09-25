@@ -16,7 +16,9 @@
 <meta name="description"
 	content="Source code generated using layoutit.com">
 <meta name="author" content="LayoutIt!">
-
+<!-- Favicon -->
+<link rel="icon"
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
 <link href="${pageContext.request.contextPath}/css/style.css"
 	rel="stylesheet">
 <link rel="stylesheet"

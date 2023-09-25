@@ -55,7 +55,7 @@
 		
 	</script>
 	<!-- 큰 컨테이너  -->
-	<section class="lg bg-light-grey">
+	<section class="lg bg-white">
 		<div class="container">
 			<div class="w-90 m-x-auto mt-70">
 				<div>
@@ -66,7 +66,7 @@
 						<div class="alert alert-danger">${msg}</div>
 					</c:if>
 				</div>
-				<form action="modify" method="post" class="validation-inner"
+				<form action="<c:url value="/infoboard/modify"/>" method="post" class="validation-inner"
 					enctype="multipart/form-data" id="form-validation"
 					novalidate="novalidate">
 					<input type="hidden" name="uno" value="${infoBoard.uno}" /> <input
@@ -140,7 +140,7 @@
 						<!-- 글쓰기 영역 -->
 						<div class="form-group">
 							<textarea id="contact-message" class="form-control"
-								name=" color: black; infoContent" rows="8" required
+								name="infoContent" rows="8" required
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important; font-weight: 400; min-height: 500px; max-height: 500px; color: #000;"
 								aria-required="true">${infoBoard.infoContent}</textarea>
 						</div>
@@ -317,4 +317,3 @@
 	<!-- / portfolio script -->
 </body>
 </html>
-

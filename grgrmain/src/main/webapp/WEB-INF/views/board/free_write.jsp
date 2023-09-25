@@ -4,6 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Favicon -->
+<link rel="icon"
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
+	
 <title>끼리끼리 - 자유게시판</title>
 <style>
 .titleAndError {
@@ -37,7 +41,7 @@
 	<div id="top"></div>
 	<!-- / top -->
 
-	<section class="lg bg-light-grey">
+	<section class="lg bg-white">
 		<div class="container">
 			<div class="w-90 m-x-auto mt-70" id="titleAndError">
 				<div style="display: flex; align-items: left;">

@@ -1,7 +1,5 @@
 package com.grgr.auth;
 
-
-
 public interface NaverUrls {
 	
 	static final String NAVER_PROFILE_URL="https://openapi.naver.com/v1/nid/me";

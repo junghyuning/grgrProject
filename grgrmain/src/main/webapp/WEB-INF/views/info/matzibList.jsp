@@ -13,9 +13,13 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="Soft UI - Neumorphism Style UI Kit" />
 <meta name="author" content="kingstudio.ro" />
+<meta 
+  http-equiv="Content-Security-Policy"
+  content="upgrade-insecure-requests"
+/>
 <!-- Favicon -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png" />
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
 <!-- Site Title -->
 <title>Soft UI - Neumorphism Style UI Kit</title>
 <!-- Bootstrap 4 core CSS -->

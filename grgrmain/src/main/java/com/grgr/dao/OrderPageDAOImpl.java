@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.grgr.dto.OrderListDTO;
 import com.grgr.dto.OrderPage;
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductCartDTO;
@@ -40,16 +41,27 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(OrderPageMapper.class).selectCartByCartNo(map);
 	}
-	
+
 	@Override
-	public List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(map); 
+	public List<OrderListDTO> selectRecentOrderListByUno(int uno) {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(OrderPageMapper.class).selectRecentOrderListByUno(uno);
 	}
 
 	@Override
-	public ProductBoardVO selectProductOrderPage(Map<String, Object> map) {
-		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(map);
+	public OrderPage getOrderInfo(String orderGroup) {
+		return sqlSession.getMapper(OrderPageMapper.class).getOrderInfo(orderGroup);
 	}
+	
+//	@Override
+//	public List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map) {
+//		return sqlSession.getMapper(OrderPageMapper.class).selectCartOrderPage(map); 
+//	}
+//
+//	@Override
+//	public ProductBoardVO selectProductOrderPage(Map<String, Object> map) {
+//		return sqlSession.getMapper(OrderPageMapper.class).selectProductOrderPage(map);
+//	}
 
 
 
