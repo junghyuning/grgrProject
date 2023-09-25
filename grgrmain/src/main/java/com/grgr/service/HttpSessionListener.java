@@ -12,7 +12,7 @@ import com.grgr.dto.VisitCountVO;
 @WebListener
 public class HttpSessionListener implements javax.servlet.http.HttpSessionListener {
 
-
+/*
     private static int todayVisitCount;
 
     
@@ -42,7 +42,7 @@ public class HttpSessionListener implements javax.servlet.http.HttpSessionListen
         }
 
     }
-
+*/
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
     }

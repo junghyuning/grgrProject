@@ -168,8 +168,8 @@
 
 
 		
-		<p class="today">TODAY : <span class="num"><%= new com.grgr.service.HttpSessionListener().getTodayVisitCount()%></span>명</p>
-
+		<!--  <p class="today">TODAY : <span class="num"><%= new com.grgr.service.HttpSessionListener().getTodayVisitCount()%></span>명</p>
+-->
 			</div>
 
 			<!-- / navbar-nav -->
@@ -199,12 +199,7 @@
 								href="<c:url value='/main' />"><img
 									src="${pageContext.request.contextPath}/images/grgr_favicon.png"
 									alt="메인로고"></a></li>
-<<<<<<< HEAD
 							<li class="nav-item w-120"><h5>"${loginNickname }" 님 <br> 환영합니다</h5></li>
-=======
-							<li class="nav-item w-120"><h5>"${loginNickname }"님
-									환영합니다</h5></li>
->>>>>>> branch 'main' of https://github.com/SxnnyJ/grgrProject.git
 						</c:if>
 						<!-- 관리자 페이지 -->
 						<c:if test="${loginUno!=null && loginUserStatus==1 }">

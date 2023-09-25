@@ -34,8 +34,9 @@ public class PaymentsController {
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     @ResponseBody
     public String pay(@RequestBody Payment payment, HttpSession session) {
-    	// 주문번호를 이용하여 주문 정보를 세션에서 가져옴
-         session.setAttribute(payment.getMerchantUid(), payment.getAmount());
+    	Integer merchantUid=(Integer)session.getAttribute("orderGroup");
+    	Integer amount=(Integer)session.getAttribute("totalPrice");
+    	
             return "ok";
        
     } 
