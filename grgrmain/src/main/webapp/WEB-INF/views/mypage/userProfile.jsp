@@ -18,7 +18,7 @@
 <link rel="icon"
 	href="${pageContext.request.contextPath}/images/grgr_logo.png">
 <!-- Site Title -->
-<title>마이 페이지</title>
+<title>끼리끼리</title>
 <!-- Bootstrap 4 core CSS -->
 <link
 	href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"
@@ -63,7 +63,7 @@
     <div class="container relative z-index-1">
         <h1 class="page-title text-left mb-1">
             <!-- mb-1로 마진을 더 작게 조절하여 높이를 줄임 -->
-            1 님의 페이지
+             <c:out value="${user.nickName}" /> 님의 페이지
         </h1>
         <nav class="breadcrumb relative z-index-1 pt-1 pl-5">
             <!-- pt-1로 패딩을 조절하여 높이를 줄임 -->
