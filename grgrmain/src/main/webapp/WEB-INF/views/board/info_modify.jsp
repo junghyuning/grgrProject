@@ -66,7 +66,7 @@
 						<div class="alert alert-danger">${msg}</div>
 					</c:if>
 				</div>
-				<form action="modify" method="post" class="validation-inner"
+				<form action="<c:url value="/infoboard/modify"/>" method="post" class="validation-inner"
 					enctype="multipart/form-data" id="form-validation"
 					novalidate="novalidate">
 					<input type="hidden" name="uno" value="${infoBoard.uno}" /> <input

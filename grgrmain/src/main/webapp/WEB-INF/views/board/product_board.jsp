@@ -374,10 +374,10 @@
                     totalPrice: totalPrice
                 }),
                 success: function(result) {
-                	alert("주문테이블에 저장");
+                	alert(result);
                 	if(result == "success")
-                	location.reload();
-                	//window.locatoin.href = '${pageContext.request.contextPath}/order/cart';
+                	//location.reload();
+                	window.location.href = '${pageContext.request.contextPath}/order/list';
                 },	
                 error: function(xhr) {
                     alert(xhr.responseText);
