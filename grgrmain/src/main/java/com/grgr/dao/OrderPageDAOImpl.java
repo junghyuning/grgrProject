@@ -47,6 +47,11 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(OrderPageMapper.class).selectRecentOrderListByUno(uno);
 	}
+
+	@Override
+	public OrderPage getOrderInfo(String orderNo) {
+		return sqlSession.getMapper(OrderPageMapper.class).getOrderInfo(orderNo);
+	}
 	
 //	@Override
 //	public List<ProductCartDTO> selectCartOrderPage(Map<String, Object> map) {
