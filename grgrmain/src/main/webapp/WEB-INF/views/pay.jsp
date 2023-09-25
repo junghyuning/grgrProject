@@ -35,6 +35,7 @@
 		$.ajax({
 			type: "post",
 			url: "<c:url value="/order/payment/pay"/>",
+			
 			contentType: "application/json",
 			data: JSON.stringify({"merchantUid":merchantUid, "amount":amount}),
 			dataType: "text",

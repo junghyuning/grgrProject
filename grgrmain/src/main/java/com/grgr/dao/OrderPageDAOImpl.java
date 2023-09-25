@@ -49,8 +49,8 @@ public class OrderPageDAOImpl implements OrderPageDAO {
 	}
 
 	@Override
-	public OrderPage getOrderInfo(String orderNo) {
-		return sqlSession.getMapper(OrderPageMapper.class).getOrderInfo(orderNo);
+	public OrderPage getOrderInfo(String orderGroup) {
+		return sqlSession.getMapper(OrderPageMapper.class).getOrderInfo(orderGroup);
 	}
 	
 //	@Override

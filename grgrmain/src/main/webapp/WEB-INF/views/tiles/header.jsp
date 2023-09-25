@@ -63,7 +63,7 @@
 }
 
 .card.bg-img {
-	background-color: rgba(0, 0, 0, 0.4); /* 이는 검은색 40% 투명도를 추가합니다 */
+	background-color: rgba(0, 0, 0, 0.4);
 	background-blend-mode: overlay;
 }
 
@@ -164,16 +164,6 @@
 						href="<c:url value="/info/medical"/>"> <img class="w-40 mr-10"
 							alt="병원정보" src="<c:url value="/images/hospital.png"/>" /><span>병원</span></a></li>
 				</ul>
-				
-				<div>
-					<h2>
-						<a
-							href="<c:url value='/noticeboard/read?noticeBno=${latestNoticeBno}'/>"
-							style="text-decoration: underline;"> <i
-							class="fas fa-bullhorn"></i> ${latestNoticeTitle}
-						</a>
-					</h2>
-				</div>
 
 			</div>
 
@@ -196,25 +186,28 @@
 								style="font-family: 'Font Awesome 5 Free', sans-serif !important, font-weight : 20px bold;"><button
 									class="update-location-button btn btn-primary"
 									style="padding: 10px;" onclick="updateLocation()">
-									<i class="fas fa-map-marker-alt fs-30 va-middle mr-10"></i> <span id="login-location-text"
-										class="va-middle" style="width: 100px !important;">${loginLocation != null ? loginLocation : '나의 위치 인증'}</span>
+									<i class="fas fa-map-marker-alt fs-30 va-middle mr-10"></i> <span
+										id="login-location-text" class="va-middle"
+										style="width: 100px !important;">${loginLocation != null ? loginLocation : '나의 위치 인증'}</span>
 								</button></li>
-							<li class="nav-item"><a
-								class="navbar-brand " href="<c:url value='/main' />"><img
+							<li class="nav-item"><a class="navbar-brand "
+								href="<c:url value='/main' />"><img
 									src="${pageContext.request.contextPath}/images/grgr_favicon.png"
 									alt="메인로고"></a></li>
-							<li class="nav-item w-120"><h5>"${loginNickname }"님 환영합니다</h5></li>
+							<li class="nav-item w-120"><h5>"${loginNickname }"님
+									환영합니다</h5></li>
 						</c:if>
 						<!-- 관리자 페이지 -->
 						<c:if test="${loginUno!=null && loginUserStatus==1 }">
-							<li class="nav-item w-120 mr-30 invisible"> <button
-									style="padding: 10px;" onclick="updateLocation()">
+							<li class="nav-item w-120 mr-30 invisible">
+								<button style="padding: 10px;" onclick="updateLocation()">
 									<i class="fas fa-map-marker-alt fs-30 va-middle mr-10"></i> <span
 										class="va-middle" style="width: 100px !important;">나의
 										위치 인증</span>
-								</button></li>
-							<li class="nav-item"><a
-								class="navbar-brand" href="<c:url value='/main' />"><img
+								</button>
+							</li>
+							<li class="nav-item"><a class="navbar-brand"
+								href="<c:url value='/main' />"><img
 									src="${pageContext.request.contextPath}/images/grgr_favicon.png"
 									alt="메인로고"></a></li>
 							<li class="nav-item w-120"><h5>"관리자"님 환영합니다.</h5></li>
@@ -272,3 +265,5 @@
 		</nav>
 		<!-- / split-navbar -->
 	</div>
+
+
