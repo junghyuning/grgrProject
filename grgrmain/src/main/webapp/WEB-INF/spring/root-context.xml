@@ -108,7 +108,11 @@
 	</bean>
 
 
+
 	<!-- annotation-driven : @Tranactional 어노테이션을 사용하여 TransactionManager 객체로 
 		트렌젝션을 처리 기능을 제공하기 위한 엘리먼트 -->
 	<tx:annotation-driven />
+	
+	
 </beans>
+

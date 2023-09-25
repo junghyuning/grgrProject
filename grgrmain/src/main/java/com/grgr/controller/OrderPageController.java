@@ -39,10 +39,11 @@ public class OrderPageController {
 		
 		session.setAttribute("totalPrice", totalPrice);
 		
+		
 		Integer loginUno =(Integer)session.getAttribute("loginUno");
 		
 		//주문테이블에 저장 및 장바구니에서 삭제
-		orderPageService.addOrderedItems(selectedItemList, loginUno);
+		orderPageService.addOrderedItems(selectedItemList, loginUno,session);
 		
 		
 		return new ResponseEntity<String> ("success", HttpStatus.OK);

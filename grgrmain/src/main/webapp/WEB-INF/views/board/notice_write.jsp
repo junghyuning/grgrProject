@@ -55,7 +55,7 @@
 	<!-- / top -->
 
 
-	<section class="lg bg-light-grey">
+	<section class="lg bg-white">
 		<div class="container">
 			<div class="w-90 m-x-auto mt-70" id="titleAndError">
 				<div style="display: flex; align-items: left;">

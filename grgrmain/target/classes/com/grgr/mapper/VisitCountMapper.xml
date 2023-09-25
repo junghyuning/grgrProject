@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grgr.mapper.VisitCountMapper">
+
+<insert id="insertVisitCount">
+    INSERT INTO GRGR_VISIT_COUNT
+        (REG_DATE, VISIT_COUNT)
+    VALUES
+        (SYSDATE, 1);
+</insert>
+
+<update id="updateVisitCount">
+    UPDATE
+        GRGR_VISIT_COUNT
+    SET
+        VISIT_COUNT = VISIT_COUNT + 1
+    WHERE
+        REG_DATE = TRUNC(SYSDATE);
+</update>
+
+<select id="selectVisitCount" resultType="VisitCountVO">
+    SELECT
+        REG_DATE, VISIT_COUNT
+    FROM
+        GRGR_VISIT_COUNT
+    WHERE
+        REG_DATE = TRUNC(SYSDATE);
+</select>
+
+    </mapper>

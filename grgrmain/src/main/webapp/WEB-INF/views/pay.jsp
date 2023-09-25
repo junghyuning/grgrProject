@@ -26,9 +26,9 @@
 		IMP.init("imp00885377");
 		
 		//주문번호 - 주문테이블에서 제공된 값 사용
-		var merchantUid=merchantUid;
+		var merchantUid=${sessionScope.orderGroup};;
 		//결제금액 - 주문테이블에서 제공된 값 사용
-		var amount=amount;
+		var amount=${sessionScope.totalPrice};
 				
 		//결제 전 주문번호와 결제금액을 세션에 저장하기 위한 페이지 요청
 		// => 결제 후 결제정보와 비교하여 검증하기 위해 세션에 저장 
@@ -68,9 +68,11 @@
 									if(result == "success") {
 										//결제 성공 페이지로 이동
 										alert("결제 성공");
-									} else {
-										//결제 실패 페이지로 이동
-										alert("결제 취소");
+										
+									} else if(result == "forgery") {
+										alert("결제 forgery");
+									} else{
+										alert("결제 실패")
 									}
 								}, 
 								error: function(xhr) {

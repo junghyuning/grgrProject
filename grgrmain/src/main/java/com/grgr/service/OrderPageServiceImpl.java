@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.mail.FetchProfile.Item;
+import javax.servlet.http.HttpSession;
 
 import org.junit.internal.runners.statements.Fail;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class OrderPageServiceImpl implements OrderPageService {
 	// 장바구니 목록을 주문테이블에 저장 - 주문테이블에 저장한 장바구니 목록은 삭제
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public void addOrderedItems(List<Integer> selectedItemList, int loginUno)
+	public void addOrderedItems(List<Integer> selectedItemList, int loginUno, HttpSession session)
 			throws CartNullException, CartDeleteFailException, OrderInsertFailException {
 		int orderGroup = orderPageDAO.selectLastOrderGroup() + 1;
 
@@ -68,6 +69,7 @@ public class OrderPageServiceImpl implements OrderPageService {
 				throw new CartDeleteFailException("장바구니 삭제시에 예상치못한 오류가 발생하였습니다.");
 			}
 		}
+		session.setAttribute("orderGroup", orderGroup);
 	}
 	// 바로구매시 주문테이블에 저장하는 과정을 위한 서비스 클래스
 	@Transactional(rollbackFor = Exception.class)
