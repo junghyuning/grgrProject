@@ -72,38 +72,22 @@
 	</div>
 	<section class="lg" style="padding-top: 30px;">
 		<div class="container">
-			<div class="promo-box" >
+			<div class="promo-box">
 				<div class="row">
 					<!-- 주문자 정보 확인 -->
-					<!-- 
-					<div class="col-lg-6" >
+					<div class="col-lg-6">
 						<h6 class="mb-10">주문자정보</h6>
-						<c:if test="${orderPage.loginUno == sesseionScope.loginUno }">
-							<p class="card-text mt-15 mb-15">이름 : ${orderPage.userName }</p>
-						</c:if>
-						<c:if test="${orderPage.loginUno == sesseionScope.loginUno }">
-							<p class="card-text mt-15 mb-15">핸드폰번호 : ${orderPage.phone }</p>
-						</c:if>
-						<c:if test="${orderPage.loginUno == sesseionScope.loginUno }">
-							<p class="card-text mt-15 mb-15">이메일 : ${orderPage.email }</p>
-						</c:if>
+						<p class="card-text mt-15 mb-15">이름 :${userinfo.userName}</p>
+						<p class="card-text mt-15 mb-15">핸드폰번호 : ${userinfo.phone }</p>
+						<p class="card-text mt-15 mb-15">이메일 : ${userinfo.email }</p>
 					</div>
-					 -->
+
 					<!-- / column -->
 
-					<!-- 결제 상세 확인 -->
-					<!-- 
-					<div class="col-lg-6" >
-						<h6 class="mb-10">결제 상세</h6>
-						<c:if test="${not empty cartList}">
-							<p class="card-text mt-15 mb-15">상품금액 :
-								${cartList[0].productPrice }</p>
-						</c:if>
-						<c:forEach items="${cartList}" var="cart">
-
-						</c:forEach>
+					
+					
 					</div>
-					 -->
+					
 					<!-- / column -->
 				</div>
 
@@ -125,6 +109,9 @@
 								<table class="table table-xl">
 									<thead class="thead-light">
 										<tr>
+											<th colspan="4">주문번호: ${orderList[0].orderGroup}</th>
+										</tr>
+										<tr>
 											<th width="100">상품정보</th>
 											<th width="100">판매자</th>
 											<th width="100">수량</th>
@@ -132,19 +119,17 @@
 										</tr>
 									</thead>
 									<!-- 게시글 목록 출력 -->
-									<c:forEach items="${cartOrderList}" var="cart">
+									<c:forEach items="${orderList}" var="orderItem">
 										<tr>
-										<!-- 
-											<td width="100">${cart.productTitle }</td>
-											<td width="100">${cart.uno }</td>
-											<td width="100">${cart.productCount }</td>
-											<td width="100">${cart.productPrice }</td>
-											 -->
-											<td width="100">${cart.orderGrouop }</td>
-											<td width="100">${cart.productId }</td>
-											<td width="100">${cart.orderQuantity }</td>
+											<td width="100">${orderItem.productTitle }</td>
+											<td width="100">${orderItem.nickname }</td>
+											<td width="100">${orderItem.orderQuantity }</td>
+											<td width="100">${orderItem.productPrice }</td>
 										</tr>
 									</c:forEach>
+									<tr>
+										<th width="100">총 금액 : ${totalPrice}</th>
+									</tr>
 								</table>
 							</div>
 							<!-- / owl-carousel -->
@@ -156,8 +141,8 @@
 				<!-- / column -->
 			</div>
 			<!-- / row -->
+			<a href="payment/pay" class="btn btn-outline-primary m-y-10 mr-10">결제하기</a>
 		</div>
-		<a href="#x" class="btn btn-outline-primary m-y-10 mr-10">결제하기</a>
 	</section>
 
 

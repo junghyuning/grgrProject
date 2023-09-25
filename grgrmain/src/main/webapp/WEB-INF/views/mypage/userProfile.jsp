@@ -16,7 +16,7 @@
 <meta name="author" content="kingstudio.ro">
 <!-- Favicon -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/assets/images/favicon.png">
+	href="${pageContext.request.contextPath}/images/grgr_logo.png">
 <!-- Site Title -->
 <title>마이 페이지</title>
 <!-- Bootstrap 4 core CSS -->
@@ -109,6 +109,7 @@
 														<c:when test="${user.userStatus == 1}">관리자</c:when>
 														<c:when test="${user.userStatus == 2}">일반회원</c:when>
 														<c:when test="${user.userStatus == 3}">상권회원</c:when>
+														<c:when test="${user.userStatus == 4}">소셜로그인회원</c:when>
 													</c:choose></li>
 
 												<li class="mb-15"><i class="fas fa-star va-middle mr-5"></i>
