@@ -39,7 +39,8 @@ public class NaverLoginBean implements NaverUrls {
 	@Value("${naver.redirect.url}")
 	private String REDIRECT_URL;
 	
-	private static final String SESSION_STATE = "naverState";
+	@Value("{naver.session.state}")
+	private String SESSION_STATE;
 
 	private OAuth20Service oAuth20Service;
 
