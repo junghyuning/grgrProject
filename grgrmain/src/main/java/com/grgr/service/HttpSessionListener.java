@@ -4,21 +4,19 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.grgr.dto.VisitCountVO;
-import com.grgr.service.VisitCountService;
+
 @WebListener
-@Component
 public class HttpSessionListener implements javax.servlet.http.HttpSessionListener {
 
-	@Autowired
-	private VisitCountService visitCountService;
+
     private static int todayVisitCount;
 
+    
+    
     public static int getTodayVisitCount() {
         return todayVisitCount;
     }

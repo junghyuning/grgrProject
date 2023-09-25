@@ -1,6 +1,8 @@
 package com.grgr.service;
 
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.grgr.dao.VisitCountDAO;
@@ -8,12 +10,12 @@ import com.grgr.dto.VisitCountVO;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
-@RequiredArgsConstructor
+@Service("visitCountService")
 public class VisitCountServiceImpl implements VisitCountService {
 
    
-    private final VisitCountDAO visitCountDAO;
+	@Resource(name = "visitCountDAO")
+    private VisitCountDAO visitCountDAO;
 
     @Override
     public void insertVisitCount() {
