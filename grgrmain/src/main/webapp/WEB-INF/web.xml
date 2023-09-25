@@ -43,4 +43,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<listener>
+    <listener-class>com.grgr.service.HttpSessionListener</listener-class>
+  </listener>
 </web-app>

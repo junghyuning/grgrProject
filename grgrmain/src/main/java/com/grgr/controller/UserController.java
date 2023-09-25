@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
-
+@Slf4j
 public class UserController {
 
 	private final UserService userService;
@@ -185,6 +185,17 @@ public class UserController {
 				if(loginSuccessUser.getActive() == 2) {
 					return "redirect:/mypage/activateUser";
 				}
+				
+				// 방문자 수 증가 - 세션 속성을 설정하고 HttpSessionListener에서 증가시킴
+	            Integer visitCount = (Integer) session.getAttribute("visitCount");
+	            if (visitCount == null) {
+	                visitCount = 1;
+	            } else {
+	                visitCount++;
+	            }
+	            logger.info("visitCount: {}", visitCount);
+	            
+	            session.setAttribute("visitCount", visitCount);
 				return "redirect:/main"; // 메인페이지 이동
 			} else {
 				rttr.addFlashAttribute("result", 0);
@@ -289,7 +300,7 @@ public class UserController {
 		logger.info("logoutMainGET 메서드 진입");
 
 		HttpSession session = request.getSession();
-
+		session.removeAttribute("visitCount");
 		session.invalidate();
 
 		return "redirect:/main";
