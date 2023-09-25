@@ -4,16 +4,13 @@ import javax.servlet.http.HttpSession;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.grgr.dto.OrderPage;
 import com.grgr.dto.Payment;
-import com.grgr.service.OrderPageService;
 import com.grgr.service.PaymentService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentsController {
     private final PaymentService paymentService;
-    private final OrderPageService orderPageService; // 주문 서비스 추가
 
     @RequestMapping(value = "/pay", method = RequestMethod.GET)
     public String pay() {

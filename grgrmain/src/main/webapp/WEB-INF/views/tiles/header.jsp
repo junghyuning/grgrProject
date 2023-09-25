@@ -168,9 +168,7 @@
 
 
 		
-		<!--  <p class="today">TODAY : <span class="num"><%= new com.grgr.service.HttpSessionListener().getTodayVisitCount()%></span>명</p>
--->
-			</div>
+		
 
 			<!-- / navbar-nav -->
 			<!-- / navbar-collapse -->
