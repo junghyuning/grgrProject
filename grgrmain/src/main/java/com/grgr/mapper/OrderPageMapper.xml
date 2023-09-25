@@ -24,13 +24,15 @@
 		ORDER_GROUP,
 		UNO,
 		PRODUCT_ID,
-		ORDER_QUANTITY)
+		ORDER_QUANTITY,
+		TOTALPRICE)
 		VALUES(
 		ORDERPAGE_SEQ.NEXTVAL,
 		#{orderGroup},
 		#{uno},
 		#{productId},
-		#{orderQuantity})
+		#{orderQuantity},
+		#{totalPrice})
 	</insert>
 
 
@@ -91,4 +93,9 @@
 		#{productCartNo}
 		ORDER BY PC.PRODUCT_CART_NO DESC
 	</select>
+	
+	<!-- 주문 정보 가져오기 -->
+    <select id="getOrderInfo" parameterType="String" resultType="com.grgr.dto.OrderPage">
+        SELECT * FROM ORDERPAGE WHERE order_no = #{orderNo}
+    </select>
 </mapper>

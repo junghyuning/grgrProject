@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.grgr.dto.OrderPage;
+import com.grgr.dto.ProductBoardVO;
 import com.grgr.exception.CartDeleteFailException;
 import com.grgr.exception.CartNullException;
 import com.grgr.exception.OrderInsertFailException;
@@ -14,4 +15,6 @@ public interface OrderPageService {
 
 	void addDirectPurchase(OrderPage orderPage) throws OrderInsertFailException;
 	Map<String, Object> getOrderInfo(int loginUno);
+
+	OrderPage getOrderInfo(String orderNo);
 }

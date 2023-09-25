@@ -1,5 +1,6 @@
 package com.grgr.service;
 
+import java.io.ObjectOutputStream.PutField;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,12 @@ public class OrderPageServiceImpl implements OrderPageService {
 		List<OrderListDTO> orderList = orderPageDAO.selectRecentOrderListByUno(loginUno);
 		map.put("userinfo", userinfo);
 		map.put("orderList", orderList);
+
 		return map;
 	}
-
+	
+	@Override
+	public OrderPage getOrderInfo(String orderNo) {
+        return orderPageDAO.getOrderInfo(orderNo);
+	}
 }
