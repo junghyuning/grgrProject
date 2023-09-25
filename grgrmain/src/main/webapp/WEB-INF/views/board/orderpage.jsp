@@ -141,7 +141,7 @@
 				<!-- / column -->
 			</div>
 			<!-- / row -->
-			<a href="#x" class="btn btn-outline-primary m-y-10 mr-10">결제하기</a>
+			<a href="payment/pay" class="btn btn-outline-primary m-y-10 mr-10">결제하기</a>
 		</div>
 	</section>
 

@@ -301,7 +301,7 @@
 			function checkAlert(result) {
 
 				if (result === '') {
-					reutrn;
+					reuturn;
 				}
 
 				if (result === "insert success") {
